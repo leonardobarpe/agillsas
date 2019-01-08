@@ -1,0 +1,32 @@
+{% extends 'core/plantilla/base.html' %}
+{% block title %} Orden de trabajo Editar {% endblock %}
+{% block alerts %} {% endblock %}
+{% block content %}
+<div class="card">
+	<div class="card-header bg-success text-white">
+		<div class="row">
+			<div class="col-sm">
+				<h5 class="h5">Orden de trabajo editar</h5>
+			</div>
+			<div class="col-sm">
+				<a class="btn btn-info btn-sm float-right" href="{% url 'orden_list' %}" data-toggle="tooltip" data-placement="top" title="Ver ordenes de trabajo"><i class="fas fa-list"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="form-group">
+			<form action="" method="POST">
+			{% csrf_token %}
+				<table>
+					{{form.as_table}}
+				</table>
+		</div>
+	</div>
+	<div class="card-footer">
+		<div class="btn-group">
+			<input type="submit" class="btn btn-outline-success btn-sm" value="Guardar">
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

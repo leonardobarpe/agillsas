@@ -1,0 +1,88 @@
+{% extends 'core/plantilla/base.html' %}
+{% block title %} Componentes {% endblock %}
+{% block alerts %} <input type="text" id="alertaComponente" style="border:0; background-color: transparent;" size= "3" disabled class="text-center"> {% endblock %}
+{% block content %}
+
+{% load aerolinea_extras %}
+{% get_componente_list as componente_list %}
+
+<div class="card">
+	<div class="card-header bg-primary text-white">
+		<div class="row"> 
+			<div class="col-sm">
+				<h5 class="h5">Componentes</h5>
+			</div>
+			<div class="col-sm">
+				<a class="btn btn-success float-right" href="{% url 'componente_create' %}" data-toggle="tooltip" data-placement="top" title="Crear componente"><i class="fas fa-plus"></i></a>
+				<!-- <a class="btn btn-success float-right" href="{% url 'componente_nuevo' %}" data-toggle="tooltip" data-placement="top" title="Crear componente"><i class="fas fa-plus"></i></a> -->
+			</div>
+		</div>
+	</div>
+	<div class="card-body ">
+		<table class="table table-striped table-hover table-sm">
+			<caption>Lista de componentes</caption>
+			<thead class="bg-white">
+				<tr>
+					<th scope="col">Num. serie</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Marca</th>
+					<th scope="col">H.Vida util</th>
+					<th scope="col" hidden>H. Uso</th>
+					<th scope="col">H. DURG</th>
+					<th scope="col">H. Remanente</th>
+					<th scope="col">Uso %</th>
+					<th scope="col">Fecha Vence</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for componente in componente_list %}	
+				<tr>
+					<td><a class="link alert-link" href="{% url 'componente_info' componente.id %}" data-toggle="tooltip" data-placement="top" title="Ver detalles del componete">{{ componente.numSerie }}</a></td>
+					<td>{{ componente.nombre }}</td>
+					<td>{{ componente.marca }}</td>
+					<td class="text-center">{{ componente.hvUtil }} <span><input type="hidden" value="{{ componente.hvUtil }}" id="hvUtil{{ componente.id }}"></span></td>
+					<td class="text-center" hidden>{{ componente.hUtilizado }}<span><input type="hidden" value="{{ componente.hUtilizado }}" id="hUtilizado{{ componente.id }}"></span></td>
+					<td class="text-center">{{ componente.hUtilizado }}</td>
+					<td class="text-center"><span><input type="text" id="hRemanente{{ componente.id }}" style="border:0; background-color: transparent;" size= "5" disabled></span></td>
+					<td class="text-center">
+						<span id="spanPorUso{{ componente.id }}"><input type="text" id="porUso{{ componente.id }}" style="border:0; background-color: transparent;" size= "5" disabled></span>
+						<!-- <span class="badge {% if componente.estado == '100%' %} badge-dark {% endif %} {% if componente.estado == '90%' %} badge-danger {% endif %} {% if componente.estado == '80%' %} badge-warning {% endif %}">{{ componente.estado }}</span> -->
+					</td>
+					<td class="text-center"><span class="badge">{{ componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</span></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+<input id="tam" type="hidden" disabled value="{{ componentes.count }}">
+<script type="text/javascript">
+	var tam = document.getElementById("tam").value;
+	var alerts = 0;
+	for (var i = tam; i >= 1; i--) {
+		var poshvUtil = "hvUtil".concat(tam.toString());
+		var hvUtil = document.getElementById(poshvUtil).value;
+		var poshUtilizado = "hUtilizado".concat(tam.toString());
+		var hUtilizado = document.getElementById(poshUtilizado).value;
+		var hRemanente = hvUtil - hUtilizado;
+		var poshRemanente = "hRemanente".concat(tam.toString()); 
+		document.getElementById(poshRemanente).value = hRemanente;
+		var porUso = (hUtilizado * 100)/hvUtil;
+		posporUso = "porUso".concat(tam.toString());
+		document.getElementById(posporUso).value = porUso;
+		var posspanPoUso = "spanPorUso".concat(tam.toString());
+		document.getElementById(posporUso).className = "text-center";
+
+		if (porUso > 70) {
+			document.getElementById(posspanPoUso).className = "badge badge-danger";
+			document.getElementById(posporUso).className = "text-center text-white";
+			alerts = alerts + 1;
+
+		}
+		tam--;
+	}
+	document.getElementById("alertaComponente").value = alerts;
+</script>
+{% endblock %}

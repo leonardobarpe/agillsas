@@ -1,0 +1,81 @@
+{% extends 'core/plantilla/base.html' %}
+{% block title %} Aeronave - {{ aeronave.placa }} - {{ aeronave.nombre }} detalle {% endblock %}
+{% block content %}
+
+{% if 'ok' in request.GET %}
+<div class="container">
+<div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+  Aeronave <strong>{{ aeronave.placa }}</strong> editado correctamente !!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+</div>
+{% endif %}
+<div class="card">
+	<div class="card-header bg-primary text-white">
+		<div class="row">
+			<div class="col-sm">
+				<h5 class="h5">Detalles de la aeronave - {{ aeronave.placa }}</h5>
+			</div>
+			<div class="col-sm">
+				<a class="btn btn-info float-right" href="{% url 'aeronave_list' %}" data-toggle="tooltip" data-placement="top" title="Ver aeronaves"><i class="fas fa-list"></i></a>
+			</div>
+		</div>	
+	</div>
+	<div class="card-body">
+		<table class="table table-striped table-hover table-sm">
+		<caption>Detalles de la aeronave</caption>
+			<tbody>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Placa:</th>
+					<td>{{ aeronave.placa }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Marca:</th>
+					<td>{{ aeronave.marca }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Modelo:</th>
+					<td>{{ aeronave.modelo }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Tipo:</th>
+					<td>{{ aeronave.tipo }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Descripcion:</th>
+					<td>{{ aeronave.descripcion }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Imagen:</th>
+					<td>{{ aeronave.imagen }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Horas de uso:</th>
+					<td>{{ aeronave.hVuelo }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Componentes:</th>
+					<td>
+					{% for componente in aeronave.componente.all %}
+						{{ componente.numSerie }} - {{ componente.nombre }}{% if not forloop.last %}, {% endif %}
+					{% endfor %}
+					</td>
+				</tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha creacion sistema:</th>
+					<td>{{ aeronave.creado }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha actualizacion sistema:</th>
+					<td>{{ aeronave.actualizado }}</td>
+				</tr>				
+			</tbody>
+		</table>
+	</div>
+	<div class="card-footer">
+		<a class="btn btn-outline-primary btn-sm" href="{% url 'aeronave_update' aeronave.id %}" data-toggle="tooltip" data-placement="top" title="Editar aeronave">Editar</a>
+		<a class="btn btn-outline-danger btn-sm" href="{% url 'aeronave_delete' aeronave.id %}" data-toggle="tooltip" data-placement="top" title="Borrar aeronave">Borrar</a>
+	</div>
+</div>
+{% endblock %}

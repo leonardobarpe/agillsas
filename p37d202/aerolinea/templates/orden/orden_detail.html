@@ -1,0 +1,85 @@
+{% extends 'core/plantilla/base.html' %}
+{% block title %} Orden {{ orden.id }} {% endblock %}
+{% block content %}
+
+{% if 'ok' in request.GET %}
+<div class="container">
+<div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+  Orden de trabajo <strong>{{ orden.id }}</strong> editado correctamente !!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+</div>
+{% endif %}
+<div class="card">
+	<div class="card-header bg-primary text-white">
+		<div class="row">
+			<div class="col-sm">
+				<h5 class="h5">Detalles de la orden de trabajo - {{ orden.id }}</h5>
+			</div>
+			<div class="col-sm">
+				<a class="btn btn-info float-right" href="{% url 'orden_list' %}" data-toggle="tooltip" data-placement="top" title="Ver ordenes de trabajo"><i class="fas fa-list"></i></a>
+			</div>
+		</div>	
+	</div>
+	<div class="card-body">
+		<table class="table table-striped table-hover table-sm">
+		<caption>Detalles de la orden de trabajo</caption>
+			<tbody>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Id:</th>
+					<td>{{ orden.id }}</td>
+				</tr>				
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Ciudad:</th>
+					<td>{{ orden.ciudad }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha:</th>
+					<td>{{ orden.fecha }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Descripcion:</th>
+					<td>{{ orden.descripcion }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Tecnico:</th>
+					<td>{{ orden.tecnico }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Descripcion:</th>
+					<td>{{ aeronave.descripcion }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Dir. control calidad:</th>
+					<td>{{ orden.dirCC }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Aeronave:</th>
+					<td>{{ orden.aeronave }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Componentes:</th>
+					<td>
+					{% for componente in orden.componente.all %}
+						{{ componente.numSerie }} - {{ componente.nombre }}{% if not forloop.last %}, {% endif %}
+					{% endfor %}
+					</td>
+				</tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha creacion sistema:</th>
+					<td>{{ orden.creado }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha actualizacion sistema:</th>
+					<td>{{ orden.actualizado }}</td>
+				</tr>				
+			</tbody>
+		</table>
+	</div>
+	<div class="card-footer">
+		<a class="btn btn-outline-primary btn-sm" href="{% url 'orden_update' orden.id %}" data-toggle="tooltip" data-placement="top" title="Editar orden de trabajo">Editar</a>
+		<a class="btn btn-outline-danger btn-sm" href="{% url 'orden_delete' orden.id %}" data-toggle="tooltip" data-placement="top" title="Eliminar orden de trabajo">Borrar</a>		
+	</div>
+</div>
+{% endblock %}

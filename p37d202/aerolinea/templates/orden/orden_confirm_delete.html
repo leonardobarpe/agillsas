@@ -1,0 +1,79 @@
+{% extends 'core/plantilla/base.html' %}
+{% block title %} Orden {{ orden.id }} {% endblock %}
+{% block content %}
+<div class="card">
+	<div class="card-header bg-primary text-white">
+		<div class="row">
+			<div class="col-sm">
+				<h5 class="h5">Eliminar orden de trabajo - {{ orden.id }}</h5>
+			</div>
+			<div class="col-sm">
+				<a class="btn btn-info float-right" href="{% url 'orden_list' %}" data-toggle="tooltip" data-placement="top" title="Ver ordenes de trabajo"><i class="fas fa-list"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="card-body">
+		<table class="table table-striped table-hover table-sm">
+		<caption>Detalles de la orden de trabajo</caption>
+			<tbody>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Id:</th>
+					<td>{{ orden.id }}</td>
+				</tr>				
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Ciudad:</th>
+					<td>{{ orden.ciudad }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha:</th>
+					<td>{{ orden.fecha }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Descripcion:</th>
+					<td>{{ orden.descripcion }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Tecnico:</th>
+					<td>{{ orden.tecnico }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Descripcion:</th>
+					<td>{{ aeronave.descripcion }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Dir. control calidad:</th>
+					<td>{{ orden.dirCC }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Aeronave:</th>
+					<td>{{ orden.aeronave }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Componentes:</th>
+					<td>
+					{% for componente in orden.componente.all %}
+						{{ componente.numSerie }} - {{ componente.nombre }}{% if not forloop.last %}, {% endif %}
+					{% endfor %}
+					</td>
+				</tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha creacion sistema:</th>
+					<td>{{ orden.creado }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha actualizacion sistema:</th>
+					<td>{{ orden.actualizado }}</td>
+				</tr>				
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="alert alert-danger text-center" role="alert">
+	<form method="post">{% csrf_token %}
+	    <p>
+	    	<strong>Seguro desea eliminar el vuelo  {{ orden.id }} - {{ orden.fecha }} ?</strong>
+	    </p>
+	    	<input class="btn btn-outline-danger btn-sm" type="submit" value="Borrar"/>
+	</form>
+</div>
+
+{% endblock %}

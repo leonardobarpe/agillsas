@@ -1,0 +1,61 @@
+{% extends 'core/plantilla/base.html' %}
+{% block title %} Vuelo {{ vuelo.id }} {% endblock %}
+{% block content %}
+<div class="card">
+	<div class="card-header bg-primary text-white">
+		<div class="row">
+			<div class="col-sm">
+				<h5 class="h5">Eliminar vuelo - {{ vuelo.id }}</h5>
+			</div>
+			<div class="col-sm">
+				<a class="btn btn-info float-right" href="{% url 'vuelo_list' %}" data-toggle="tooltip" data-placement="top" title="Ver vuelos"><i class="fas fa-list"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="card-body">
+		<table class="table table-striped table-hover table-sm">
+		<caption>Detalles del vuelo</caption>
+			<tbody>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha:</th>
+					<td>{{ vuelo.fecha }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Origen:</th>
+					<td>{{ vuelo.origen }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Destino:</th>
+					<td>{{ vuelo.destino }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Horas de vuelo:</th>
+					<td>{{ vuelo.horas }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Observaciones:</th>
+					<td>{{ vuelo.observaciones }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha creacion sistema:</th>
+					<td>{{ vuelo.creado }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha actualizacion sistema:</th>
+					<td>{{ vuelo.actualizado }}</td>
+				</tr>				
+
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="alert alert-danger text-center" role="alert">
+	<form method="post">{% csrf_token %}
+	    <p>
+	    	<strong>Seguro desea eliminar el vuelo  {{ vuelo.id }} - {{ vuelo.fecha }} ?</strong>
+	    </p>
+	    	<input class="btn btn-outline-danger btn-sm" type="submit" value="Borrar"/>
+	</form>
+</div>
+
+{% endblock %}

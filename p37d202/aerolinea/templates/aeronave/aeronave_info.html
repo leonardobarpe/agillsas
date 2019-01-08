@@ -1,0 +1,59 @@
+{% extends 'core/plantilla/base.html' %}
+{% block title %} Aeronave - {{ aeronave.placa }} - {{ aeronave.nombre }} detalle {% endblock %}
+{% block content %}
+<div class="card">
+	<h5 class="card-header bg-primary text-white">Detalles de la aeronave - {{ aeronave.placa }}</h5>
+	<div class="card-body">
+		<p class="card-text">
+			<table class="table table-striped table-hover table-sm">
+			<caption>Detalles de la aeronave</caption>
+				<tbody>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Placa:</th>
+						<td>{{ aeronave.placa }}</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Marca:</th>
+						<td>{{ aeronave.marca }}</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Modelo:</th>
+						<td>{{ aeronave.modelo }}</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Tipo:</th>
+						<td>{{ aeronave.tipo }}</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Descripcion:</th>
+						<td>{{ aeronave.descripcion }}</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Imagen:</th>
+						<td>{{ aeronave.imagen }}</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Horas de uso:</th>
+						<td>{{ aeronave.hVuelo }}</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Componentes:</th>
+						<td>
+						{% for componente in aeronave.componente.all %}
+							{{ componente.numSerie }} - {{ componente.nombre }}{% if not forloop.last %}, {% endif %}
+						{% endfor %}
+						</td>
+					</tr>
+						<th scope="row" class="bg-info text-white text-right">Fecha creacion sistema:</th>
+						<td>{{ aeronave.creado }}</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Fecha actualizacion sistema:</th>
+						<td>{{ aeronave.actualizado }}</td>
+					</tr>				
+				</tbody>
+			</table>
+		</p>
+	</div>
+</div>
+{% endblock %}

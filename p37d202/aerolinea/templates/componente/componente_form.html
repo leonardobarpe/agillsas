@@ -1,0 +1,32 @@
+{% extends 'core/plantilla/base.html' %}
+{% block title %} Componente nuevo {% endblock %}
+{% block alerts %} {% endblock %}
+{% block content %}
+<div class="card">
+	<div class="card-header bg-success text-white">
+		<div class="row">
+			<div class="col-sm">
+				<h5 class="h5">Componente nuevo</h5>
+			</div>
+			<div class="col-sm">
+				<a class="btn btn-info btn-sm float-right" href="{% url 'componente_list' %}" data-toggle="tooltip" data-placement="top" title="Ver componentes"><i class="fas fa-list"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="container">
+			<form action="" method="POST">
+			{% csrf_token %}
+				{{form.as_p}}
+		</div>
+	</div>
+	<div class="card-footer">
+		<div class="btn-group">
+			<input type="submit" class="btn btn-outline-success btn-sm" value="Guardar">
+			</form>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

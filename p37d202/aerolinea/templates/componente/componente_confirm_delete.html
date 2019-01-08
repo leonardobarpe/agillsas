@@ -1,0 +1,96 @@
+{% extends 'core/plantilla/base.html' %}
+{% block title %} Componente - {{ componente.numSerie }} - {{ componente.nombre }} detalle {% endblock %}
+{% block content %}
+<div class="card">
+	<div class="card-header bg-primary text-white">
+		<div class="row">
+			<div class="col-sm">
+				<h5 class="h5">Eliminar el componente - {{ componente.numSerie }}</h5>
+			</div>
+			<div class="col-sm">
+				<a class="btn btn-info float-right" href="{% url 'componente_list' %}" data-toggle="tooltip" data-placement="top" title="Ver componentes"><i class="fas fa-list"></i></a>
+			</div>
+		</div>
+	</div>
+	<div class="card-body">
+		<table class="table table-striped table-hover table-sm">
+		<caption>Detalles del componete</caption>
+			<tbody>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Numero de serie:</th>
+					<td>{{ componente.numSerie }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Nombre:</th>
+					<td>{{ componente.nombre }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Marca:</th>
+					<td>{{ componente.marca }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fabricante:</th>
+					<td>{{ componente.fabricante }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha de fabricacion:</th>
+					<td>{{ componente.fechaFabricacion }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha de vencimiento:</th>
+					<td>{{ componente.fechaVencimiento }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Proveedor:</th>
+					<td>{{ componente.proveedor }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha de ingreso:</th>
+					<td>{{ componente.fechaingreso }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Descripcion:</th>
+					<td>{{ componente.descripcion|safe }}</td>
+				</tr>		
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Horas de vida util:</th>
+					<td>{{ componente.hvUtil }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Horas de uso:</th>
+					<td>{{ componente.hUtilizado }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Horas DURG:</th>
+					<td>{{ componente.hDurg }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Horas remanente:</th>
+					<td>{{ componente.hRemanente }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Estado:</th>
+					<td>{{ componente.estado }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha creacion sistema:</th>
+					<td>{{ componente.creado }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Fecha actualizacion sistema:</th>
+					<td>{{ componente.actualizado }}</td>
+				</tr>				
+			</tbody>
+		</table>
+	</div>
+	<div class="alert alert-danger text-center" role="alert">
+		<form method="post">{% csrf_token %}
+		    <p>
+		    	<strong>Seguro desea eliminar el componente  {{ componente.numSerie }} - {{ componente.nombre }} ?</strong>
+		    </p>
+		    	<input class="btn btn-outline-danger btn-sm" type="submit" value="Borrar"/>
+		</form>
+	</div>	
+</div>
+
+{% endblock %}
