@@ -14,60 +14,85 @@ th, td {
 }
 </style>
 {% load static %}
-<img src=".../core/img/logos/logoAgillSas.png" height="92" width="100">
-				{% for aeronave in aeronave_list %}	
-		<h5 class="card-header">Aeronave</h5>
-		<table class="table table-striped table-hover table-sm table-bordered">
+		<!-- <img src="core/img/logos/logoAgillSas.png" /> -->
+		<!-- <img src="{% static 'core/img/logos/logoAgillSas.png' %}"> -->
+		<!-- <img src="img/logos/logoAgillSas.png" /> -->
+				{% for aeronave in aeronave_list %}
+		<table>
 			<thead class="thead-dark">
 				<tr>
-					<th scope="col">Placa</th>
-					<th scope="col">Marca</th>
-					<th scope="col">Modelo</th>
-					<th scope="col">Tipo</th>
-					<th scope="col">Horas de vuelo</th>
+					<td rowspan="5" align="center" valign="middle"><img src="/home/omar/Documentos/Proyectos/p37d202/core/static/core/img/logos/logoPDF.png"></td>
+					<th scope="col" style="text-align: right;">Matricula:</th>
+					<td>{{ aeronave.placa }}</a></td>
+				</tr>
+				<tr>
+					<th scope="col" style="text-align: right;">Marca:</th>
+					<td>{{ aeronave.marca }}</td>
+				</tr>
+				<tr>
+					<th scope="col" style="text-align: right;">Modelo:</th>
+					<td>{{ aeronave.modelo }}</td>
+					
+				</tr>
+				<tr>
+					<th scope="col" style="text-align: right;">Tipo:</th>
+					<td>{{ aeronave.tipo }}</td>
+				</tr>
+				<tr>
+					<th scope="col" style="text-align: right;">Horas de vuelo:</th>
+					<td>{{ aeronave.hVuelo }}:{{ aeronave.mVuelo }}</td>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					<td>{{ aeronave.placa }}</a></td>
-					<td>{{ aeronave.marca }}</td>
-					<td>{{ aeronave.modelo }}</td>
-					<td>{{ aeronave.tipo }}</td>
-					<td>{{ aeronave.hVuelo }}</td>
-				</tr>
-			</tbody>
 		</table>
-			<h5 class="card-header">Componentes de la aeronave {{ aeronave.placa }}</h5>
+			<h5>COMPONENTES DE: {{ aeronave.placa }}</h5>
 			<table class="table table-striped table-hover table-sm">
 				<thead class="bg-white">
 					<tr>
-						<th scope="col">Descripcion</th>
-						<th scope="col">Marca</th>
-						<th scope="col">Num. serie</th>
-						<th scope="col">Orden de trabajo</th>
-						<th scope="col">Fecha Instalado</th>
-						<th scope="col">TT</th>
-						<th scope="col">H. DURG</th>
-						<th scope="col">Frecuencia</th>
-						<th scope="col">Vencimiento</th>
+						<th scope="col" rowspan="2">Descripcion</th>
+						<th scope="col" rowspan="2">Marca/P-N o Modelo</th>
+						<th scope="col" rowspan="2">Serie Numero</th>
+						<th scope="col" rowspan="2">Orden de trabajo</th>
+						<th scope="col" rowspan="2">Fecha Instalado</th>
+						<th scope="col" rowspan="2">TT Componente</th>
+						<th scope="col" rowspan="2">H. DURG</th>
+						<th scope="col" colspan="2">Frecuencia</th>
+						<!-- <th scope="col" colspan="2">Vencimiento</th> -->
+						<th scope="col" colspan="2">Remanentes</th>
+					</tr>
+					<tr>
+						<th scope="col">Horas</th>
+						<th scope="col">Tiempo</th>
+						<!-- <th scope="col">Horas</th> -->
+						<!-- <th scope="col">Calendario</th> -->
+						<th scope="col">Horas</th>
+						<th scope="col">Calendario</th>
 					</tr>
 				</thead>
 				<tbody>
-					{% for componente in aeronave.componente.all %}	
+					{% for componente in aeronave.getComponenteOrdenado %}
 					<tr>
-						<td>{{ componente.nombre }}</td>
-						<td>{{ componente.marca }}</td>
-						<td>{{ componente.numSerie }}</td>
-						<td>OT- {{ componente.id }}</td>
-						<td>{{ componente.creado|date:"SHORT_DATE_FORMAT" }}</td>
-						<td>{{ componente.hvUtil }}</td>
-						<td>{{ componente.horasDurg }}</td>
-						<td>{{ componente.hUtilizado }}</td>
-						<td>{{ componente.horasRemanentes }}</td>
+						<td>{{ componente.componente.nombre }}</td>
+						<td>{{ componente.componente.marca }}</td>
+						<td>{{ componente.componente.numSerie }}</td>
+						<td>OT- {{ componente.componente.id }}</td>
+						<td>{{ componente.componente.creado|date:"SHORT_DATE_FORMAT" }}</td>
+						<td>{{ componente.componente.hUtilizado }}:{{ componente.componente.mUtilizado }}</td>
+						<td>{{ componente.componente.hDurg }}:{{ componente.componente.mDurg }} </td>
+						<td>{{ componente.componente.hvUtil }}:{{ componente.componente.mvUtil }}</td>
+						<td>{{ componente.componente.estado }}</td>
+						<!-- <td>{{ componente.componente.hRemanente }}:{{ componente.componente.mRemanente }}</td> -->
+						<!-- <td>{{ componente.componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</td> -->
+						<td>{{ componente.componente.hRemanente }}:{{ componente.componente.mRemanente }}</td>
+						<td>{{ componente.componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</td>					
 					</tr>
 					{% endfor %}
 				</tbody>
 			</table>
-
+			<div align="center">
+				<br/>
+				<p>__________________________________</p>
+				<p>  FABIO SIERRA MARIN  </p>
+				<p>UAEAC-CDO-AA-021-1836  </p>
+			</div>
 				{% endfor %}
 {% endblock %}

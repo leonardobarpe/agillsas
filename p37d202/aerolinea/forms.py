@@ -1,4 +1,5 @@
 from django import forms
+from ckeditor.widgets import CKEditorWidget
 
 from .models import *
 
@@ -15,53 +16,184 @@ class ComponenteCreateForm(forms.ModelForm):
 			'fechaVencimiento',
 			'proveedor',
 			'fechaingreso',
-			'descripcion'
+			'hUtilizado',
+			'descripcion',
+			'estado',
+			'vUtilOpc',
+			'vUtil',
+			'hvUtil',		
+			'hUtilizado',		
+			'hDurg',
 		]
 		widgets = {
 			'numSerie': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 			'nombre': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 			'marca': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 			'fabricante': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
-			'fechaFabricacion': forms.DateInput(attrs={'class':'form-control form-control-sm','type':'date'}),
-			'fechaVencimiento': forms.DateInput(attrs={'class':'form-control form-control-sm','type':'date'}),
+			'fechaFabricacion': forms.DateInput(attrs={'class':'form-control form-control-sm datepicker'}),
+			'fechaVencimiento': forms.DateInput(attrs={'class':'form-control form-control-sm datepicker'}),
 			'proveedor': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
-			'fechaingreso': forms.DateInput(attrs={'class':'form-control form-control-sm','type':'date'}),
-			'descripcion': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+			'fechaingreso': forms.DateInput(attrs={'class':'form-control form-control-sm datepicker'}),
+			'hUtilizado': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+			'descripcion': forms.Textarea(attrs={'class':'form-control form-control-sm', 'rows':'4'}),
+			'estado': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+			'vUtilOpc': forms.Select(attrs={'class':'form-control form-control-sm'}),
+			'vUtil': forms.DateInput(attrs={'class':'form-control form-control-sm datepicker'}),
+			'hvUtil': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+			'hUtilizado': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+			'hDurg': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+
 		}
 		labels = {
 			'numSerie': 'Numero de serie',
 			'nombre': 'Nombre',
-			'marca': 'Marca',
+			'marca': 'Marca /P-N o Modelo',
 			'fabricante': 'Fabricante',
 			'fechaFabricacion': 'Fecha de fabricacion',
 			'fechaVencimiento': 'Fecha de vencimiento',
 			'proveedor': 'Proveedor',
 			'fechaingreso': 'Fecha de ingreso',
+			'hUtilizado': 'Horas utilizado',
 			'descripcion': 'Descripcion',
+			'estado': 'Estado',
+			'vUtil': 'Vida util calendario',
+			'hvUtil': 'Horas vida util',		
+			'hUtilizado': 'Horas de uso',		
+			'hDurg': 'Horas DURG',
+		}
+
+class ComponenteUpdateForm(forms.ModelForm):
+	class Meta:
+		model = Componente
+		fields = [
+			'numSerie',
+			'nombre',
+			'marca',
+			'fabricante',
+			'fechaFabricacion',
+			'fechaVencimiento',
+			'proveedor',
+			'fechaingreso',
+			'hUtilizado',
+			'descripcion',
+			'estado',
+			'vUtilOpc',
+			'vUtil',
+			'hvUtil',		
+			'hUtilizado',		
+			'hDurg',
+		]
+		widgets = {
+			'numSerie': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+			'nombre': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+			'marca': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+			'fabricante': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+			'fechaFabricacion': forms.DateInput(attrs={'class':'datepicker form-control form-control-sm'}),
+			'fechaVencimiento': forms.DateInput(attrs={'class':'form-control form-control-sm'}),
+			'proveedor': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+			'fechaingreso': forms.DateInput(attrs={'class':'form-control form-control-sm'}),
+			'hUtilizado': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+			'descripcion': forms.Textarea(attrs={'class':'form-control form-control-sm', 'rows':'6'}),
+			'estado': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+			'vUtilOpc': forms.Select(attrs={'class':'form-control form-control-sm'}),
+			'vUtil': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+			'hvUtil': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+			'hUtilizado': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+			'hDurg': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+			'vUtil': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+
+		}
+		labels = {
+			'numSerie': 'Numero de serie',
+			'nombre': 'Nombre',
+			'marca': 'Marca /P-N o Modelo',
+			'fabricante': 'Fabricante',
+			'fechaFabricacion': 'Fecha de fabricacion',
+			'fechaVencimiento': 'Fecha de vencimiento',
+			'proveedor': 'Proveedor',
+			'fechaingreso': 'Fecha de ingreso',
+			'hUtilizado': 'Horas utilizado',
+			'descripcion': 'Descripcion',
+			'estado': 'Estado',
+			'hvUtil': 'Horas vida util',		
+			'hUtilizado': 'Horas de uso',		
+			'hDurg': 'Horas DURG',
+			'vUtil': 'Vida util',
 		}		
+# -- Aeronave -- #
+class AeronaveCreateForm(forms.ModelForm):
+	class Meta:
+		model = Aeronave
+		fields = [
+			'placa',				
+			'marca',				
+			'modelo',				
+			'tipo',				
+			'descripcion',			
+			'hVuelo',				
+			'componente',
+		]
+		widgets = {
+			'placa':		forms.TextInput(attrs={'class':'form-control form-control-sm'}),				
+			'marca': 		forms.TextInput(attrs={'class':'form-control form-control-sm'}),		
+			'modelo': 		forms.TextInput(attrs={'class':'form-control form-control-sm'}),		
+			'tipo': 		forms.TextInput(attrs={'class':'form-control form-control-sm'}),		
+			'descripcion': 	forms.Textarea(attrs={'class':'form-control form-control-sm', 'rows':'5'}),		
+			'hVuelo': 		forms.NumberInput(attrs={'class':'form-control form-control-sm'}),		
+			'componente':	forms.SelectMultiple(attrs={'class':'form-control form-control-sm chosen-select ','data-placeholder': 'Click sobre el campo para agregar componente(s)'}),
+		}
+		labels = {
+			'placa':		'Matricula',
+			'marca': 		'Marca',
+			'modelo': 		'Modelo',
+			'tipo': 		'Tipo',
+			'descripcion': 	'Descripcion',
+			'hVuelo': 		'Horas de vuelo',
+			'componente':	'Componentes',
+		}
 
-	# numSerie			= models.CharField(max_length=200, verbose_name="Numero de Serie")					# numero de serie del componente
-	# nombre				= models.CharField(max_length=200, verbose_name="Nombre")							# nombre del componente
-	# marca				= models.CharField(max_length=200, verbose_name="Marca")							# marca /P-N o Model del componente
-	# fabricante			= models.CharField(max_length=200, verbose_name="Fabricante")						# fabricante del componente
-	# fechaFabricacion	= models.DateField(verbose_name="Fecha de Fabricacion")								# fecha de fabricacion del componente 
-	# fechaVencimiento	= models.DateField(verbose_name="Fecha de Vencimiento")								# fecha de vencimineto del componente
-	# proveedor			= models.CharField(max_length=200, verbose_name="Proveedor")						# proveedor del componente
-	# fechaingreso		= models.DateField(verbose_name="Fecha de Ingreso")									# fecha de ingreso del componente
-	# descripcion			= RichTextField(verbose_name="Descripcion")											# descripcion del componente
-	# hvUtil 				= models.IntegerField(verbose_name="Horas de vida util",null=True, blank=True)		# horas de vida util
-	# mvUtil 				= models.IntegerField(verbose_name="Minutos de vida util",null=True, blank=True)	# minutos de vida util
-	# hUtilizado			= models.IntegerField(verbose_name="Horas utilizado",null=True, blank=True)			# horas utilizado
-	# mUtilizado			= models.IntegerField(verbose_name="Minutos utilizado",null=True, blank=True)		# minutos utilizado
-	# hDurg				= models.IntegerField(verbose_name="Horas Durg",null=True, blank=True)				# horas durg
-	# mDurg				= models.IntegerField(verbose_name="Minutos Durg",null=True, blank=True)			# minutos durg
-	# hRemanente			= models.IntegerField(verbose_name="Horas Remanente",null=True, blank=True)			# horas remanete
-	# mRemanente			= models.IntegerField(verbose_name="Minutos Remanente",null=True, blank=True)		# minutos remanete	
-	# estado				= models.CharField(max_length=200, verbose_name="Estado")							# estado del componente (bodega, instalado, baja)
+	# 'placa',				
+	# 'marca',				
+	# 'modelo',				
+	# 'tipo',				
+	# 'descripcion',			
+	# 'imagen',				
+	# 'hVuelo',				
+	# 'mVuelo',				
+	# 'componente',			
 
+class AeronaveUpdateForm(forms.ModelForm):
+	class Meta:
+		model = Aeronave
+		fields = [
+			'placa',				
+			'marca',				
+			'modelo',				
+			'tipo',				
+			'descripcion',			
+			'hVuelo',				
+			'componente',
+		]
+		widgets = {
+			'placa':		forms.TextInput(attrs={'class':'form-control form-control-sm'}),				
+			'marca': 		forms.TextInput(attrs={'class':'form-control form-control-sm'}),		
+			'modelo': 		forms.TextInput(attrs={'class':'form-control form-control-sm'}),		
+			'tipo': 		forms.TextInput(attrs={'class':'form-control form-control-sm'}),		
+			'descripcion': 	forms.Textarea(attrs={'class':'form-control form-control-sm', 'rows':'5'}),		
+			'hVuelo': 		forms.NumberInput(attrs={'class':'form-control form-control-sm'}),		
+			'componente':	forms.SelectMultiple(attrs={'class':'chosen-select','data-placeholder': 'Click sobre el campo para agregar componente(s)'}),
+		}
+		labels = {
+			'placa':		'Matricula',
+			'marca': 		'Marca',
+			'modelo': 		'Modelo',
+			'tipo': 		'Tipo',
+			'descripcion': 	'Descripcion',
+			'hVuelo': 		'Horas de vuelo',
+			'componente':	'Componentes',
+		}
 
-
-
+# -- Vuelo -- #
 class VueloCreateForm(forms.ModelForm):
 	class Meta:
 		model = Vuelo
@@ -121,8 +253,8 @@ class OrdenCreateForm(forms.ModelForm):
 			'descripcion': forms.Textarea(attrs={'class':'form-control form-control-sm'}),
 			'tecnico': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 			'dirCC':forms.TextInput(attrs={'class':'form-control form-control-sm'}),
-			'aeronave': forms.Select(attrs={'class':'form-control form-control-sm'}),
-			'componente':forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),
+			'aeronave': forms.Select(attrs={'class':'chosen-select'}),
+			'componente':forms.SelectMultiple(attrs={'class':'chosen-select'}),
 		}
 		labels = {
 			'ciudad':'Ciudad',

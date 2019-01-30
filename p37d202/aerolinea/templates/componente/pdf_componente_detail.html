@@ -1,0 +1,98 @@
+{% extends "easy_pdf/base.html" %}
+{% block content %}
+
+{% load aerolinea_extras %}
+{% get_componente_list as componente_list %}
+
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 2px;
+}
+.colorCelda{
+	background-color: #fcd1c6;
+	text-align: right;
+}
+</style>
+		{% load static %}
+<div>
+	<div>
+		<img src="/home/omar/Documentos/Proyectos/p37d202/core/static/core/img/logos/logoPDF.png">
+	</div>
+	<div>
+		<table>
+			<tbody>
+				<tr>
+					<th align="right" class="colorCelda">Numero de serie:</th>
+					<td>{{ componente.numSerie }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Nombre:</th>
+					<td>{{ componente.nombre }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Marca:</th>
+					<td>{{ componente.marca }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Fabricante:</th>
+					<td>{{ componente.fabricante }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Fecha de fabricacion:</th>
+					<td>{{ componente.fechaFabricacion }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Fecha de vencimiento:</th>
+					<td>{{ componente.fechaVencimiento }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Proveedor:</th>
+					<td>{{ componente.proveedor }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Fecha de ingreso:</th>
+					<td>{{ componente.fechaingreso }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Descripcion:</th>
+					<td>{{ componente.descripcion|safe }}</td>
+				</tr>		
+				<tr>
+					<th align="right" class="colorCelda">Horas de vida util:</th>
+					<td>{{ componente.hvUtil }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Horas de uso:</th>
+					<td>{{ componente.hUtilizado }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Horas DURG:</th>
+					<td>{{ componente.hDurg }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Horas remanente:</th>
+					<td>{{ componente.hRemanente }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Estado:</th>
+					<td>{{ componente.estado }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Fecha creacion sistema:</th>
+					<td>{{ componente.creado }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Fecha actualizacion sistema:</th>
+					<td>{{ componente.actualizado }}</td>
+				</tr>				
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+{% endblock %}

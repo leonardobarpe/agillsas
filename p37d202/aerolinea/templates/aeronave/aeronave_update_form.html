@@ -2,7 +2,92 @@
 {% block title %} Vuelo editar {% endblock %}
 {% block alerts %} {% endblock %}
 {% block content %}
-<div class="card">
+
+<div class="card border-success mb-3">
+	<div class="card-header">
+		<div class="row">
+			<div class="col-sm">
+				<i class="fas fa-plane"></i><span> | Aeronave editar</span>
+			</div>
+			<div class="col-sm">
+				<a class="btn btn-info float-right" href="{% url 'aeronave_list' %}" data-toggle="tooltip" data-placement="top" title="Ver aeronaves"><i class="fas fa-list"></i></a>
+			</div>
+		</div>
+	</div>
+	<form action="" method="POST">{% csrf_token %}
+		<div class="card-body">
+			<!-- {{form.as_p}} -->
+			<div class="form-row">
+				<div class="col-sm">
+					<strong>{{ form.placa.label }}</strong>				
+					{{ form.placa }}				
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.marca.label }}</strong>
+					{{ form.marca }}				
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.modelo.label }}</strong>				
+					{{ form.modelo }}				
+				</div>
+			</div>
+			</br>
+			<div class="form-row">
+				<div class="col-sm">
+					<strong>{{ form.descripcion.label }}</strong>			
+					{{ form.descripcion }}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.tipo.label }}</strong>				
+					{{ form.tipo }}	
+					</br>			
+					<strong>{{ form.hVuelo.label }}</strong>				
+					{{ form.hVuelo }}				
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.componente.label }}</strong>
+					{{ form.componente }}
+				</div>
+			</div>
+			</br>
+			<div class="form-row">				
+				<div class="col-sm">
+					<div class="card border-light mb-3">
+						<div class="card-header">Orden de seleccion del componente</div>
+						<div class="card-body">
+							<p class="card-text">
+								<ul class="list-inline" style="font-size: 0.8em;">
+									{% for componente in aeronave.getComponenteOrdenado %}
+									<li class="list-inline-item">
+										<i class="fas fa-cubes"></i> {{ componente.componente.numSerie }} - {{ componente.componente.nombre }}
+									</li>
+									{% endfor %}
+								</ul>
+							</p>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+		<div class="card-footer">
+			<div class="btn-group">
+				<input type="submit" class="btn btn-outline-success btn-sm" value="Guardar">
+				</form>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+		$(function() {
+		$("#id_componente").click(function () {
+			var valor = $("#id_componente").val();
+			$("#id_ordenCom").val(valor);
+		});
+	});
+</script>
+
+
+<!-- <div class="card">
 	<div class="card-header bg-success text-white">
 		<div class="row">
 			<div class="col-sm">
@@ -28,7 +113,6 @@
 			</form>
 		</div>
 	</div>
-</div>
-
+</div> -->
 
 {% endblock %}

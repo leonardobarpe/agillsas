@@ -39,6 +39,8 @@ urlpatterns = [
     path('componente/componenteUpdateView/<int:pk>/',aerolinea_views.componenteUpdateView.as_view(), name = 'componente_update'),
     path('componente/componenteDeleteView/<int:pk>/',aerolinea_views.componenteDeleteView.as_view(), name = 'componente_delete'),
     path('componente/componenteDownExcel',aerolinea_views.componenteDownExcel, name = 'componente_downExcel'),
+    path('componente/componentePDFDetailView/<int:pk>/',aerolinea_views.componentePDFDetailView.as_view(), name = 'componente_pdf_detail'),
+    
     
 
     # *******************************
@@ -53,6 +55,7 @@ urlpatterns = [
     path('aeronave/aeronaveUpdateView/<int:pk>/',aerolinea_views.aeronaveUpdateView.as_view(), name = 'aeronave_update'),
     path('aeronave/aeronaveDeleteView/<int:pk>/',aerolinea_views.aeronaveDeleteView.as_view(), name = 'aeronave_delete'),
     path('aeronave/aeronavePDFListView/',aerolinea_views.aeronavePDFListView.as_view(), name = 'aeronave_pdf_list'),
+    path('aeronave/aeronavePDFDetailView/<int:pk>/',aerolinea_views.aeronavePDFDetailView.as_view(), name = 'aeronave_pdf_detail'),
     
     path('aeronave/aeronaveDownExcel',aerolinea_views.aeronaveDownExcel, name = 'aeronave_downExcel'),
     path('aeronave/aeronaveReporteExcel',aerolinea_views.aeronaveReporteExcel.as_view(), name = 'aeronave_reporteExcel'),

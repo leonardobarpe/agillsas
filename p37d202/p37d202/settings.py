@@ -132,9 +132,18 @@ USE_THOUSAND_SEPARATOR = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
+# Para imagenes en pdf
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATIC_URL = '/static/'
 
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
 
+STATICFILES_DIRS = [
+    os.path.join(os.path.dirname(BASE_DIR), "static"),
+]
 
 # Archivos Media
 
@@ -149,10 +158,17 @@ CKEDITOR_CONFIGS = {
         'toolbar_Custom': [
             ['Bold', 'Italic', 'Underline'],
             ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-        ]
+        ],
+        'height': 100,
     }
 }
 
 # Autyh redirect
 LOGIN_REDIRECT_URL = 'inicio'
 LOGOUT_REDIRECT_URL = 'login'
+
+
+# Sesiones
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 2400 # set just 10 seconds to test
+SESSION_SAVE_EVERY_REQUEST = True

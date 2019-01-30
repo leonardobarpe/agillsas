@@ -1,24 +1,29 @@
 {% extends 'core/plantilla/base.html' %}
 {% block title %} Componente - {{ componente.numSerie }} - {{ componente.nombre }} detalle {% endblock %}
 {% block content %}
+
 {% if 'ok' in request.GET %}
-<div class="container">
-<div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-  Componente <strong>{{ componente.numSerie }} - {{ componente.nombre }}</strong> editado correctamente !!
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+<div class="row">
+	<div class="container-fluid">
+		<div class="alert alert-success alert-dismissible text-center fade show" role="alert">
+			<span class="font-italic">Componente </span><span class="font-weight-bold"> {{ componente.numSerie }} - {{ componente.nombre }} </span><span class="font-italic">editado correctamente !!</span>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	</div>
 </div>
 {% endif %}
-<div class="card">
-	<div class="card-header bg-primary text-white">
+
+<div class="card border-success mb-3">
+	<div class="card-header">
 		<div class="row">
 			<div class="col-sm">
-				<h5 class="h5">Detalles del componente - {{ componente.numSerie }}</h5>
+				<i class="fas fa-cubes"></i><span> | Detalles del componente: <strong>{{ componente.numSerie }}-{{ componente.nombre }}</strong></span>
 			</div>
-			<div class="col-sm">
-				<a class="btn btn-info float-right" href="{% url 'componente_list' %}" data-toggle="tooltip" data-placement="top" title="Ver componentes"><i class="fas fa-list"></i></a>
+			<div class="col-sm text-right">
+				<a class="btn btn-outline-danger btn-sm" href="{% url 'componente_pdf_detail' componente.id %}" target="_blank" data-toggle="tooltip" data-placement="top" title="PDF detalle de componente"><small><i class="far fa-file-pdf"></i> Pdf</small></a>
+				<a class="btn btn-outline-info btn-sm" href="{% url 'componente_list' %}" data-toggle="tooltip" data-placement="top" title="Ver componentes"><small><i class="fas fa-list"></i> Ver</small></a>
 			</div>
 		</div>
 	</div>
@@ -95,8 +100,8 @@
 	</div>
 	<div class="card-footer">
 		<a class="btn btn-outline-primary btn-sm" href="{% url 'componente_update' componente.id %}" data-toggle="tooltip" data-placement="top" title="Editar componente">Editar</a>
-		<a class="btn btn-outline-danger btn-sm" href="{% url 'componente_delete' componente.id %}" data-toggle="tooltip" data-placement="top" title="Eliminar componente">Borrar</a>
-		</div>
+		<a class="btn btn-outline-danger btn-sm" href="{% url 'componente_delete' componente.id %}" data-toggle="tooltip" data-placement="top" title="Eliminar componente">Eliminar</a>
+	</div>
 </div>
 
 {% endblock %}

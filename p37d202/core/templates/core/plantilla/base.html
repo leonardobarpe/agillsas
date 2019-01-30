@@ -2,21 +2,40 @@
 <html lang="es">
 <head>
 	<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>Agillsas | {% block title %} {% endblock %} </title>
 
-    <!-- Estilos y fuentes del template  -->
-    {% load static %}
-    <link rel="shortcut icon" href="{% static 'core/img/logos/iconoAgillSas.png' %}" />
-    <link href="{% static 'core/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type='text/css'>
-    <link href="{% static 'core/vendor/font-awesome/css/fontawesome.min.css' %}" rel="stylesheet">
-    <link href="{% static 'core/vendor/font-awesome/css/all.css' %}" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+	{% load static %}
+	<link rel="shortcut icon" href="{% static 'core/img/logos/iconoAgillSas.png' %}" />
+	<link href="{% static 'core/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type='text/css'>
+	<link href="{% static 'core/vendor/font-awesome/css/fontawesome.min.css' %}" rel="stylesheet">
+	<link href="{% static 'core/vendor/font-awesome/css/all.css' %}" rel="stylesheet">
+	<link href="{% static 'core/css/custom_ckeditor.css' %}" rel="stylesheet">
+	<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <script src="{% static 'core/vendor/jquery/jquery.min.js' %}"></script>
+
+	<link rel="stylesheet" href="{% static 'core/vendor/chosen/docsupport/style.css' %}">
+	<link rel="stylesheet" href="{% static 'core/vendor/chosen/docsupport/prism.css' %}">
+	<link rel="stylesheet" href="{% static 'core/vendor/chosen/chosen.css' %}">
+	<link rel="stylesheet" href="{% static 'core/vendor/chosen/chosen.css' %}">
+	
+	<link rel="stylesheet" href="{% static 'core/vendor/DataTables/datatables.min.css' %}">
+	
+	<link rel="stylesheet" href="{% static 'core/vendor/jquery-ui/jquery-ui.min.css' %}">
+	
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+
+<!-- 	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> -->
+
 </head>
 
-<body style="background-color: c3c3c3;">
+<body style="font-size: 0.9em">
 <!-- Encabezado -->
 	<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #ff8000;">
 		<a class="navbar-brand" href="{% url 'inicio' %}"><img src="{% static 'core/img/logos/logoAgillSas.png' %}" alt="Inicio | Agillsas" class="img-thumbnail" height="92" width="100"></a>
@@ -25,7 +44,7 @@
 		</div>
 			<div class="float-right">
 				<a class="btn btn-primary btn-sm" href="{% url 'inicio' %}" data-toggle="tooltip" data-placement="top" title="Mis Alertas"><i class="fas fa-bell"></i> {% block alerts %} {% endblock %}</a>
-				<a class="btn btn-light btn-sm" href="{% url 'inicio' %}" data-toggle="tooltip" data-placement="top" title="Configurar"><i class="fas fa-user"></i></a>
+				<a class="btn btn-light btn-sm" href="{% url 'inicio' %}" data-toggle="tooltip" data-placement="top" title="Configurar"><i class="fas fa-user"></i> | {{ user.username }}</a>
 				{% if not request.user.is_authenticated %}
 					<a class="btn btn-success btn-sm text-white" href="{% url 'login' %}" data-toggle="tooltip" data-placement="top" title="Iniciar Sesion"><i class="fas fa-sign-in-alt"></i></a>
 				{% else %}
@@ -36,71 +55,127 @@
 <div class="container-fluid">
 	<div class="row">
 		<!-- Menu lateral  -->
-		<div class="col-2" style="margin-top: 5px; ">
-				<div class="btn-group-vertical btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-					<a href="/admin/" class="btn btn-info text-left"><i class="fab fa-whmcs"></i> | Admin </a>
-					<a class="btn btn-dark text-left" href="{% url 'inicio' %}"><i class="fas fa-home"></i> | Inicio </a>
-					<div class="btn-group btn-group-sm" role="group">
-						<button id="btnGroupComponente" type="button" class="btn btn-dark dropdown-toggle text-left" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false"> <i class="fas fa-cubes"></i> | Componentes</button>
-						<div class="dropdown-menu" aria-labelledby="btnGroupComponente">
-							<a class="dropdown-item" href="{% url 'componente_create' %}"><i class="fas fa-plus-square "></i> | Crear</a>
-							<a class="dropdown-item" href="{% url 'componente_list' %}"><i class="fas fa-list"></i> | Ver</a>
-						</div>
+		<div class="col-sm-2 shadow-none p-3 mb-5 rounded">
+			<div class="btn-group-vertical btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+				<a href="/admin/" class="btn btn-info btn-sm text-sm-left"><i class="fab fa-whmcs"></i> Admin </a>
+				<a class="btn btn-dark btn-sm text-sm-left" href="{% url 'inicio' %}"><i class="fas fa-home"></i> Inicio </a>
+				<div class="btn-group btn-group-sm" role="group">
+					<button id="btnGroupComponente" type="button" class="btn btn-dark btn-sm dropdown-toggle text-sm-left" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false"> <i class="fas fa-cubes"></i> Componentes</button>
+					<div class="dropdown-menu" aria-labelledby="btnGroupComponente">
+						<a class="dropdown-item" href="{% url 'componente_create' %}"><i class="fas fa-plus-square "></i> Crear</a>
+						<a class="dropdown-item" href="{% url 'componente_list' %}"><i class="fas fa-list"></i> Ver</a>
 					</div>
-					<div class="btn-group btn-group-sm" role="group">
-						<button id="btnGroupAeronave" type="button" class="btn btn-dark dropdown-toggle text-left" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false"> <i class="fas fa-plane"></i> | Aeronaves</button>
-						<div class="dropdown-menu" aria-labelledby="btnGroupAeronave">
-							<a class="dropdown-item" href="{% url 'aeronave_create' %}""><i class="fas fa-plus-square"></i> | Crear</a>
-							<a class="dropdown-item" href="{% url 'aeronave_list' %}"><i class="fas fa-list"></i> | Ver</a>
-						</div>
-					</div>
-					<div class="btn-group btn-group-sm" role="group">
-						<button id="btnGroupVuelo" type="button" class="btn btn-dark dropdown-toggle text-left" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false"> <i class="fas fa-plane-departure"></i> | Vuelos</button>
-						<div class="dropdown-menu" aria-labelledby="btnGroupVuelo">
-							<a class="dropdown-item" href="{% url 'vuelo_create' %}"><i class="fas fa-plus-square"></i> | Crear</a>
-							<a class="dropdown-item" href="{% url 'vuelo_list' %}"><i class="fas fa-list"></i> | Ver</a>
-						</div>
-					</div>
-					<div class="btn-group btn-group-sm" role="group">
-						<button id="btnGroupOrdenTrabajo" type="button" class="btn btn-dark dropdown-toggle text-left" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false"> <i class="fas fa-toolbox"></i> | Ordenes de trabajo</button>
-						<div class="dropdown-menu" aria-labelledby="btnGroupOrdenTrabajo">
-							<a class="dropdown-item" href="{% url 'orden_create' %}"><i class="fas fa-plus-square"></i> | Crear</a>
-							<a class="dropdown-item" href="{% url 'orden_list' %}"><i class="fas fa-list"></i> | Ver</a>
-						</div>
-					</div>
-					<div class="btn-group btn-group-sm" role="group">
-						<button id="btnGroupCumplimiento" type="button" class="btn btn-dark dropdown-toggle text-left disabled" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false"> <i class="fas fa-clipboard-list"></i> | Cumplimientos</button>
-						<div class="dropdown-menu" aria-labelledby="btnGroupCumplimiento">
-							<a class="dropdown-item" href="#"><i class="fas fa-plus-square"></i> | Crear</a>
-							<a class="dropdown-item" href="#"><i class="fas fa-list"></i> | Ver</a>
-						</div>
-					</div>
-
 				</div>
-
+				<div class="btn-group btn-group-sm" role="group">
+					<button id="btnGroupAeronave" type="button" class="btn btn-dark dropdown-toggle text-sm-left" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false"> <i class="fas fa-plane"></i> Aeronaves</button>
+					<div class="dropdown-menu" aria-labelledby="btnGroupAeronave">
+						<a class="dropdown-item" href="{% url 'aeronave_create' %}""><i class="fas fa-plus-square"></i> Crear</a>
+						<a class="dropdown-item" href="{% url 'aeronave_list' %}"><i class="fas fa-list"></i> Ver</a>
+					</div>
+				</div>
+				<div class="btn-group btn-group-sm" role="group">
+					<button id="btnGroupVuelo" type="button" class="btn btn-dark dropdown-toggle text-sm-left" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false"> <i class="fas fa-plane-departure"></i> Vuelos</button>
+					<div class="dropdown-menu" aria-labelledby="btnGroupVuelo">
+						<a class="dropdown-item" href="{% url 'vuelo_create' %}"><i class="fas fa-plus-square"></i> Crear</a>
+						<a class="dropdown-item" href="{% url 'vuelo_list' %}"><i class="fas fa-list"></i> Ver</a>
+					</div>
+				</div>
+				<div class="btn-group btn-group-sm" role="group">
+					<button id="btnGroupOrdenTrabajo" type="button" class="btn btn-dark dropdown-toggle text-sm-left" data-toggle="dropdown" aria-haspopup="true"  aria-expanded="false"> <i class="fas fa-toolbox"></i> Ordenes de trabajo</button>
+					<div class="dropdown-menu" aria-labelledby="btnGroupOrdenTrabajo">
+						<a class="dropdown-item" href="{% url 'orden_create' %}"><i class="fas fa-plus-square"></i> Crear</a>
+						<a class="dropdown-item" href="{% url 'orden_list' %}"><i class="fas fa-list"></i> Ver</a>
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- Contenido -->
-		<div class="col-10 border border-info border-top-0 border-bottom-0 border-right-0" style="margin-top: 5px;">
+		<div class="col-lg-10 mt-3">
 			{% block content %}
 				
 			{% endblock %}
 		</div>
 	</div>	
 </div>
+	{% load static %}
+
     <!-- Bootstrap y Javascripts -->
     <script src="{% static 'core/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'core/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-	<!-- CKEditor -->
-	{% load static %}
-	<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
-	<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>	
+	
+	<!-- Data Tables -->
+    <script src="{% static 'core/vendor/DataTables/datatables.min.js' %}"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
+    <!-- Chosen -->
+	<script src="{% static 'core/vendor/chosen/chosen.jquery.js' %}"></script>
+	<script src="{% static 'core/vendor/chosen/docsupport/prism.js' %}"></script>
+	<script src="{% static 'core/vendor/chosen/docsupport/init.js' %}"></script>
+	
+	<!-- CKEditor -->
+	<script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+	<script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+
+	<!-- jQuery-UI -->
+	<script src="{% static 'core/vendor/jquery-ui/jquery-ui.min.js' %}"></script>
 
     <script>
     	// Tooltips
 		$(function () {
   			$('[data-toggle="tooltip"]').tooltip()
+  			$(".chosen-select").chosen()
+
+  			$.datepicker.regional['es'] = {
+  				closeText: 'Cerrar',
+  				prevText: '<Ant',
+  				nextText: 'Sig>',
+  				currentText: 'Hoy',
+  				monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+  				monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+  				dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+  				dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+  				dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+  				weekHeader: 'Sm',
+  				dateFormat: 'dd/mm/yy',
+  				firstDay: 1,
+  				isRTL: false,
+  				showMonthAfterYear: false,
+  				yearSuffix: ''
+  			};
+  			$.datepicker.setDefaults($.datepicker.regional['es']);
+  			$(".datepicker").datepicker({
+
+  			});
   		})
+		// DataTable
+		$(function() {
+			$('#DataTable').DataTable({
+                    language: {
+                    processing:     "Procesando...",
+                    search:         "Buscar",
+                    lengthMenu:     "Mostrando _MENU_ elementos",
+                    info:           "Mostrando _START_ a _END_ de _TOTAL_ elementos",
+                    infoEmpty:      "No hay resultados",
+                    infoFiltered:   "(_MAX_ en total)",
+                    infoPostFix:    ".",
+                    loadingRecords: "Cargando...",
+                    zeroRecords:    "No hay registros",
+                    emptyTable:     "Vacio",
+					pagingType:		"full_numbers",
+                    paginate: {
+                        first:      "Primera",
+                        previous:   "Anterior",
+                        next:       "Siguiente",
+                        last:       "Ultima"
+                    },
+                    aria: {
+                        sortAscending:  ": Ordenar ascendentemente",
+                        sortDescending: ": Ordenar descendentemente"
+                    }
+                }
+			});
+		});  		
     </script>
 </body>
 </html>

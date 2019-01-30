@@ -1,32 +1,147 @@
 {% extends 'core/plantilla/base.html' %}
 {% block title %} Componente nuevo {% endblock %}
 {% block alerts %} {% endblock %}
+
 {% block content %}
-<div class="card">
-	<div class="card-header bg-success text-white">
+
+<div class="card border-success mb-3">
+	<div class="card-header">
 		<div class="row">
 			<div class="col-sm">
-				<h5 class="h5">Componente nuevo</h5>
+				<i class="fas fa-cubes"></i><span> | Componente nuevo</span>
 			</div>
 			<div class="col-sm">
-				<a class="btn btn-info btn-sm float-right" href="{% url 'componente_list' %}" data-toggle="tooltip" data-placement="top" title="Ver componentes"><i class="fas fa-list"></i></a>
+				<a class="btn btn-outline-info btn-sm float-right" href="{% url 'componente_list' %}" data-toggle="tooltip" data-placement="top" title="Ver componentes"><small><i class="fas fa-list"></i> Ver</small></a>
 			</div>
 		</div>
 	</div>
-	<div class="card-body">
-		<div class="container">
-			<form action="" method="POST">
-			{% csrf_token %}
-				{{form.as_p}}
+	<form action="" method="POST">{% csrf_token %}
+		<div class="card-body">
+			<!-- {{form.as_p}} -->
+			<div class="form-row">
+				<div class="col-sm">
+					<strong>{{form.numSerie.label}}</strong>
+					{{form.numSerie}}
+				</div>
+				<div class="col-sm">
+					<strong>{{form.nombre.label}}</strong>
+					{{form.nombre}}
+				</div>
+				<div class="col-sm">
+					<strong>{{form.marca.label}}</strong>
+					{{form.marca}}
+				</div>
+			</div>
+			</br>
+			<div class="form-row">
+				<div class="col-sm">
+					<strong>{{form.fabricante.label}}</strong>
+					{{form.fabricante}}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.fechaFabricacion.label }}</strong>
+					{{ form.fechaFabricacion }}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.fechaVencimiento.label }}</strong>
+					{{ form.fechaVencimiento }}
+				</div>
+			</div>
+			</br>
+			<div class="form-row">
+				<div class="col-sm">
+					<strong>{{form.proveedor.label}}</strong>
+					{{form.proveedor}}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.fechaingreso.label }}</strong>
+					{{ form.fechaingreso }}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.estado.label }}</strong>
+					{{ form.estado }}
+				</div>
+			</div>
+			</br>
+			<div class="form-row">
+				<div class="col-sm">
+					<strong>{{ form.vUtilOpc.label }}</strong>
+					{{ form.vUtilOpc }}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.hvUtil.label }}</strong>
+					{{ form.hvUtil }}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.vUtil.label }}</strong>
+					{{ form.vUtil }}
+				</div>
+			</div>
+			</br>
+			<div class="form-row">
+				<div class="col-sm">
+					<strong>{{form.descripcion.label}}</strong>
+					{{form.descripcion}}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.hDurg.label }}</strong>
+					{{ form.hDurg }}
+				</div>
+				<div class="col-sm">
+					<strong>{{form.hUtilizado.label}}</strong>
+					{{ form.hUtilizado }}
+				</div>				
+			</div>			
 		</div>
-	</div>
-	<div class="card-footer">
-		<div class="btn-group">
-			<input type="submit" class="btn btn-outline-success btn-sm" value="Guardar">
-			</form>
+		<div class="card-footer">
+			<div class="btn-group">
+				<input type="submit" class="btn btn-sm btn-outline-success" value="Guardar">
+			</div>
 		</div>
-	</div>
+	</form>
 </div>
+<script>	
+	$( function() {
+		$("#id_vUtil").prop("disabled", true);
+		$("#id_vUtilOpc").change( function() {
+			if ($(this).val() === "h") {
+				$("#id_vUtil").prop("disabled", true);
+				$("#id_hvUtil").prop("disabled", false);
+			}
+			if ($(this).val() === "t") {
+				$("#id_hvUtil").prop("disabled", true);
+				$("#id_vUtil").prop("disabled", false);
+			}
+			if ($(this).val() === "a") {
+				$("#id_hvUtil").prop("disabled", false);
+				$("#id_vUtil").prop("disabled", false);
+			}
 
+		});
+	});
+</script>
 
 {% endblock %}
+<!-- <div class="card border-success mb-3">
+	<div class="card-header">
+		<div class="row">
+			<div class="col-sm">
+				<i class="fas fa-cubes"></i><span> | Componente nuevo</span>
+			</div>
+			<div class="col-sm">
+				<a class="btn btn-info float-right btn-sm" href="{% url 'componente_list' %}" data-toggle="tooltip" data-placement="top" title="Ver componentes"><i class="fas fa-list"></i></a>
+			</div>
+		</div>
+	</div>
+	<form action="" method="POST">{% csrf_token %}
+		<div class="card-body">
+			{{form.as_p}}
+		</div>
+		<div class="card-footer">
+			<div class="btn-group">
+				<input type="submit" class="btn btn-outline-success btn-sm" value="Guardar">
+			</div>
+		</div>
+	</form>
+</div> -->
+<!--  -->

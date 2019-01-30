@@ -1,0 +1,95 @@
+{% extends "easy_pdf/base.html" %}
+{% block content %}
+
+{% load aerolinea_extras %}
+<!-- {% get_aeronave_list as aeronave_list %} -->
+
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 2px;
+}
+</style>
+		{% load static %}
+		<table>
+			<thead class="thead-dark">
+				<tr>
+					<td rowspan="5" align="center" valign="middle"><img src="/home/omar/Documentos/Proyectos/p37d202/core/static/core/img/logos/logoPDF.png"></td>
+					<th scope="col" style="text-align: right;">Matricula:</th>
+					<td>{{ aeronave.placa }}</a></td>
+				</tr>
+				<tr>
+					<th scope="col" style="text-align: right;">Marca:</th>
+					<td>{{ aeronave.marca }}</td>
+				</tr>
+				<tr>
+					<th scope="col" style="text-align: right;">Modelo:</th>
+					<td>{{ aeronave.modelo }}</td>
+					
+				</tr>
+				<tr>
+					<th scope="col" style="text-align: right;">Tipo:</th>
+					<td>{{ aeronave.tipo }}</td>
+				</tr>
+				<tr>
+					<th scope="col" style="text-align: right;">Horas de vuelo:</th>
+					<td>{{ aeronave.hVuelo }}:{{ aeronave.mVuelo }}</td>
+				</tr>
+			</thead>
+		</table>
+			<h4>Componentes de la aeronave {{ aeronave.placa }}</h4>
+			<table>
+				<thead>
+					<tr>
+						<th scope="col" rowspan="2">Descripcion</th>
+						<th scope="col" rowspan="2">Marca/P-N o Modelo</th>
+						<th scope="col" rowspan="2">Serie Numero</th>
+						<th scope="col" rowspan="2">Orden de trabajo</th>
+						<th scope="col" rowspan="2">Fecha Instalado</th>
+						<th scope="col" rowspan="2">TT Componente</th>
+						<th scope="col" rowspan="2">H. DURG</th>
+						<th scope="col" colspan="2">Frecuencia</th>
+						<!-- <th scope="col" colspan="2">Vencimiento</th> -->
+						<th scope="col" colspan="2">Remanentes</th>
+					</tr>
+					<tr>
+						<th scope="col">Horas</th>
+						<th scope="col">Tiempo</th>
+						<!-- <th scope="col">Horas</th> -->
+						<!-- <th scope="col">Calendario</th> -->
+						<th scope="col">Horas</th>
+						<th scope="col">Calendario</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for componente in aeronave.getComponenteOrdenado %}
+					<tr>
+						<td>{{ componente.componente.nombre }}</td>
+						<td>{{ componente.componente.marca }}</td>
+						<td>{{ componente.componente.numSerie }}</td>
+						<td>OT- {{ componente.componente.id }}</td>
+						<td>{{ componente.componente.creado|date:"SHORT_DATE_FORMAT" }}</td>
+						<td>{{ componente.componente.hUtilizado }}:{{ componente.componente.mUtilizado }}</td>
+						<td>{{ componente.componente.hDurg }}:{{ componente.componente.mDurg }} </td>
+						<td>{{ componente.componente.hvUtil }}:{{ componente.componente.mvUtil }}</td>
+						<td>{{ componente.componente.estado }}</td>
+						<!-- <td>{{ componente.hRemanente }}:{{ componente.mRemanente }}</td> -->
+						<!-- <td>{{ componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</td> -->
+						<td>{{ componente.componente.hRemanente }}:{{ componente.componente.mRemanente }}</td>
+						<td>{{ componente.componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</td>					
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<br/>
+			<div align="center">
+				<br/>
+				<p>__________________________________</p>
+				<p>  FABIO SIERRA MARIN  </p>
+				<p>UAEAC-CDO-AA-021-1836  </p>
+			</div>
+
+{% endblock %}

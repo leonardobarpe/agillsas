@@ -3,41 +3,51 @@ from django.db import models
 from django.utils.timezone import now
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 
 class Componente(models.Model):
-	numSerie			= models.CharField(max_length=200, verbose_name="Numero de Serie")					# numero de serie del componente
-	nombre				= models.CharField(max_length=200, verbose_name="Nombre")							# nombre del componente
-	marca				= models.CharField(max_length=200, verbose_name="Marca")							# marca /P-N o Model del componente
-	fabricante			= models.CharField(max_length=200, verbose_name="Fabricante")						# fabricante del componente
-	fechaFabricacion	= models.DateField(verbose_name="Fecha de Fabricacion")								# fecha de fabricacion del componente 
-	fechaVencimiento	= models.DateField(verbose_name="Fecha de Vencimiento")								# fecha de vencimineto del componente
-	proveedor			= models.CharField(max_length=200, verbose_name="Proveedor")						# proveedor del componente
-	fechaingreso		= models.DateField(verbose_name="Fecha de Ingreso")									# fecha de ingreso del componente
-	descripcion			= RichTextField(verbose_name="Descripcion")											# descripcion del componente
-	hvUtil 				= models.IntegerField(verbose_name="Horas de vida util",null=True, blank=True)		# horas de vida util
-	mvUtil 				= models.IntegerField(verbose_name="Minutos de vida util",null=True, blank=True)	# minutos de vida util
-	hUtilizado			= models.IntegerField(verbose_name="Horas utilizado",null=True, blank=True)			# horas utilizado
-	mUtilizado			= models.IntegerField(verbose_name="Minutos utilizado",null=True, blank=True)		# minutos utilizado
-	hDurg				= models.IntegerField(verbose_name="Horas Durg",null=True, blank=True)				# horas durg
-	mDurg				= models.IntegerField(verbose_name="Minutos Durg",null=True, blank=True)			# minutos durg
-	hRemanente			= models.IntegerField(verbose_name="Horas Remanente",null=True, blank=True)			# horas remanete
-	mRemanente			= models.IntegerField(verbose_name="Minutos Remanente",null=True, blank=True)		# minutos remanete	
-	estado				= models.CharField(max_length=200, verbose_name="Estado")							# estado del componente (bodega, instalado, baja)
+	numSerie			= models.CharField(max_length=200, verbose_name="Numero de Serie")					
+	nombre				= models.CharField(max_length=200, verbose_name="Nombre")							
+	marca				= models.CharField(max_length=200, verbose_name="Marca /P-N o Modelo")							
+	fabricante			= models.CharField(max_length=200, verbose_name="Fabricante")						
+	fechaFabricacion	= models.DateField(verbose_name="Fecha de Fabricacion")								
+	fechaVencimiento	= models.DateField(verbose_name="Fecha de Vencimiento")								
+	proveedor			= models.CharField(max_length=200, verbose_name="Proveedor")						
+	fechaingreso		= models.DateField(verbose_name="Fecha de Ingreso")									
+	descripcion			= models.CharField(max_length=200, verbose_name="Descripcion",null=True, blank=True)
+	# -- Vida util --#
+	HORAS='h'
+	TIEMPO='t'
+	AMBOS='a'
+	opcVutil = (
+		(HORAS, 'Horas'),
+		(TIEMPO, 'Tiempo'),
+		(AMBOS, 'Ambos'),
+	)
+	vUtilOpc			= models.CharField(max_length=20, verbose_name="Vida Util", choices=opcVutil, default=HORAS)
+	vUtil				= models.DateField(verbose_name="Vida Util Calendario",null=True, blank=True)
+	hvUtil 				= models.IntegerField(verbose_name="Horas de vida util",null=True, blank=True, default=1)		
+	mvUtil 				= models.IntegerField(verbose_name="Minutos de vida util",null=True, blank=True)	
+	# -- -- #
+	hUtilizado			= models.IntegerField(verbose_name="Horas utilizado",null=True, blank=True)			
+	mUtilizado			= models.IntegerField(verbose_name="Minutos utilizado",null=True, blank=True)		
+	hDurg				= models.IntegerField(verbose_name="Horas Durg",null=True, blank=True)				
+	mDurg				= models.IntegerField(verbose_name="Minutos Durg",null=True, blank=True)			
+	hRemanente			= models.IntegerField(verbose_name="Horas Remanente",null=True, blank=True)			
+	mRemanente			= models.IntegerField(verbose_name="Minutos Remanente",null=True, blank=True)		
+	estado				= models.CharField(max_length=200, verbose_name="Estado")
 	# -- Auditoria -- #
-	creado				= models.DateTimeField(auto_now_add = True, null=True, blank=True)					# registra fecha al crearlo
-	actualizado			= models.DateTimeField(auto_now = True, null=True, blank=True)						# registra fecha al crearlo	creado
+	creado				= models.DateTimeField(auto_now_add = True, null=True, blank=True)
+	actualizado			= models.DateTimeField(auto_now = True, null=True, blank=True)
 
 
 	def horasRemanentes(self):
-		return self.hvUtil - self.hUtilizado
+		return self.hvUtil - self.hDurg
 
 	def porcentaUso(self):
-		return (self.hUtilizado * 100)/self.hvUtil
+		return (self.hDurg * 100)/self.hvUtil
 
-	# def horasDurg(self):
-	# 	return self.hUtilizado - self.horasRemanentes()
-		
 	# -- ADMIN --#
 	class Meta:
 		verbose_name = "Componente"					# nombre en el admin
@@ -52,7 +62,7 @@ class Componente(models.Model):
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 class Aeronave(models.Model):
-	placa				= models.CharField(max_length=200, verbose_name="Placa")								# placa de la aeronave
+	placa				= models.CharField(max_length=200, verbose_name="Matricula")								# placa de la aeronave
 	marca				= models.CharField(max_length=200, verbose_name="Marca")								# marca de la aeronave
 	modelo				= models.CharField(max_length=200, verbose_name="Modelo")								# modelo de la aeronave
 	tipo				= models.CharField(max_length=200, verbose_name="Tipo")									# tipo de la aeronave
@@ -65,6 +75,7 @@ class Aeronave(models.Model):
 	actualizado			= models.DateTimeField(auto_now = True, null=True, blank=True)							# Registra fecha al actualizarlo
 	# -- Llaves -- #
 	componente			= models.ManyToManyField(Componente, blank=True, verbose_name="Componentes")
+	ordenCom			= models.CharField(max_length=300, verbose_name="Orden componentes", null=True, blank=True)	# Orden en el que se selecionan los componentes
 	# -- ADMIN -- #
 	class Meta:
 		verbose_name = "Aeronave"						# Nombre en el admin
@@ -73,6 +84,9 @@ class Aeronave(models.Model):
 
 	def __str__(self):
 		return '%s %s %s' %(self.placa, "-", self.modelo) 		# valores que devuel al llamarlo en el views
+
+	def getComponenteOrdenado(self):
+		return self.componente.through.objects.filter(aeronave=self).order_by('id')
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #

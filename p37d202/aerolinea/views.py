@@ -31,6 +31,12 @@ from reportlab.pdfgen import canvas
 
 from easy_pdf.views import PDFTemplateView
 
+from easy_pdf.views import PDFTemplateResponseMixin
+from django.conf import settings
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+
 
 # Create your views here.
 
@@ -41,42 +47,52 @@ from easy_pdf.views import PDFTemplateView
 # 		return super(StaffRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 # -- Componentes -- #
-class componenteListView(ListView):
+
+@method_decorator(staff_member_required, name='dispatch')
+class componenteListView(LoginRequiredMixin,ListView):
 	model =	Componente
 	template_name = 'componente/componente_list.html'
 
-class componenteDetailView(DetailView):
+@method_decorator(staff_member_required, name='dispatch')
+class componenteDetailView(LoginRequiredMixin,DetailView):
 	model =	Componente
 	template_name = 'componente/componente_detail.html'
 
-class componenteCreateView(CreateView):
+@method_decorator(staff_member_required, name='dispatch')
+class componenteCreateView(LoginRequiredMixin,CreateView):
 	model = Componente
 	form_class = ComponenteCreateForm
 	template_name = 'componente/componente_form.html'
 	success_url = reverse_lazy('componente_list')
 
-class componenteUpdateView(UpdateView):
+@method_decorator(staff_member_required, name='dispatch')
+class componenteUpdateView(LoginRequiredMixin,UpdateView):
     model = Componente
+    form_class = ComponenteUpdateForm
     template_name = 'componente/componente_update_form.html'
-    fields = [
-	'nombre',	
-	'marca',	
-	'fabricante',	
-	'fechaFabricacion',
-	'fechaVencimiento',	
-	'proveedor',	
-	'fechaingreso',
-	'descripcion',
-    ]
+
     def get_success_url(self):
     	return reverse_lazy('componente_detail', args=[self.object.id]) + '?ok'
 
-class componenteDeleteView(DeleteView):
+@method_decorator(staff_member_required, name='dispatch')
+class componenteDeleteView(LoginRequiredMixin,DeleteView):
 	model = Componente
 	template_name = 'componente/componente_confirm_delete.html'
 	success_url = reverse_lazy('componente_list')
 
-
+@method_decorator(staff_member_required, name='dispatch')		
+class componentePDFDetailView(LoginRequiredMixin, PDFTemplateResponseMixin, DetailView):
+	model = Componente
+	template_name = 'componente/pdf_componente_detail.html'
+	
+	def get_context_data(self, **kwargs):
+		return super(componentePDFDetailView, self).get_context_data(
+				pagesize='A4 landscape',
+				title='Listado_aeronaves',
+				encoding =u"utf-8",
+				**kwargs
+				)
+@login_required
 def componenteDownExcel(request):
 
 	componentes = Componente.objects.all()
@@ -94,14 +110,17 @@ def componenteDownExcel(request):
 
 
 # **********************************************
+@login_required
 def componente_lista(request):
 	componentes = Componente.objects.all()
 	return render(request, 'componente/componente_lista.html', {'componentes': componentes})
 
+@login_required
 def componente_info(request, componente_id):
 	componente = get_object_or_404(Componente, id=componente_id)
 	return render(request, 'componente/componente_info.html', {'componente':componente})
 
+@login_required
 def componente_nuevo(request):
 	componente_form = Componente_formulario()
 	if request.method == "POST":
@@ -122,48 +141,39 @@ def componente_nuevo(request):
 
 # -- Aeronaves -- #
 
-class aeronaveListView(ListView):
+@method_decorator(staff_member_required, name='dispatch')
+class aeronaveListView(LoginRequiredMixin,ListView):
 	model =	Aeronave
 	template_name = 'aeronave/aeronave_list.html'
 
-class aeronaveDetailView(DetailView):
+@method_decorator(staff_member_required, name='dispatch')
+class aeronaveDetailView(LoginRequiredMixin,DetailView):
 	model =	Aeronave
 	template_name = 'aeronave/aeronave_detail.html'
 
-class aeronaveCreateView(CreateView):
+@method_decorator(staff_member_required, name='dispatch')
+class aeronaveCreateView(LoginRequiredMixin,CreateView):
 	model = Aeronave
+	form_class = AeronaveCreateForm
 	template_name = 'aeronave/aeronave_form.html'
-	fields = [
-	'placa',	
-	'marca',	
-	'modelo',	
-	'tipo',	
-	'descripcion',
-	'imagen',	
-	'hVuelo',	
-	'componente',
-	]
 	success_url = reverse_lazy('aeronave_list')
 
-class aeronaveUpdateView(UpdateView):
+@method_decorator(staff_member_required, name='dispatch')
+class aeronaveUpdateView(LoginRequiredMixin,UpdateView):
     model = Aeronave
+    form_class = AeronaveUpdateForm
     template_name = 'aeronave/aeronave_update_form.html'
-    fields = [
-	'marca',	
-	'modelo',	
-	'tipo',	
-	'descripcion',
-	'imagen',	
-	'componente',
-    ]
+
     def get_success_url(self):
     	return reverse_lazy('aeronave_detail', args=[self.object.id])+ '?ok'
 
-class aeronaveDeleteView(DeleteView):
+@method_decorator(staff_member_required, name='dispatch')
+class aeronaveDeleteView(LoginRequiredMixin,DeleteView):
 	model = Aeronave
 	template_name = 'aeronave/aeoronave_confirm_delete.html'
 	success_url = reverse_lazy('aeronave_list')
 
+@login_required
 def aeronaveDownExcel(request):
 	aeronaves = Aeronave.objects.all()
 
@@ -178,7 +188,8 @@ def aeronaveDownExcel(request):
 
 	return response
 
-class aeronaveReporteExcel(TemplateView):
+@method_decorator(staff_member_required, name='dispatch')
+class aeronaveReporteExcel(LoginRequiredMixin,TemplateView):
 	def get(self, request, *args, **kwargs):
 		aeronaves = Aeronave.objects.all()
 
@@ -222,30 +233,55 @@ class aeronaveReporteExcel(TemplateView):
 
 		return response
 
-class aeronavePDFListView(PDFTemplateView):
+@method_decorator(staff_member_required, name='dispatch')
+class aeronavePDFListView(LoginRequiredMixin,PDFTemplateView):
 	template_name = 'aeronave/pdf_aeronave_list.html'
 
+	def get_context_data(self, **kwargs):
+		return super(aeronavePDFListView, self).get_context_data(
+			pagesize='A4 landscape',
+			title='Listado_aeronaves',
+			**kwargs
+
+			)
+@method_decorator(staff_member_required, name='dispatch')		
+class aeronavePDFDetailView(LoginRequiredMixin, PDFTemplateResponseMixin, DetailView):
+	model = Aeronave
+	template_name = 'aeronave/pdf_aeronave_detail.html'
+	
+	def get_context_data(self, **kwargs):
+		return super(aeronavePDFDetailView, self).get_context_data(
+				pagesize='A4 landscape',
+				title='Detalle_aeronave',
+				encoding =u"utf-8",
+				**kwargs
+				)
+
 # ***************************
+@login_required
 def aeronave_lista(request):
 	aeronaves = Aeronave.objects.all()
 	return render(request, 'aeronave/aeronave_lista.html', {'aeronaves':aeronaves})
 
+@login_required
 def aeronave_info(request, aeronave_id):
 	aeronave = get_object_or_404(Aeronave, id=aeronave_id)
 	return render(request, 'aeronave/aeronave_info.html',{'aeronave':aeronave})
 
 # -- Vuelos -- #
 
-class vueloListView(ListView):
+@method_decorator(staff_member_required, name='dispatch')
+class vueloListView(LoginRequiredMixin,ListView):
 	model =	Vuelo
 	template_name = 'vuelo/vuelo_list.html' 
 
-class vueloDetailView(DetailView):
+@method_decorator(staff_member_required, name='dispatch')
+class vueloDetailView(LoginRequiredMixin,DetailView):
 	model =	Vuelo
 	template_name = 'vuelo/vuelo_detail.html'
 
 @method_decorator(staff_member_required, name='dispatch')
-class vueloCreateView(CreateView):
+class vueloCreateView(LoginRequiredMixin,CreateView):
 	model = Vuelo
 	form_class = VueloCreateForm
 	template_name = 'vuelo/vuelo_form.html'
@@ -265,8 +301,8 @@ class vueloCreateView(CreateView):
 			return self
 	success_url = reverse_lazy('vuelo_list')
 
-
-class vueloUpdateView(UpdateView):
+@method_decorator(staff_member_required, name='dispatch')
+class vueloUpdateView(LoginRequiredMixin,UpdateView):
     model = Vuelo
     template_name = 'vuelo/vuelo_update_form.html'
     fields = [
@@ -278,22 +314,26 @@ class vueloUpdateView(UpdateView):
     def get_success_url(self):
     	return reverse_lazy('vuelo_detail', args=[self.object.id]) + '?ok'
 
-class vueloDeleteView(DeleteView):
+@method_decorator(staff_member_required, name='dispatch')
+class vueloDeleteView(LoginRequiredMixin,DeleteView):
 	model = Vuelo
 	template_name = 'vuelo/vuelo_confirm_delete.html'
 	success_url = reverse_lazy('vuelo_list')
 
 # -- Orden -- #
 
-class ordenListView(ListView):
+@method_decorator(staff_member_required, name='dispatch')
+class ordenListView(LoginRequiredMixin,ListView):
 	model =	Orden
 	template_name = 'orden/orden_list.html'
 
-class ordenDetailView(DetailView):
+@method_decorator(staff_member_required, name='dispatch')
+class ordenDetailView(LoginRequiredMixin,DetailView):
 	model =	Orden
 	template_name = 'orden/orden_detail.html'
 
-class ordenCreateView(CreateView):
+@method_decorator(staff_member_required, name='dispatch')
+class ordenCreateView(LoginRequiredMixin,CreateView):
 	model = Orden
 	form_class = OrdenCreateForm
 	template_name = 'orden/orden_form.html'
@@ -303,23 +343,27 @@ class ordenCreateView(CreateView):
 		if self.object:
 			for component in self.object.componente.all():
 				component.hDurg = 0
+				component.mDurg = 0
 				component.save()
 			return super(ordenCreateView, self).form_valid(form)
 		else:
 			return self
 	success_url = reverse_lazy('orden_list')
 
-class ordenUpdateView(UpdateView):
+@method_decorator(staff_member_required, name='dispatch')
+class ordenUpdateView(LoginRequiredMixin,UpdateView):
 	model = Orden
 	form_class = OrdenUpdateForm
 	template_name = 'orden/orden_update_form.html'
 	def get_success_url(self):
 		return reverse_lazy('orden_detail', args=[self.object.id]) + '?ok'
 
-class ordenDeleteView(DeleteView):
+@method_decorator(staff_member_required, name='dispatch')
+class ordenDeleteView(LoginRequiredMixin,DeleteView):
 	model = Orden
 	template_name = 'orden/orden_confirm_delete.html'
 	success_url = reverse_lazy('orden_list')
 
-class ordenPDFListView(PDFTemplateView):
+@method_decorator(staff_member_required, name='dispatch')
+class ordenPDFListView(LoginRequiredMixin,PDFTemplateView):
 	template_name = 'orden/pdf_orden_list.html'

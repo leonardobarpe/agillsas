@@ -15,7 +15,7 @@
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 </head>
-<body style="background-color: c3c3c3;">
+<!-- <body style="background-color: c3c3c3;">
 <div class="container-fluid">
   <div class="jumbotron umbotron-fluid">
     <h1 class="display-4">AGILL SAS</h1>
@@ -32,12 +32,10 @@
             <p style="color:red">Usuario o contraseña incorrectos, prueba de nuevo.</p>
           {% endif %}
           <p>
-            <input type="text" name="username" autofocus maxlength="254" required
-              id="id_username" class="form-control" placeholder="Nombre de usuario"/>
+            <input type="text" name="username" autofocus maxlength="254" required id="id_username" class="form-control" placeholder="Nombre de usuario"/>
           </p>
           <p>
-            <input type="password" name="password" required
-              id="id_password" class="form-control" placeholder="Contraseña"/>
+            <input type="password" name="password" required id="id_password" class="form-control" placeholder="Contraseña"/>
           </p>
           <p><input type="submit" class="btn btn-primary btn-block" value="Acceder"></p>
         </form>
@@ -47,6 +45,56 @@
 </main>
     </p>
   </div>
-</div>  
+</div> -->
+<!--  -->
+<div class="row align-items-center">
+  <div class="container shadow-lg p-3 mb-5 bg-white rounded">
+    <div class="card mb-3">
+      <div class="card-body">
+        <p class="card-text">
+          <div class="row align-items-center">
+            {% if form.non_field_errors %}
+            <div class="col-12 p-3 mb-2 bg-danger text-white">Usuario o contraseña incorrectos, prueba de nuevo.</div>
+            {% endif %}        
+          </div>
+          <div class="row align-items-center">
+            <div class="col-4">
+              <img src="{% static 'core/img/logos/logoAgillSas.png' %}" alt="Inicio | Agillsas" class="img-thumbnail" height="192" width="200">
+            </div>
+            <div class="col-8">
+              <form action="" method="post">{% csrf_token %}
+                <div class="form-row align-items-center">
+                  <div class="col-auto">
+                    <div class="input-group mb-2">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-user"></i></div>
+                      </div>
+                      <input type="text" name="username" autofocus maxlength="254" required id="id_username" class="form-control" id="inlineFormInputGroup" placeholder="Usuario">
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <div class="input-group mb-2">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text"><i class="fas fa-key"></i></div>
+                      </div>
+                      <input type="password" name="password" required id="id_password" class="form-control" id="inlineFormInputGroup" placeholder="Contraseña">
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <button type="submit" class="btn btn-success mb-2">Iniciar Sesion</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 </body>
 </html>

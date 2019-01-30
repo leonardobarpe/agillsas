@@ -9,7 +9,12 @@ class ComponenteAdmin(admin.ModelAdmin):
 	search_fields = ('numSerie', 'nombre')   # PAra busqueda de campos de llaves foraneas se pone el nombre del modelo __ y el nombre del campo
 	date_hierarchy = 'creado'				# permite navegar entre fechas
 	# list_filter = ()						# por las llaves foraneas
-
+	# Inyectamos nuestro fichero css
+	class Media:
+		css = {
+		'all': ('core/css/custom_ckeditor.css',)
+		}
+        
 admin.site.register(Componente, ComponenteAdmin)
 admin.site.register(Aeronave)
 admin.site.register(Vuelo)
