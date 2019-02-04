@@ -121,6 +121,7 @@ class ComponenteUpdateForm(forms.ModelForm):
 			'vUtil': 'Vida util',
 		}		
 # -- Aeronave -- #
+
 class AeronaveCreateForm(forms.ModelForm):
 	class Meta:
 		model = Aeronave
@@ -151,6 +152,7 @@ class AeronaveCreateForm(forms.ModelForm):
 			'hVuelo': 		'Horas de vuelo',
 			'componente':	'Componentes',
 		}
+
 
 	# 'placa',				
 	# 'marca',				

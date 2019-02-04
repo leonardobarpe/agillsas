@@ -156,16 +156,50 @@ class aeronaveCreateView(LoginRequiredMixin,CreateView):
 	model = Aeronave
 	form_class = AeronaveCreateForm
 	template_name = 'aeronave/aeronave_form.html'
+
+	def form_valid(self, form):
+		self.object = form.save(self)
+		if self.object:
+			
+			ids = self.request.POST.getlist("componente")
+			components = Componente.objects.filter(pk__in=ids)
+			self.object.componente.clear()
+			for idC in ids:
+				for component in components:
+					if str(component.pk) == idC:
+						self.object.componente.add(component)
+						break
+			self.object.save()
+			return super(aeronaveCreateView, self).form_valid(form)
+		else:
+			return self
+
 	success_url = reverse_lazy('aeronave_list')
 
 @method_decorator(staff_member_required, name='dispatch')
 class aeronaveUpdateView(LoginRequiredMixin,UpdateView):
-    model = Aeronave
-    form_class = AeronaveUpdateForm
-    template_name = 'aeronave/aeronave_update_form.html'
+	model = Aeronave
+	form_class = AeronaveUpdateForm
+	template_name = 'aeronave/aeronave_update_form.html'
 
-    def get_success_url(self):
-    	return reverse_lazy('aeronave_detail', args=[self.object.id])+ '?ok'
+	def form_valid(self, form):
+		self.object = form.save(self)
+		if self.object:
+			ids = self.request.POST.getlist("componente")
+			components = Componente.objects.filter(pk__in=ids)
+			self.object.componente.clear()
+			for idC in ids:
+				for component in components:
+					if str(component.pk) == idC:
+						self.object.componente.add(component)
+						break
+			self.object.save()
+			return super(aeronaveUpdateView, self).form_valid(form)
+		else:
+			return self
+
+	def get_success_url(self):
+		return reverse_lazy('aeronave_detail', args=[self.object.id])+ '?ok'
 
 @method_decorator(staff_member_required, name='dispatch')
 class aeronaveDeleteView(LoginRequiredMixin,DeleteView):

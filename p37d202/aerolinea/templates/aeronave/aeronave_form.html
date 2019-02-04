@@ -1,5 +1,5 @@
 {% extends 'core/plantilla/base.html' %}
-{% block title %} Vuelo nuevo {% endblock %}
+{% block title %} Crear aeronave {% endblock %}
 {% block alerts %} {% endblock %}
 {% block content %}
 
@@ -7,16 +7,15 @@
 	<div class="card-header">
 		<div class="row">
 			<div class="col-sm">
-				<i class="fas fa-plane"></i><span> | Aeronave nuevo</span>
+				<i class="fas fa-plane"></i><span> | Crear aeronave</span>
 			</div>
 			<div class="col-sm">
-				<a class="btn btn-info float-right" href="{% url 'aeronave_list' %}" data-toggle="tooltip" data-placement="top" title="Ver aeronaves"><i class="fas fa-list"></i></a>
+				<a class="btn btn-outline-info btn-sm float-right" href="{% url 'aeronave_list' %}" data-toggle="tooltip" data-placement="top" title="Ver aeronaves"><small><i class="fas fa-list"></i> Ver</small></a>
 			</div>
 		</div>
 	</div>
-	<form action="" method="POST">{% csrf_token %}
+	<form id="form_data" action="" method="POST">{% csrf_token %}
 		<div class="card-body">
-			<!-- {{form.as_p}} -->
 			<div class="form-row">
 				<div class="col-sm">
 					<strong>{{ form.placa.label }}</strong>				
@@ -42,7 +41,7 @@
 					{{ form.tipo }}	
 					</br>
 					<strong>{{ form.hVuelo.label }}</strong>				
-					{{ form.hVuelo }}				
+					{{ form.hVuelo }}
 				</div>
 				<div class="col-sm">
 					<strong>{{ form.componente.label }}</strong>
@@ -52,40 +51,40 @@
 		</div>
 		<div class="card-footer">
 			<div class="btn-group">
-				<input type="submit" class="btn btn-outline-success btn-sm" value="Guardar">
+				<input type="submit" id="submit_form" class="btn btn-outline-success btn-sm" value="Guardar">
 				</form>
 			</div>
 		</div>
 	</form>
 </div>
+div> -->
+<script>
+	function getValues(){
+	var indexed = [];
+	$('#id_componente_chosen').find(".chosen-choices").find(".search-choice").each(function(){
+		indexed.push($(this).find(".search-choice-close").attr("data-option-array-index"));
+	}); 
+	var values = [];
+	for (var i = 0; i < indexed.length; i++) {
+		$("#id_componente").find("option").each(function(index){
+				if( index == parseInt(indexed[i])){
+					values.push($(this).attr("value"))
+				}
+		});
+	}
+	return values
+}
 
-<!-- <div class="card">
-	<div class="card-header bg-success text-white">
-		<div class="row">
-			<div class="col-sm">
-				<h5 class="h5">Aeronave nueva</h5>
-			</div>
-			<div class="col-sm">
-				<a class="btn btn-info float-right" href="{% url 'aeronave_list' %}" data-toggle="tooltip" data-placement="top" title="Ver aeronaves"><i class="fas fa-list"></i></a>
-			</div>
-		</div>
-	</div>
-	<div class="card-body">
-		<div class="form-group">
-			<form action="" method="POST">
-			{% csrf_token %}
-				<table>
-					{{form.as_table}}
-				</table>
-		</div>
-	</div>
-	<div class="card-footer">
-		<div class="btn-group">
-			<input type="submit" class="btn btn-outline-success btn-sm" value="Guardar">
-			</form>
-		</div>
-	</div>
-</div> -->
-
+$("#submit_form").click(function(event){
+	event.preventDefault()
+	var values = getValues()
+	var html = ""
+	for (var i = 0; i < values.length; i++) {
+		html+= "<option value='"+values[i]+"' selected='selected'> </option>"
+	}
+	$("#id_componente").html(html);
+	$("#form_data").submit()
+});
+</script>
 
 {% endblock %}

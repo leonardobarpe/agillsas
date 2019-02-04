@@ -14,7 +14,7 @@
 			</div>
 		</div>
 	</div>
-	<form action="" method="POST">{% csrf_token %}
+	<form action="" method="POST" id="form_data">{% csrf_token %}
 		<div class="card-body">
 			<!-- {{form.as_p}} -->
 			<div class="form-row">
@@ -71,48 +71,64 @@
 		</div>
 		<div class="card-footer">
 			<div class="btn-group">
-				<input type="submit" class="btn btn-outline-success btn-sm" value="Guardar">
+				<input id="submit_form"	type="submit" class="btn btn-outline-success btn-sm" value="Guardar">
 				</form>
 			</div>
 		</div>
 	</form>
 </div>
 <script>
-		$(function() {
-		$("#id_componente").click(function () {
-			var valor = $("#id_componente").val();
-			$("#id_ordenCom").val(valor);
+	$(document).ready(function(){
+		$('#id_componente_chosen').find(".chosen-choices").find(".search-choice").each(function(){
+			$(this).remove();
 		});
-	});
+		var valuesD =[]
+		$("#id_componente").find("option").each(function(index){
+			valuesD.push($(this).attr("value"))
+		});	
+		var htmlItems =[]; 
+		{% for componente in aeronave.getComponenteOrdenado %}
+			htmlItems.push('<li class="search-choice"><span>{{ componente.componente.numSerie }} - {{ componente.componente.nombre }}</span><a class="search-choice-close delete_search" data-option-array-index="'+valuesD.indexOf("{{ componente.componente.pk }}")+'"></a></li>');
+									
+		{% endfor %}
+
+		for (var i = htmlItems.length - 1; i >= 0; i--) {
+			
+			$('#id_componente_chosen').find(".chosen-choices").prepend(htmlItems[i]);
+		}
+		$(document).on("click",".delete_search",function(){
+			$(this).parent().remove()
+		})
+	})
+
+	function getValues(){
+	var indexed = [];
+	$('#id_componente_chosen').find(".chosen-choices").find(".search-choice").each(function(){
+		indexed.push($(this).find(".search-choice-close").attr("data-option-array-index"));
+
+	}); 
+	
+	var values = [];
+	for (var i = 0; i < indexed.length; i++) {
+		$("#id_componente").find("option").each(function(index){
+			if( index == parseInt(indexed[i])){
+				values.push($(this).attr("value"))
+			}
+		});
+	}
+	return values
+}
+
+$("#submit_form").click(function(event){
+	event.preventDefault()
+	var values = getValues()
+	var html = ""
+	for (var i = 0; i < values.length; i++) {
+		html+= "<option value='"+values[i]+"' selected='selected'> </option>"
+	}
+	$("#id_componente").html(html);
+	$("#form_data").submit()
+});
 </script>
-
-
-<!-- <div class="card">
-	<div class="card-header bg-success text-white">
-		<div class="row">
-			<div class="col-sm">
-				<h5 class="h5">Aeronave editar</h5>
-			</div>
-			<div class="col-sm">
-				<a class="btn btn-info float-right" href="{% url 'aeronave_list' %}" data-toggle="tooltip" data-placement="top" title="Ver aeronaves"><i class="fas fa-list"></i></a>
-			</div>
-		</div>
-	</div>
-	<div class="card-body">
-		<div class="form-group">
-			<form action="" method="POST">
-			{% csrf_token %}
-				<table>
-					{{form.as_table}}
-				</table>
-		</div>
-	</div>
-	<div class="card-footer">
-		<div class="btn-group">
-			<input type="submit" class="btn btn-outline-success btn-sm" value="Guardar">
-			</form>
-		</div>
-	</div>
-</div> -->
 
 {% endblock %}

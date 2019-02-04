@@ -2,6 +2,7 @@ from ckeditor.fields import RichTextField
 from django.db import models
 from django.utils.timezone import now
 from django.contrib.auth.models import User
+from django.db.models import *
 
 
 # Create your models here.
@@ -35,8 +36,10 @@ class Componente(models.Model):
 	hDurg				= models.IntegerField(verbose_name="Horas Durg",null=True, blank=True)				
 	mDurg				= models.IntegerField(verbose_name="Minutos Durg",null=True, blank=True)			
 	hRemanente			= models.IntegerField(verbose_name="Horas Remanente",null=True, blank=True)			
-	mRemanente			= models.IntegerField(verbose_name="Minutos Remanente",null=True, blank=True)		
+	mRemanente			= models.IntegerField(verbose_name="Minutos Remanente",null=True, blank=True)
+	porcenUso			= models.IntegerField(verbose_name="Porcentaje de uso",default=1)	
 	estado				= models.CharField(max_length=200, verbose_name="Estado")
+	alerta				= models.CharField(max_length=20, verbose_name="Alerta", default="No")
 	# -- Auditoria -- #
 	creado				= models.DateTimeField(auto_now_add = True, null=True, blank=True)
 	actualizado			= models.DateTimeField(auto_now = True, null=True, blank=True)
@@ -48,6 +51,7 @@ class Componente(models.Model):
 	def porcentaUso(self):
 		return (self.hDurg * 100)/self.hvUtil
 
+
 	# -- ADMIN --#
 	class Meta:
 		verbose_name = "Componente"					# nombre en el admin
@@ -56,13 +60,16 @@ class Componente(models.Model):
 
 	def __str__(self):
 		return '%s %s %s' %(self.numSerie, "-", self.nombre) 		# devuelve numero de serie - el nombre del componente
-	# -- Llaves -- #
+
+Componente.objects.all().update(
+	porcenUso = (F('hDurg')*100)/F('hvUtil'),
+)
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 
 class Aeronave(models.Model):
-	placa				= models.CharField(max_length=200, verbose_name="Matricula")								# placa de la aeronave
+	placa				= models.CharField(max_length=200, verbose_name="Matricula")							# placa de la aeronave
 	marca				= models.CharField(max_length=200, verbose_name="Marca")								# marca de la aeronave
 	modelo				= models.CharField(max_length=200, verbose_name="Modelo")								# modelo de la aeronave
 	tipo				= models.CharField(max_length=200, verbose_name="Tipo")									# tipo de la aeronave
@@ -70,6 +77,7 @@ class Aeronave(models.Model):
 	imagen				= models.ImageField(upload_to="Aeronave", verbose_name="Imagen", null=True, blank=True)	# imagen de la aeronave
 	hVuelo				= models.IntegerField(verbose_name="Horas de Vuelo", null=True, blank=True)				# horas de vuelo de la aeronave 
 	mVuelo				= models.IntegerField(verbose_name="Minutos de Vuelo", null=True, blank=True)			# minutos de vuelo de la aeronave
+	alerta				= models.CharField(max_length=20, verbose_name="Alerta", default="No")
 	# -- Auditoria -- 	#
 	creado				= models.DateTimeField(auto_now_add = True, null=True, blank=True)						# Registra fecha al crearlo
 	actualizado			= models.DateTimeField(auto_now = True, null=True, blank=True)							# Registra fecha al actualizarlo
