@@ -5,7 +5,7 @@
 	<div class="card-header">
 		<div class="row">
 			<div class="col-sm">
-				<i class="fas fa-cubes"></i><span> | Aeronaves</span>
+				<i class="fas fa-plane"></i><span> | Aeronaves</span>
 			</div>
 			<div class="col-sm">
 				<div class="float-right">
@@ -18,7 +18,7 @@
 		</div>
 	</div>	
 	<div class="card-body ">
-		<table  id="DataTable" class="table table-striped table-bordered table-hover">
+		<table  id="DataTable" class="compact table table-striped table-bordered table-hover">
 			<caption>Lista de aeronaves</caption>
 			<thead>
 				<tr>
@@ -32,7 +32,7 @@
 			<tbody>
 				{% for aeronave in aeronave_list %}
 				<tr>
-					<td><a href="{% url 'aeronave_detail' aeronave.id %}">{{ aeronave.placa }}</a></td>
+					<td>{{ aeronave.placa }}</td>
 					<td>{{ aeronave.marca }}</td>
 					<td>{{ aeronave.modelo }}</td>
 					<td>
@@ -54,9 +54,10 @@
 						</div>
 					</td>
 					<td>
-						<a class="badge badge-primary" href="{% url 'aeronave_update' aeronave.id %}" data-toggle="tooltip" data-placement="top" title="Editar aeronave"><i class="fas fa-edit"></i></a>
+						<a class="badge badge-primary" href="{% url 'aeronave_update' aeronave.id %}" data-toggle="tooltip" data-placement="top" title="Editar aeronave"><i class="fas fa-pencil-alt"></i></a>
 						<a class="badge badge-dark" href="{% url 'aeronave_pdf_detail' aeronave.id %}" target="_blank" data-toggle="tooltip" data-placement="top" title="PDF detalle de aeronave"><i class="far fa-file-pdf"></i></a>
 						<a class="badge badge-danger" href="{% url 'aeronave_delete' aeronave.id %}" data-toggle="tooltip" data-placement="top" title="Borrar aeronave"><i class="fas fa-trash-alt"></i></a>
+						<a class="badge badge-info" href="{% url 'aeronave_detail' aeronave.id %}" data-toggle="tooltip" data-placement="top" title="Ver detalles de la aeronave"><i class="fas fa-info-circle"></i></a>
 					</td>
 				</tr>
 				{% endfor %}

@@ -9,14 +9,13 @@
 			<div class="col-sm">
 				<i class="fas fa-plane"></i><span> | Aeronave editar</span>
 			</div>
-			<div class="col-sm">
-				<a class="btn btn-info float-right" href="{% url 'aeronave_list' %}" data-toggle="tooltip" data-placement="top" title="Ver aeronaves"><i class="fas fa-list"></i></a>
+			<div class="col-sm text-right">
+				<a class="btn btn-outline-info btn-sm" href="{% url 'aeronave_list' %}" data-toggle="tooltip" data-placement="top" title="Ver aeronaves"><small><i class="fas fa-list"></i> Ver</small></a>
 			</div>
 		</div>
 	</div>
 	<form action="" method="POST" id="form_data">{% csrf_token %}
 		<div class="card-body">
-			<!-- {{form.as_p}} -->
 			<div class="form-row">
 				<div class="col-sm">
 					<strong>{{ form.placa.label }}</strong>				

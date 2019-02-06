@@ -109,7 +109,7 @@ class Vuelo(models.Model):
 	creado				= models.DateTimeField(auto_now_add = True,null=True, blank=True)					# Registra fecha al crearlo
 	actualizado			= models.DateTimeField(auto_now = True)												# Registra fecha al crearlo
 	# -- Llaves --#
-	aeronave 			= models.ForeignKey(Aeronave, null=True, blank=True, on_delete=models.CASCADE)
+	aeronave 			= models.ForeignKey(Aeronave, on_delete=models.CASCADE)
 	# -- ADMIN -- #
 	class Meta:
 		verbose_name = "Vuelo"						# nombre en el admin
@@ -125,7 +125,7 @@ class Vuelo(models.Model):
 class Orden(models.Model):
 	ciudad			= models.CharField(max_length=200, verbose_name="Ciudad")
 	fecha 			= models.DateField(verbose_name="Fecha de Orden")
-	descripcion		= RichTextField(verbose_name="Descripcion")
+	descripcion		= models.TextField(verbose_name="Descripcion")
 	tecnico			= models.CharField(max_length=200, verbose_name="Tecnico")
 	dirCC			= models.CharField(max_length=200, verbose_name="Director control calidad")
 	# -- Auditoria -- #

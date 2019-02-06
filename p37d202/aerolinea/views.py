@@ -338,13 +338,8 @@ class vueloCreateView(LoginRequiredMixin,CreateView):
 @method_decorator(staff_member_required, name='dispatch')
 class vueloUpdateView(LoginRequiredMixin,UpdateView):
     model = Vuelo
+    form_class = VueloUpdateForm
     template_name = 'vuelo/vuelo_update_form.html'
-    fields = [
-	'origen',
-	'destino',
-	'horas',
-	'observaciones',
-    ]
     def get_success_url(self):
     	return reverse_lazy('vuelo_detail', args=[self.object.id]) + '?ok'
 

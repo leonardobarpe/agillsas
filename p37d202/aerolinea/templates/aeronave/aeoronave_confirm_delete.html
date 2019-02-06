@@ -2,14 +2,29 @@
 {% block title %} Aeronave - {{ aeronave.placa }} - {{ aeronave.nombre }} detalle {% endblock %}
 {% block content %}
 
-<div class="card">
-	<div class="card-header bg-primary text-white">
+<div class="row">
+	<div class="container-fluid text-center">
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<form method="post">{% csrf_token %}
+	    		<span class="font-italic">Seguro desea eliminar la aeronave:  </span> <strong>{{ aeronave.placa }} - {{ aeronave.modelo }}</strong> ?
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</br>
+				<input class="btn btn-outline-danger btn-sm mt-2" type="submit" value="Eliminar"/>
+			</form>
+		</div>
+	</div>
+</div>	
+
+<div class="card border-danger mb-3">
+	<div class="card-header">
 		<div class="row">
 			<div class="col-sm">
-				<h5 class="h5">Eliminar aeronave - {{ aeronave.placa }}</h5>
+				<i class="fas fa-plane"></i><span> | Eliminar la aeronave: <strong>{{ aeronave.placa }} - {{ aeronave.modelo }}</strong></span>
 			</div>
-			<div class="col-sm">
-				<a class="btn btn-info float-right" href="{% url 'aeronave_list' %}" data-toggle="tooltip" data-placement="top" title="Ver aeronaves"><i class="fas fa-list"></i></a>
+			<div class="col-sm text-right">
+				<a class="btn btn-outline-info btn-sm" href="{% url 'aeronave_list' %}" data-toggle="tooltip" data-placement="top" title="Ver aeronaves"><small><i class="fas fa-list"></i> Ver</small></a>
 			</div>
 		</div>	
 	</div>
@@ -63,13 +78,5 @@
 			</tbody>
 		</table>
 	</div>
-	<div class="alert alert-danger text-center" role="alert">
-		<form method="post">{% csrf_token %}
-		    <p>
-		    	<strong>Seguro desea eliminar la aeronave  {{ aeronave.placa }} ?</strong>
-		    </p>
-		    	<input class="btn btn-outline-danger btn-sm" type="submit" value="Borrar"/>
-		</form>
-	</div>	
 </div>
 {% endblock %}

@@ -3,23 +3,26 @@
 {% block content %}
 
 {% if 'ok' in request.GET %}
-<div class="container">
-<div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-  Orden de trabajo <strong>{{ orden.id }}</strong> editado correctamente !!
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+<div class="row">
+	<div class="container-fluid">
+		<div class="alert alert-success alert-dismissible text-center fade show" role="alert">
+			<span class="font-italic">Orden de trabajo </span><span class="font-weight-bold"> {{ orden.id }} {{ orden.aeronave }} </span><span class="font-italic">editado correctamente !!</span>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	</div>
 </div>
 {% endif %}
-<div class="card">
-	<div class="card-header bg-primary text-white">
+
+<div class="card border-success mb-3">
+	<div class="card-header">
 		<div class="row">
 			<div class="col-sm">
-				<h5 class="h5">Detalles de la orden de trabajo - {{ orden.id }}</h5>
+				<i class="fas fa-toolbox"></i><span> | Detalles de la orden de trabajo: <strong>{{ orden.id }} {{ orden.aeronave }}</strong></span>
 			</div>
-			<div class="col-sm">
-				<a class="btn btn-info float-right" href="{% url 'orden_list' %}" data-toggle="tooltip" data-placement="top" title="Ver ordenes de trabajo"><i class="fas fa-list"></i></a>
+			<div class="col-sm text-right">
+				<a class="btn btn-outline-info btn-sm" href="{% url 'orden_list' %}" data-toggle="tooltip" data-placement="top" title="Ver ordenes de trabajo"><small><i class="fas fa-list"></i> Ver</small></a>
 			</div>
 		</div>	
 	</div>

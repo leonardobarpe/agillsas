@@ -1,32 +1,63 @@
 {% extends 'core/plantilla/base.html' %}
-{% block title %} Vuelo nuevo {% endblock %}
+{% block title %}Crear vuelo {% endblock %}
 {% block alerts %} {% endblock %}
 {% block content %}
-<div class="card">
-	<div class="card-header bg-success text-white">
+
+<div class="card border-success mb-3">
+	<div class="card-header">
 		<div class="row">
 			<div class="col-sm">
-				<h5 class="h5">Vuelo nuevo</h5>
+				<i class="fas fa-plane-departure"></i><span> | Crear vuelo</span>
 			</div>
 			<div class="col-sm">
-				<a class="btn btn-info float-right" href="{% url 'vuelo_list' %}" data-toggle="tooltip" data-placement="top" title="Ver vuelos"><i class="fas fa-list"></i></a>
+				<a class="btn btn-outline-info btn-sm float-right" href="{% url 'vuelo_list' %}" data-toggle="tooltip" data-placement="top" title="Ver vuelos"><small><i class="fas fa-list"></i> Ver</small></a>
 			</div>
 		</div>
 	</div>
-	<div class="card-body">
-		<div class="container">
-			<form action="" method="POST">
-			{% csrf_token %}
-				<table>
-					{{form.as_table}}
-				</table>
+	<form action="" method="POST">{% csrf_token %}
+		<div class="card-body">
+			<div class="form-row">
+				<div class="col-sm">
+					<strong>{{form.fecha.label}}</strong>
+					{{form.fecha}}
+				</div>
+				<div class="col-sm">
+					<strong>{{form.origen.label}}</strong>
+					{{form.origen}}
+				</div>
+				<div class="col-sm">
+					<strong>{{form.destino.label}}</strong>
+					{{form.destino}}
+				</div>
+			</div>
+			</br>
+			<div class="form-row">
+				<div class="col-sm">
+					<strong>{{ form.aeronave.label }}</strong>
+					{{ form.aeronave }}
+				</div>
+				<div class="col-sm">
+					<strong>{{form.horas.label}}</strong>
+					{{form.horas}}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.minutos.label }}</strong>
+					{{ form.minutos }}
+				</div>
+			</div>
+			</br>
+			<div class="form-row">
+				<div class="col-sm">
+					<strong>{{form.observaciones.label}}</strong>
+					{{form.observaciones}}
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="card-footer">
-		<div class="btn-group">
-			<input type="submit" class="btn btn-outline-success btn-sm" value="Guardar">
-			</form>
+		<div class="card-footer">
+			<div class="btn-group">
+				<input type="submit" class="btn btn-sm btn-outline-success" value="Guardar">
+			</div>
 		</div>
-	</div>
+	</form>
 </div>
 {% endblock %}

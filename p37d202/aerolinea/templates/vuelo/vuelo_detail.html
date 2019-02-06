@@ -3,24 +3,26 @@
 {% block content %}
 
 {% if 'ok' in request.GET %}
-<div class="container">
-<div class="alert alert-success alert-dismissible fade show text-center" role="alert">
-  Vuelo <strong>{{ vuelo.id }}</strong> editado correctamente !!
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+<div class="row">
+	<div class="container-fluid">
+		<div class="alert alert-success alert-dismissible text-center fade show" role="alert">
+			<span class="font-italic">Vuelo </span><span class="font-weight-bold"> {{ vuelo.id }} </span><span class="font-italic">editado correctamente !!</span>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	</div>
 </div>
 {% endif %}
 
-<div class="card">
-	<div class="card-header bg-primary text-white">
+<div class="card border-success mb-3">
+	<div class="card-header">
 		<div class="row">
 			<div class="col-sm">
-				<h5 class="h5">Detalles del vuelo - {{ vuelo.id }}</h5>
+				<i class="fas fa-plane-departure"></i><span> | Detalles del vuelo: <strong>{{ vuelo.id }} - {{ vuelo.aeronave }}</strong></span>
 			</div>
-			<div class="col-sm">
-				<a class="btn btn-info float-right" href="{% url 'vuelo_list' %}" data-toggle="tooltip" data-placement="top" title="Ver vuelos"><i class="fas fa-list"></i></a>
+			<div class="col-sm text-right">
+				<a class="btn btn-outline-info btn-sm" href="{% url 'vuelo_list' %}" data-toggle="tooltip" data-placement="top" title="Ver vuelos"><small><i class="fas fa-list"></i> Ver</small></a>
 			</div>
 		</div>
 	</div>
@@ -39,6 +41,10 @@
 				<tr>
 					<th scope="row" class="bg-info text-white text-right">Destino:</th>
 					<td>{{ vuelo.destino }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Aeronave:</th>
+					<td>{{ vuelo.aeronave }}</td>
 				</tr>
 				<tr>
 					<th scope="row" class="bg-info text-white text-right">Horas de vuelo:</th>

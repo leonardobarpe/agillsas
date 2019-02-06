@@ -4,6 +4,7 @@ from ckeditor.widgets import CKEditorWidget
 from .models import *
 
 # -- Componente -- #
+
 class ComponenteCreateForm(forms.ModelForm):
 	class Meta:
 		model = Componente
@@ -120,6 +121,7 @@ class ComponenteUpdateForm(forms.ModelForm):
 			'hDurg': 'Horas DURG',
 			'vUtil': 'Vida util',
 		}		
+
 # -- Aeronave -- #
 
 class AeronaveCreateForm(forms.ModelForm):
@@ -153,17 +155,6 @@ class AeronaveCreateForm(forms.ModelForm):
 			'componente':	'Componentes',
 		}
 
-
-	# 'placa',				
-	# 'marca',				
-	# 'modelo',				
-	# 'tipo',				
-	# 'descripcion',			
-	# 'imagen',				
-	# 'hVuelo',				
-	# 'mVuelo',				
-	# 'componente',			
-
 class AeronaveUpdateForm(forms.ModelForm):
 	class Meta:
 		model = Aeronave
@@ -196,6 +187,7 @@ class AeronaveUpdateForm(forms.ModelForm):
 		}
 
 # -- Vuelo -- #
+
 class VueloCreateForm(forms.ModelForm):
 	class Meta:
 		model = Vuelo
@@ -209,33 +201,54 @@ class VueloCreateForm(forms.ModelForm):
 			'aeronave',
 		]
 		widgets = {
-			'fecha': forms.DateInput(attrs={'class':'form-control form-control-sm','type':'date'}),
+			'fecha': forms.DateInput(attrs={'class':'datepicker form-control form-control-sm'}),
 			'origen': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 			'destino': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
-			'horas': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
-			'minutos': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
-			'observaciones': forms.Textarea(attrs={'class':'form-control form-control-sm'}),
-			'aeronave': forms.Select(attrs={'class':'form-control form-control-sm','type':'date'}),
+			'horas': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+			'minutos': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+			'observaciones': forms.Textarea(attrs={'class':'form-control form-control-sm', 'rows':'5'}),
+			'aeronave': forms.Select(attrs={'class':'form-control form-control-sm chosen-select '}),
 		}
 		labels = {
-
+			'fecha':			'Fecha',
+			'origen':			'Origen', 
+			'destino':			'Destino', 
+			'horas':			'Horas', 
+			'minutos':			'Minutos', 
+			'observaciones':	'Observaciones', 
+			'aeronave':			'Aeronave', 
 		}
 
-
-# class Vuelo(models.Model):
-# 	fecha				= models.DateField(verbose_name="Fecha de vuelo")									# Fecha del vuelo
-# 	origen				= models.CharField(max_length=200, verbose_name="Origen")							# Sitio de origen del vuelo
-# 	destino				= models.CharField(max_length=200, verbose_name="Destino")							# Sitio de destino del vuelo
-# 	horas				= models.CharField(max_length=200, verbose_name="Horas de vuelo", null=True)		# Horas de vuelo
-# 	minutos				= models.CharField(max_length=200, verbose_name="Minutos de vuelo", null=True)		# minutos de vuelo
-# 	observaciones		= models.TextField(verbose_name="Observaciones", null=True)							# Observaciones del vuelo
-# 	# -- Auditoria -- #
-# 	creado				= models.DateTimeField(auto_now_add = True,null=True, blank=True)					# Registra fecha al crearlo
-# 	actualizado			= models.DateTimeField(auto_now = True)												# Registra fecha al crearlo
-# 	# -- Llaves --#
-# 	aeronave 			= models.ForeignKey(Aeronave, null=True, blank=True, on_delete=models.CASCADE)
-
-
+class VueloUpdateForm(forms.ModelForm):
+	class Meta:
+		model = Vuelo
+		fields = [
+			'fecha',
+			'origen',
+			'destino',
+			'horas',
+			'minutos',
+			'observaciones',
+			'aeronave',
+		]
+		widgets = {
+			'fecha': forms.DateInput(attrs={'class':'datepicker form-control form-control-sm'}),
+			'origen': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+			'destino': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+			'horas': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+			'minutos': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+			'observaciones': forms.Textarea(attrs={'class':'form-control form-control-sm', 'rows':'5'}),
+			'aeronave': forms.Select(attrs={'class':'form-control form-control-sm chosen-select '}),
+		}
+		labels = {
+			'fecha':			'Fecha',
+			'origen':			'Origen', 
+			'destino':			'Destino', 
+			'horas':			'Horas', 
+			'minutos':			'Minutos', 
+			'observaciones':	'Observaciones', 
+			'aeronave':			'Aeronave', 
+		}		
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class OrdenCreateForm(forms.ModelForm):
 	class Meta:
@@ -251,11 +264,11 @@ class OrdenCreateForm(forms.ModelForm):
 		]
 		widgets = {
 			'ciudad': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
-			'fecha': forms.DateInput(attrs={'class':'form-control form-control-sm','type':'date'}),
-			'descripcion': forms.Textarea(attrs={'class':'form-control form-control-sm'}),
+			'fecha': forms.DateInput(attrs={'class':'datepicker form-control form-control-sm'}),
+			'descripcion': forms.Textarea(attrs={'class':'form-control form-control-sm', 'rows':'5'}),
 			'tecnico': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 			'dirCC':forms.TextInput(attrs={'class':'form-control form-control-sm'}),
-			'aeronave': forms.Select(attrs={'class':'chosen-select'}),
+			'aeronave': forms.Select(attrs={'class':'form-control form-control-sm chosen-select'}),
 			'componente':forms.SelectMultiple(attrs={'class':'chosen-select'}),
 		}
 		labels = {
@@ -282,12 +295,12 @@ class OrdenUpdateForm(forms.ModelForm):
 		]
 		widgets = {
 			'ciudad': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
-			'fecha': forms.DateInput(attrs={'class':'form-control form-control-sm','type':'date'}),
-			'descripcion': forms.Textarea(attrs={'class':'form-control form-control-sm'}),
+			'fecha': forms.DateInput(attrs={'class':'datepicker form-control form-control-sm'}),
+			'descripcion': forms.Textarea(attrs={'class':'form-control form-control-sm', 'rows':'5'}),
 			'tecnico': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 			'dirCC':forms.TextInput(attrs={'class':'form-control form-control-sm'}),
-			'aeronave': forms.Select(attrs={'class':'form-control form-control-sm'}),
-			'componente':forms.SelectMultiple(attrs={'class':'form-control form-control-sm'}),
+			'aeronave': forms.Select(attrs={'class':'form-control form-control-sm chosen-select'}),
+			'componente':forms.SelectMultiple(attrs={'class':'chosen-select'}),
 		}
 		labels = {
 			'ciudad':'Ciudad',
@@ -298,22 +311,6 @@ class OrdenUpdateForm(forms.ModelForm):
 			'aeronave':'Aeronave',
 			'componente':'Componente(s)',
 		}
-
-
-	# ciudad			= models.CharField(max_length=200, verbose_name="Ciudad")
-	# fecha 			= models.DateField(verbose_name="Fecha de Orden")
-	# descripcion		= models.TextField(verbose_name="Descripcion", null=True, blank=True)
-	# tecnico			= models.CharField(max_length=200, verbose_name="Tecnico")
-	# dirCC			= models.CharField(max_length=200, verbose_name="Director control calidad")
-	# # -- Auditoria -- #
-	# creado				= models.DateTimeField(auto_now_add = True,null=True, blank=True)
-	# actualizado			= models.DateTimeField(auto_now = True)	
-	# # -- Llaves --#
-	# aeronave 		= models.ForeignKey(Aeronave, verbose_name="Aeronave", on_delete=models.CASCADE)
-	# componente		= models.ManyToManyField(Componente, blank=True, verbose_name="Componente(s)")
-
-
-
 
 
 # ***********************************************************************************
