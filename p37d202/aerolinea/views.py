@@ -285,12 +285,11 @@ class aeronavePDFDetailView(LoginRequiredMixin, PDFTemplateResponseMixin, Detail
 	
 	def get_context_data(self, **kwargs):
 		return super(aeronavePDFDetailView, self).get_context_data(
-				pagesize='A4 landscape',
-				title='Detalle_aeronave',
-				encoding =u"utf-8",
-				**kwargs
-				)
-
+			pagesize='A4 landscape',
+			title='Detalle_aeronave',
+			encoding =u"utf-8",
+			**kwargs,
+		)
 # ***************************
 @login_required
 def aeronave_lista(request):

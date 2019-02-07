@@ -15,7 +15,7 @@ class Componente(models.Model):
 	fechaFabricacion	= models.DateField(verbose_name="Fecha de Fabricacion")								
 	fechaVencimiento	= models.DateField(verbose_name="Fecha de Vencimiento")								
 	proveedor			= models.CharField(max_length=200, verbose_name="Proveedor")						
-	fechaingreso		= models.DateField(verbose_name="Fecha de Ingreso")									
+	fechaingreso		= models.DateField(verbose_name="Fecha de Instalacion")									
 	descripcion			= models.CharField(max_length=200, verbose_name="Descripcion",null=True, blank=True)
 	# -- Vida util --#
 	HORAS='h'
