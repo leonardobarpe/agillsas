@@ -75,14 +75,14 @@ th, td {
 						<td>{{ componente.componente.marca }}</td>
 						<td>{{ componente.componente.numSerie }}</td>
 						<td>OT- {{ componente.componente.id }}</td>
-						<td>{{ componente.componente.creado|date:"SHORT_DATE_FORMAT" }}</td>
+						<td>{{ componente.componente.actualizado|date:"SHORT_DATE_FORMAT" }}</td>
 						<td>{{ componente.componente.hUtilizado }}:{{ componente.componente.mUtilizado }}</td>
 						<td>{{ componente.componente.hDurg }}:{{ componente.componente.mDurg }} </td>
 						<td>{{ componente.componente.hvUtil }}:{{ componente.componente.mvUtil }}</td>
 						<td>{{ componente.componente.estado }}</td>
 						<!-- <td>{{ componente.componente.hRemanente }}:{{ componente.componente.mRemanente }}</td> -->
 						<!-- <td>{{ componente.componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</td> -->
-						<td>{{ componente.componente.hRemanente }}:{{ componente.componente.mRemanente }}</td>
+						<td>{{ componente.componente.horasRemanentes }}:{{ componente.componente.mRemanente }}</td>
 						<td>{{ componente.componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</td>					
 					</tr>
 					{% endfor %}

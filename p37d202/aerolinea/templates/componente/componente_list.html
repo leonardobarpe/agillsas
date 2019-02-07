@@ -32,7 +32,6 @@
 					<th scope="col">H. Remanente</th>
 					<th scope="col">Uso %</th>
 					<th scope="col">Fecha Vence</th>
-					<th scope="col">Aeronave</th>
 					<th scope="col">Opciones</th>
 				</tr>
 			</thead>
@@ -46,9 +45,8 @@
 					<td class="text-center">{{ componente.hUtilizado }}</td>
 					<td class="text-center">{{ componente.hDurg }}</td>
 					<td class="text-center">{{ componente.horasRemanentes }}</td>
-					<td class="text-center"><span class="badge {% if componente.porcenUso >= 70 %} badge-danger {% endif %}">{{ componente.porcenUso|floatformat:2 }}</span></td>
+					<td class="text-center"><span class="badge {% if componente.porcentaUso >= 90 %} badge-danger {% endif %}">{{ componente.porcentaUso|floatformat:2 }}</span></td>
 					<td class="text-center"><span class="badge">{{ componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</span></td>
-					<td class="text-center">{{ aeronave.componente }}</td>
 					<td class="text-center">
 						<a class="badge badge-primary" href="{% url 'componente_update' componente.id %}" data-toggle="tooltip" data-placement="top" title="Editar componente"><i class="fas fa-pencil-alt"></i></a>
 						<a class="badge badge-dark" href="{% url 'componente_pdf_detail' componente.id %}" target="_blank" data-toggle="tooltip" data-placement="top" title="PDF detalle de componente"><i class="far fa-file-pdf"></i></a>

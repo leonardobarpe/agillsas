@@ -63,6 +63,7 @@ class Componente(models.Model):
 
 Componente.objects.all().update(
 	porcenUso = (F('hDurg')*100)/F('hvUtil'),
+	hRemanente = F('hvUtil') - F('hDurg'),
 )
 
 

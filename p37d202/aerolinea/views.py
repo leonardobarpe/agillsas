@@ -329,6 +329,10 @@ class vueloCreateView(LoginRequiredMixin,CreateView):
 				component.hUtilizado += horas
 				component.mUtilizado += minutos
 				component.hDurg += horas
+				component.hRemanente = component.hvUtil - component.hDurg
+				component.porcenUso = (component.hDurg * 100)/component.hvUtil
+				if component.porcenUso >= 90:
+					component.alerta = "Si"
 				component.save()
 			return super(vueloCreateView, self).form_valid(form)
 		else:
