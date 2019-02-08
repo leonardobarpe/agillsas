@@ -46,10 +46,10 @@
 					<button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i> 
 					</button>
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						{% for componente in  componente_alerta %}
-							{% for aeronave in  componente.aeronave_set.all %}
+						{% for componente in componente_alerta %}
+							{% for aeronave in componente.aeronave_set.all %}
 								<a class="dropdown-item" href="{% url 'aeronave_detail' aeronave.id %}"> {{ aeronave.placa }} - {{ aeronave.modelo }} </a>
-								{%if componente.alerta == "Si" %} 
+								{% if componente.alerta == "Si" %}
 									<script>
 										$("#dropdownMenuButton").attr("class","btn btn-warning btn-sm dropdown-toggle");
 									</script>

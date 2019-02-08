@@ -24,6 +24,9 @@
 			<thead>
 				<tr>
 					<th scope="col">Num. serie</th>
+					<th scope="col">Id.</th>
+					{# <th scope="col">Fecha alerta</th> #}
+					{# <th scope="col">alerta</th> #}
 					<th scope="col">Nombre</th>
 					<th scope="col">Marca</th>
 					<th scope="col">H.Vida util</th>
@@ -32,13 +35,17 @@
 					<th scope="col">H. Remanente</th>
 					<th scope="col">Uso %</th>
 					<th scope="col">Fecha Vence</th>
+					<th scope="col">Aeronave</th>
 					<th scope="col">Opciones</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for componente in componente_list %}	
 				<tr>
-					<td>{{ componente.numSerie }}</a></td>
+					<td>{{ componente.numSerie }}</td>
+					<td>{{ componente.id }}</td>
+					{# <td>{{ componente.alertaFecha }}</td> #}
+					{# <td>{{ componente.alerta }}</td> #}
 					<td>{{ componente.nombre }}</td>
 					<td>{{ componente.marca }}</td>
 					<td class="text-center">{{ componente.hvUtil }}</td>
@@ -46,7 +53,9 @@
 					<td class="text-center">{{ componente.hDurg }}</td>
 					<td class="text-center">{{ componente.horasRemanentes }}</td>
 					<td class="text-center"><span class="badge {% if componente.porcentaUso >= 90 %} badge-danger {% endif %}">{{ componente.porcentaUso|floatformat:2 }}</span></td>
-					<td class="text-center"><span class="badge">{{ componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</span></td>
+					<td class="text-center"><span class="badge {% if componente.alertaFecha == "Si" %} badge-danger {% endif %}">{{ componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</span>
+					</td>
+					<td class="text-center">{{ componente.horasRemanentes }}</td>
 					<td class="text-center">
 						<a class="badge badge-primary" href="{% url 'componente_update' componente.id %}" data-toggle="tooltip" data-placement="top" title="Editar componente"><i class="fas fa-pencil-alt"></i></a>
 						<a class="badge badge-dark" href="{% url 'componente_pdf_detail' componente.id %}" target="_blank" data-toggle="tooltip" data-placement="top" title="PDF detalle de componente"><i class="far fa-file-pdf"></i></a>

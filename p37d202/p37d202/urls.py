@@ -80,12 +80,13 @@ urlpatterns = [
     path('orden/ordenUpdateView/<int:pk>/',aerolinea_views.ordenUpdateView.as_view(), name = 'orden_update'),
     path('orden/ordenDeleteView/<int:pk>/',aerolinea_views.ordenDeleteView.as_view(), name = 'orden_delete'),
     path('orden/ordenPDFListView/',aerolinea_views.ordenPDFListView.as_view(), name = 'orden_pdf_list'),
+    path('orden/ordenPDFDetailView/<int:pk>/',aerolinea_views.ordenPDFDetailView.as_view(), name = 'orden_pdf_detail'),
 
 ]
 
 if settings.DEBUG:
-	from django.conf.urls.static import static
-	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Nombre del encabezado del admin
 admin.site.site_header = 'Administrador - Agillsas'

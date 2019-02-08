@@ -37,7 +37,7 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required, permission_required
 
-
+from datetime import date
 # Create your views here.
 
 # class StaffRequiredMixin(object):
@@ -63,16 +63,47 @@ class componenteCreateView(LoginRequiredMixin,CreateView):
 	model = Componente
 	form_class = ComponenteCreateForm
 	template_name = 'componente/componente_form.html'
+	
+	def form_valid(self, form):
+		self.object = form.save(self)
+		if self.object:
+			fechaSis =  date.today()
+			fechaVence = self.object.fechaVencimiento
+			r = (fechaVence-fechaSis).days
+			# print(r)
+			if r >= 30:
+				self.object.alertaFecha	= "No"
+			if r <= 30:
+				self.object.alertaFecha	= "Si"
+			self.object.save()
+			return super(componenteCreateView, self).form_valid(form)
+		else:
+			return self
 	success_url = reverse_lazy('componente_list')
 
 @method_decorator(staff_member_required, name='dispatch')
 class componenteUpdateView(LoginRequiredMixin,UpdateView):
-    model = Componente
-    form_class = ComponenteUpdateForm
-    template_name = 'componente/componente_update_form.html'
+	model = Componente
+	form_class = ComponenteUpdateForm
+	template_name = 'componente/componente_update_form.html'
 
-    def get_success_url(self):
-    	return reverse_lazy('componente_detail', args=[self.object.id]) + '?ok'
+	def form_valid(self, form):
+		self.object = form.save(self)
+		if self.object:
+			fechaSis =  date.today()
+			fechaVence = self.object.fechaVencimiento
+			r = (fechaVence-fechaSis).days
+			if r>=30:
+				self.object.alertaFecha="No"
+			if r<=30:
+				self.object.alertaFecha="Si"
+			self.object.save()
+			return super(componenteUpdateView, self).form_valid(form)
+		else:
+			return self
+
+	def get_success_url(self):
+		return reverse_lazy('componente_detail', args=[self.object.id]) + '?ok'
 
 @method_decorator(staff_member_required, name='dispatch')
 class componenteDeleteView(LoginRequiredMixin,DeleteView):
@@ -107,7 +138,6 @@ def componenteDownExcel(request):
 		writer.writerow([componente.numSerie, componente.nombre, componente.marca])
 
 	return response
-
 
 # **********************************************
 @login_required
@@ -332,6 +362,8 @@ class vueloCreateView(LoginRequiredMixin,CreateView):
 				component.porcenUso = (component.hDurg * 100)/component.hvUtil
 				if component.porcenUso >= 90:
 					component.alerta = "Si"
+				if component.porcenUso < 90:
+					component.alerta = "No"
 				component.save()
 			return super(vueloCreateView, self).form_valid(form)
 		else:
@@ -340,11 +372,12 @@ class vueloCreateView(LoginRequiredMixin,CreateView):
 
 @method_decorator(staff_member_required, name='dispatch')
 class vueloUpdateView(LoginRequiredMixin,UpdateView):
-    model = Vuelo
-    form_class = VueloUpdateForm
-    template_name = 'vuelo/vuelo_update_form.html'
-    def get_success_url(self):
-    	return reverse_lazy('vuelo_detail', args=[self.object.id]) + '?ok'
+	model = Vuelo
+	form_class = VueloUpdateForm
+	template_name = 'vuelo/vuelo_update_form.html'
+
+	def get_success_url(self):
+		return reverse_lazy('vuelo_detail', args=[self.object.id]) + '?ok'
 
 @method_decorator(staff_member_required, name='dispatch')
 class vueloDeleteView(LoginRequiredMixin,DeleteView):
@@ -396,6 +429,15 @@ class ordenDeleteView(LoginRequiredMixin,DeleteView):
 	template_name = 'orden/orden_confirm_delete.html'
 	success_url = reverse_lazy('orden_list')
 
+@method_decorator(staff_member_required, name='dispatch')		
+class ordenPDFDetailView(LoginRequiredMixin, PDFTemplateResponseMixin, DetailView):
+	model = Orden
+	template_name = 'orden/pdf_orden_detail.html'
+	
+	def get_context_data(self, **kwargs):
+		return super(ordenPDFDetailView, self).get_context_data( pagesize='A4 landscape', title='Listado_aeronaves', encoding =u"utf-8", **kwargs )
+
 @method_decorator(staff_member_required, name='dispatch')
 class ordenPDFListView(LoginRequiredMixin,PDFTemplateView):
 	template_name = 'orden/pdf_orden_list.html'
+

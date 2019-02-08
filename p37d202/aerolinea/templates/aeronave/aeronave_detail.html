@@ -63,7 +63,7 @@
 					<th scope="row" class="bg-info text-white text-right">Componentes:</th>
 					<td>
 					{% for componente in aeronave.componente.all %}
-						<span {% if componente.alerta == "Si" %} class="bg-danger text-white" {% endif %}> {{ componente.numSerie }} - {{ componente.nombre }}</span>{% if not forloop.last %}, {% endif %}
+						<span {% if componente.alerta == "Si" or componente.alertaFecha == "Si" %} class="bg-danger text-white" {% endif %}> {{ componente.numSerie }} - {{ componente.nombre }}</span>{% if not forloop.last %}, {% endif %}
 					{% endfor %}
 					</td>
 				</tr>

@@ -40,6 +40,8 @@ class Componente(models.Model):
 	porcenUso			= models.IntegerField(verbose_name="Porcentaje de uso",default=1)	
 	estado				= models.CharField(max_length=200, verbose_name="Estado")
 	alerta				= models.CharField(max_length=20, verbose_name="Alerta", default="No")
+	alertaFecha			= models.CharField(max_length=20, verbose_name="Alerta fecha", default="No")
+	ordenTrabajo		= models.CharField(max_length=20, verbose_name="Orden Trabajo", default="777")
 	# -- Auditoria -- #
 	creado				= models.DateTimeField(auto_now_add = True, null=True, blank=True)
 	actualizado			= models.DateTimeField(auto_now = True, null=True, blank=True)
@@ -51,6 +53,10 @@ class Componente(models.Model):
 	def porcentaUso(self):
 		return (self.hDurg * 100)/self.hvUtil
 
+	def asignado(self):
+		return self.aeronave.all().count() > 0
+
+		
 
 	# -- ADMIN --#
 	class Meta:
@@ -59,7 +65,7 @@ class Componente(models.Model):
 		ordering = ['-creado']						# orden en el admin (por defecto es antiguo al nuevo) con el - lo hace al inverso
 
 	def __str__(self):
-		return '%s %s %s' %(self.numSerie, "-", self.nombre) 		# devuelve numero de serie - el nombre del componente
+		return '%s %s %s %s %s' %(self.numSerie, "-", self.id, "-", self.nombre,) 		# devuelve numero de serie - el nombre del componente
 
 Componente.objects.all().update(
 	porcenUso = (F('hDurg')*100)/F('hvUtil'),
@@ -79,12 +85,12 @@ class Aeronave(models.Model):
 	hVuelo				= models.IntegerField(verbose_name="Horas de Vuelo", null=True, blank=True)				# horas de vuelo de la aeronave 
 	mVuelo				= models.IntegerField(verbose_name="Minutos de Vuelo", null=True, blank=True)			# minutos de vuelo de la aeronave
 	alerta				= models.CharField(max_length=20, verbose_name="Alerta", default="No")
+	ordenCom			= models.CharField(max_length=300, verbose_name="Orden componentes", null=True, blank=True)	# Orden en el que se selecionan los componentes
 	# -- Auditoria -- 	#
 	creado				= models.DateTimeField(auto_now_add = True, null=True, blank=True)						# Registra fecha al crearlo
 	actualizado			= models.DateTimeField(auto_now = True, null=True, blank=True)							# Registra fecha al actualizarlo
 	# -- Llaves -- #
 	componente			= models.ManyToManyField(Componente, blank=True, verbose_name="Componentes")
-	ordenCom			= models.CharField(max_length=300, verbose_name="Orden componentes", null=True, blank=True)	# Orden en el que se selecionan los componentes
 	# -- ADMIN -- #
 	class Meta:
 		verbose_name = "Aeronave"						# Nombre en el admin

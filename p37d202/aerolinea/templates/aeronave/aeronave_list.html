@@ -42,8 +42,8 @@
 								<div class="card card-body">
 									<a class="list-group-item list-group-item-info"><span class="font-weight-bold">Num. serie - Nombre - % Uso - Fecha Vence</span></a>
 									{% for componente in aeronave.getComponenteOrdenado %}
-										<a class="list-group-item {%if componente.componente.alerta == "Si" %} bg-danger text-white {% endif %}"  href="{% url 'componente_info' componente.componente.id %}">{{ componente.componente..numSerie }} - {{ componente.componente.nombre }} - {{ componente.componente.porcenUso|floatformat:2 }} % - {{ componente.componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</span></a>
-										{%if componente.componente.alerta == "Si" %}
+										<a class="list-group-item {%if componente.componente.alerta == "Si" or componente.componente.alertaFecha == "Si" %} bg-danger text-white {% endif %}"  href="{% url 'componente_info' componente.componente.id %}">{{ componente.componente..numSerie }} - {{ componente.componente.nombre }} - {{ componente.componente.porcenUso|floatformat:2 }} % - {{ componente.componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</span></a>
+										{%if componente.componente.alerta == "Si" or componente.componente.alertaFecha == "Si" %}
 											<script>
 												$("#listaComponente{{ aeronave.id }}").attr("class","btn btn-warning btn-sm");
 											</script>

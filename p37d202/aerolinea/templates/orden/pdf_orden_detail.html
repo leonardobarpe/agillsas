@@ -1,0 +1,83 @@
+{% extends "easy_pdf/base.html" %}
+{% block content %}
+
+{% load aerolinea_extras %}
+{% get_componente_list as componente_list %}
+
+
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 2px;
+}
+.colorCelda{
+	background-color: #fcd1c6;
+	text-align: right;
+}
+</style>
+		{% load static %}
+<div>
+	<div>
+		<img src="/home/omar/Documentos/Proyectos/p37d202/core/static/core/img/logos/logoPDF.png">
+	</div>
+	<div>
+		<table>
+			<tbody>
+				<tr>
+					<th align="right" class="colorCelda">Id:</th>
+					<td>{{ orden.id }}</td>
+				</tr>				
+				<tr>
+					<th align="right" class="colorCelda">Ciudad:</th>
+					<td>{{ orden.ciudad }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Fecha:</th>
+					<td>{{ orden.fecha }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Descripcion:</th>
+					<td>{{ orden.descripcion }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Tecnico:</th>
+					<td>{{ orden.tecnico }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Descripcion:</th>
+					<td>{{ orden.descripcion }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Dir. control calidad:</th>
+					<td>{{ orden.dirCC }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Aeronave:</th>
+					<td>{{ orden.aeronave }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Componentes:</th>
+					<td>
+					{% for componente in orden.componente.all %}
+						{{ componente.numSerie }} - {{ componente.nombre }}{% if not forloop.last %}, {% endif %}
+					{% endfor %}
+					</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Fecha creacion sistema:</th>
+					<td>{{ orden.creado }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">Fecha actualizacion sistema:</th>
+					<td>{{ orden.actualizado }}</td>
+				</tr>				
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+{% endblock %}

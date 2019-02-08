@@ -1,4 +1,5 @@
 from django import forms
+from django.db.models import Count, Q
 from ckeditor.widgets import CKEditorWidget
 
 from .models import *
@@ -25,6 +26,7 @@ class ComponenteCreateForm(forms.ModelForm):
 			'hvUtil',		
 			'hUtilizado',		
 			'hDurg',
+			'ordenTrabajo',
 		]
 		widgets = {
 			'numSerie': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
@@ -43,6 +45,7 @@ class ComponenteCreateForm(forms.ModelForm):
 			'hvUtil': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
 			'hUtilizado': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
 			'hDurg': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+			'ordenTrabajo': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 
 		}
 		labels = {
@@ -61,6 +64,7 @@ class ComponenteCreateForm(forms.ModelForm):
 			'hvUtil': 'Horas vida util',		
 			'hUtilizado': 'Horas de uso',		
 			'hDurg': 'Horas DURG',
+			'ordenTrabajo': 'Orden de trabajo',
 		}
 
 class ComponenteUpdateForm(forms.ModelForm):
@@ -83,6 +87,7 @@ class ComponenteUpdateForm(forms.ModelForm):
 			'hvUtil',		
 			'hUtilizado',		
 			'hDurg',
+			'ordenTrabajo',
 		]
 		widgets = {
 			'numSerie': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
@@ -102,6 +107,7 @@ class ComponenteUpdateForm(forms.ModelForm):
 			'hUtilizado': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
 			'hDurg': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
 			'vUtil': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+			'ordenTrabajo': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 
 		}
 		labels = {
@@ -120,11 +126,16 @@ class ComponenteUpdateForm(forms.ModelForm):
 			'hUtilizado': 'Horas de uso',		
 			'hDurg': 'Horas DURG',
 			'vUtil': 'Vida util',
+			'ordenTrabajo': 'Orden de trabajo',
 		}		
 
 # -- Aeronave -- #
 
 class AeronaveCreateForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(AeronaveCreateForm, self).__init__(*args, **kwargs)
+		self.fields['componente'].queryset=Componente.objects.annotate(aeronaves=Count("aeronave")).filter(aeronaves__lte=0)
+
 	class Meta:
 		model = Aeronave
 		fields = [
@@ -156,6 +167,10 @@ class AeronaveCreateForm(forms.ModelForm):
 		}
 
 class AeronaveUpdateForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(AeronaveUpdateForm, self).__init__(*args, **kwargs)
+		self.fields['componente'].queryset=Componente.objects.annotate(aeronaves=Count("aeronave")).filter(Q(aeronaves__lte=0)|Q(aeronave=self.instance))
+
 	class Meta:
 		model = Aeronave
 		fields = [
@@ -164,7 +179,7 @@ class AeronaveUpdateForm(forms.ModelForm):
 			'modelo',				
 			'tipo',				
 			'descripcion',			
-			'hVuelo',				
+			'hVuelo',	
 			'componente',
 		]
 		widgets = {
