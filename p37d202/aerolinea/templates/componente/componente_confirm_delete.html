@@ -41,17 +41,17 @@
 					<td>{{ componente.nombre }}</td>
 				</tr>
 				<tr>
-					<th scope="row" class="bg-info text-white text-right">Marca:</th>
+					<th scope="row" class="bg-info text-white text-right">Parte/Numero:</th>
 					<td>{{ componente.marca }}</td>
 				</tr>
 				<tr>
 					<th scope="row" class="bg-info text-white text-right">Fabricante:</th>
 					<td>{{ componente.fabricante }}</td>
 				</tr>
-				<tr>
+{# 				<tr>
 					<th scope="row" class="bg-info text-white text-right">Fecha de fabricacion:</th>
 					<td>{{ componente.fechaFabricacion }}</td>
-				</tr>
+				</tr> #}
 				<tr>
 					<th scope="row" class="bg-info text-white text-right">Fecha de vencimiento:</th>
 					<td>{{ componente.fechaVencimiento }}</td>
@@ -69,11 +69,11 @@
 					<td>{{ componente.descripcion|safe }}</td>
 				</tr>		
 				<tr>
-					<th scope="row" class="bg-info text-white text-right">Horas de vida util:</th>
+					<th scope="row" class="bg-info text-white text-right">Horas TBO:</th>
 					<td>{{ componente.hvUtil }}</td>
 				</tr>
 				<tr>
-					<th scope="row" class="bg-info text-white text-right">Horas de uso:</th>
+					<th scope="row" class="bg-info text-white text-right">Horas total:</th>
 					<td>{{ componente.hUtilizado }}</td>
 				</tr>
 				<tr>
@@ -84,10 +84,10 @@
 					<th scope="row" class="bg-info text-white text-right">Horas remanente:</th>
 					<td>{{ componente.hRemanente }}</td>
 				</tr>
-				<tr>
+{# 				<tr>
 					<th scope="row" class="bg-info text-white text-right">Estado:</th>
 					<td>{{ componente.estado }}</td>
-				</tr>
+				</tr> #}
 				<tr>
 					<th scope="row" class="bg-info text-white text-right">Fecha creacion sistema:</th>
 					<td>{{ componente.creado }}</td>

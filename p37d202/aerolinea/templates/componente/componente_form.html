@@ -38,8 +38,8 @@
 					{{form.fabricante}}
 				</div>
 				<div class="col-sm">
-					<strong>{{ form.fechaFabricacion.label }}</strong>
-					{{ form.fechaFabricacion }}
+					<strong>{{form.proveedor.label}}</strong>
+					{{form.proveedor}}
 				</div>
 				<div class="col-sm">
 					<strong>{{ form.fechaVencimiento.label }}</strong>
@@ -49,16 +49,15 @@
 			</br>
 			<div class="form-row">
 				<div class="col-sm">
-					<strong>{{form.proveedor.label}}</strong>
-					{{form.proveedor}}
-				</div>
-				<div class="col-sm">
 					<strong>{{ form.fechaingreso.label }}</strong>
 					{{ form.fechaingreso }}
 				</div>
 				<div class="col-sm">
-					<strong>{{ form.estado.label }}</strong>
-					{{ form.estado }}
+					<strong>{{ form.mesesVencimiento.label }}</strong>
+					{{ form.mesesVencimiento }}					
+				</div>
+				<div class="col-sm">
+
 				</div>
 			</div>
 			</br>
@@ -108,22 +107,42 @@
 </div>
 <script>	
 	$( function() {
+		
+		// $("#id_fechaVencimiento").prop("disabled", true);
 		$("#id_vUtil").prop("disabled", true);
+
 		$("#id_vUtilOpc").change( function() {
-			if ($(this).val() === "h") {
+			if ($(this).val() == "h") {
 				$("#id_vUtil").prop("disabled", true);
 				$("#id_hvUtil").prop("disabled", false);
 			}
-			if ($(this).val() === "t") {
+			if ($(this).val() == "t") {
 				$("#id_hvUtil").prop("disabled", true);
 				$("#id_vUtil").prop("disabled", false);
 			}
-			if ($(this).val() === "a") {
+			if ($(this).val() == "a") {
 				$("#id_hvUtil").prop("disabled", false);
 				$("#id_vUtil").prop("disabled", false);
 			}
-
 		});
+
+
+		$("#id_fechaingreso").change( function() {
+			var meses = $("#id_mesesVencimiento").val();
+			var dias = parseInt(meses * 30);
+			var fechaInstalado = $("#id_fechaingreso").datepicker("getDate");
+			fechaInstalado.setDate(fechaInstalado.getDate() + dias);
+			$("#id_fechaVencimiento").datepicker("setDate", fechaInstalado);
+		});
+
+		$("#id_mesesVencimiento").change( function() {
+			var meses = $("#id_mesesVencimiento").val();
+			var dias = parseInt(meses * 30);
+			var fechaInstalado = $("#id_fechaingreso").datepicker("getDate");
+			fechaInstalado.setDate(fechaInstalado.getDate() + dias);
+			$("#id_fechaVencimiento").datepicker("setDate", fechaInstalado);
+		});		
+
 	});
 </script>
 

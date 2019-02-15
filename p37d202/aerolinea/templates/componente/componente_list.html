@@ -28,12 +28,12 @@
 					{# <th scope="col">Fecha alerta</th> #}
 					{# <th scope="col">alerta</th> #}
 					<th scope="col">Nombre</th>
-					<th scope="col">Marca</th>
-					<th scope="col">H.Vida util</th>
-					<th scope="col">H.Utilizado</th>
+					<th scope="col">Parte/Numero</th>
+					<th scope="col">H. TBO</th>
+					<th scope="col">H. Total</th>
 					<th scope="col">H. DURG</th>
 					<th scope="col">H. Remanente</th>
-					<th scope="col">Uso %</th>
+					<th scope="col">% Uso</th>
 					<th scope="col">Fecha Vence</th>
 					<th scope="col">Aeronave</th>
 					<th scope="col">Opciones</th>
@@ -55,7 +55,11 @@
 					<td class="text-center"><span class="badge {% if componente.porcentaUso >= 90 %} badge-danger {% endif %}">{{ componente.porcentaUso|floatformat:2 }}</span></td>
 					<td class="text-center"><span class="badge {% if componente.alertaFecha == "Si" %} badge-danger {% endif %}">{{ componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</span>
 					</td>
-					<td class="text-center">{{ componente.horasRemanentes }}</td>
+					<td class="text-center">
+						{% for aeronave in componente.aeronave_set.all %}
+							<a class="dropdown-item" href="{% url 'aeronave_detail' aeronave.id %}"> {{ aeronave.placa }} - {{ aeronave.modelo }} </a>
+						{% endfor %}
+					</td>
 					<td class="text-center">
 						<a class="badge badge-primary" href="{% url 'componente_update' componente.id %}" data-toggle="tooltip" data-placement="top" title="Editar componente"><i class="fas fa-pencil-alt"></i></a>
 						<a class="badge badge-dark" href="{% url 'componente_pdf_detail' componente.id %}" target="_blank" data-toggle="tooltip" data-placement="top" title="PDF detalle de componente"><i class="far fa-file-pdf"></i></a>

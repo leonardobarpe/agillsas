@@ -34,17 +34,17 @@ th, td {
 					<td>{{ componente.nombre }}</td>
 				</tr>
 				<tr>
-					<th align="right" class="colorCelda">Marca:</th>
+					<th align="right" class="colorCelda">Parte/Numero:</th>
 					<td>{{ componente.marca }}</td>
 				</tr>
 				<tr>
 					<th align="right" class="colorCelda">Fabricante:</th>
 					<td>{{ componente.fabricante }}</td>
 				</tr>
-				<tr>
+{# 				<tr>
 					<th align="right" class="colorCelda">Fecha de fabricacion:</th>
 					<td>{{ componente.fechaFabricacion }}</td>
-				</tr>
+				</tr> #}
 				<tr>
 					<th align="right" class="colorCelda">Fecha de vencimiento:</th>
 					<td>{{ componente.fechaVencimiento }}</td>
@@ -70,11 +70,11 @@ th, td {
 					<td>{{ componente.descripcion|safe }}</td>
 				</tr>		
 				<tr>
-					<th align="right" class="colorCelda">Horas de vida util:</th>
+					<th align="right" class="colorCelda">Horas TBO:</th>
 					<td>{{ componente.hvUtil }}</td>
 				</tr>
 				<tr>
-					<th align="right" class="colorCelda">Horas de uso:</th>
+					<th align="right" class="colorCelda">Horas total:</th>
 					<td>{{ componente.hUtilizado }}</td>
 				</tr>
 				<tr>
@@ -85,10 +85,10 @@ th, td {
 					<th align="right" class="colorCelda">Horas remanente:</th>
 					<td>{{ componente.hRemanente }}</td>
 				</tr>
-				<tr>
+{# 				<tr>
 					<th align="right" class="colorCelda">Estado:</th>
 					<td>{{ componente.estado }}</td>
-				</tr>
+				</tr> #}
 				<tr>
 					<th align="right" class="colorCelda">Fecha creacion sistema:</th>
 					<td>{{ componente.creado }}</td>

@@ -10,14 +10,14 @@ from django.db.models import *
 class Componente(models.Model):
 	numSerie			= models.CharField(max_length=200, verbose_name="Numero de Serie")					
 	nombre				= models.CharField(max_length=200, verbose_name="Nombre")							
-	marca				= models.CharField(max_length=200, verbose_name="Marca /P-N o Modelo")							
+	marca				= models.CharField(max_length=200, verbose_name="Parte/Numero")							
 	fabricante			= models.CharField(max_length=200, verbose_name="Fabricante")						
-	fechaFabricacion	= models.DateField(verbose_name="Fecha de Fabricacion")								
+	fechaFabricacion	= models.DateField(verbose_name="Fecha de Fabricacion",null=True)							
 	fechaVencimiento	= models.DateField(verbose_name="Fecha de Vencimiento")								
 	proveedor			= models.CharField(max_length=200, verbose_name="Proveedor")						
 	fechaingreso		= models.DateField(verbose_name="Fecha de Instalacion")									
 	descripcion			= models.CharField(max_length=200, verbose_name="Descripcion",null=True, blank=True)
-	# -- Vida util --#
+	# -- Vida util (TBO)--#
 	HORAS='h'
 	TIEMPO='t'
 	AMBOS='a'
@@ -26,22 +26,38 @@ class Componente(models.Model):
 		(TIEMPO, 'Tiempo'),
 		(AMBOS, 'Ambos'),
 	)
-	vUtilOpc			= models.CharField(max_length=20, verbose_name="Vida Util", choices=opcVutil, default=HORAS)
-	vUtil				= models.DateField(verbose_name="Vida Util Calendario",null=True, blank=True)
-	hvUtil 				= models.IntegerField(verbose_name="Horas de vida util",null=True, blank=True, default=1)		
-	mvUtil 				= models.IntegerField(verbose_name="Minutos de vida util",null=True, blank=True)	
+	vUtilOpc			= models.CharField(max_length=20, verbose_name="TBO", choices=opcVutil, default=HORAS)
+	vUtil				= models.DateField(verbose_name="TBO Calendario",null=True, blank=True)
+	hvUtil 				= models.IntegerField(verbose_name="Horas TBO",null=True, blank=True, default=1)
+
+# -- Vida util inspeccion inicial(TBO)--#
+	HORAS_i='h'
+	TIEMPO_i='t'
+	AMBOS_i='a'
+	opcVutil_i = (
+		(HORAS_i, 'Horas'),
+		(TIEMPO_i, 'Tiempo'),
+		(AMBOS_i, 'Ambos'),
+	)
+	vUtilOpc_i			= models.CharField(max_length=20, verbose_name="TBO inspeccion inicial", choices=opcVutil_i, default=HORAS_i, null=True)
+	vUtil_i				= models.DateField(verbose_name="TBO Calendario inspec inicial",null=True, blank=True)
+	hvUtil_i			= models.IntegerField(verbose_name="Horas inspec inicial TBO",null=True, blank=True, default=1)		
+	
 	# -- -- #
-	hUtilizado			= models.IntegerField(verbose_name="Horas utilizado",null=True, blank=True)			
-	mUtilizado			= models.IntegerField(verbose_name="Minutos utilizado",null=True, blank=True)		
+	hUtilizado			= models.IntegerField(verbose_name="Horas total",null=True, blank=True)			
 	hDurg				= models.IntegerField(verbose_name="Horas Durg",null=True, blank=True)				
-	mDurg				= models.IntegerField(verbose_name="Minutos Durg",null=True, blank=True)			
 	hRemanente			= models.IntegerField(verbose_name="Horas Remanente",null=True, blank=True)			
-	mRemanente			= models.IntegerField(verbose_name="Minutos Remanente",null=True, blank=True)
-	porcenUso			= models.IntegerField(verbose_name="Porcentaje de uso",default=1)	
-	estado				= models.CharField(max_length=200, verbose_name="Estado")
+	porcenUso			= models.IntegerField(verbose_name="Porcentaje de uso",default=1)
+	mesesVencimiento	= models.IntegerField(verbose_name="Meses de vencimiento",default=1)
+	estado				= models.CharField(max_length=200, verbose_name="Estado", null=True)
 	alerta				= models.CharField(max_length=20, verbose_name="Alerta", default="No")
 	alertaFecha			= models.CharField(max_length=20, verbose_name="Alerta fecha", default="No")
-	ordenTrabajo		= models.CharField(max_length=20, verbose_name="Orden Trabajo", default="777")
+	ordenTrabajo		= models.CharField(max_length=20, verbose_name="Orden Trabajo", default="OT7")
+	
+	mvUtil 				= models.IntegerField(verbose_name="Minutos TBO",null=True, blank=True)
+	mUtilizado			= models.IntegerField(verbose_name="Minutos total",null=True, blank=True)		
+	mRemanente			= models.IntegerField(verbose_name="Minutos Remanente",null=True, blank=True)
+	mDurg				= models.IntegerField(verbose_name="Minutos Durg",null=True, blank=True)			
 	# -- Auditoria -- #
 	creado				= models.DateTimeField(auto_now_add = True, null=True, blank=True)
 	actualizado			= models.DateTimeField(auto_now = True, null=True, blank=True)
