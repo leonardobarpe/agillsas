@@ -60,6 +60,10 @@
 					<td>{{ componente.proveedor }}</td>
 				</tr>
 				<tr>
+					<th scope="row" class="bg-info text-white text-right">Tipo:</th>
+					<td>{{ componente.tipo }}</td>
+				</tr>
+				<tr>
 					<th scope="row" class="bg-info text-white text-right">Fecha de instalacion:</th>
 					<td>{{ componente.fechaingreso }}</td>
 				</tr>
@@ -75,6 +79,47 @@
 					<th scope="row" class="bg-info text-white text-right">Horas TBO:</th>
 					<td>{{ componente.hvUtil }}</td>
 				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">TBO calendario:</th>
+					<td>
+					{% if not componente.vUtil  %}	
+						<span> NA </span>
+					{% else %}
+						{{ componente.vUtil }}
+					{% endif %}
+					</td>
+				</tr>				
+
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Horas inspec inicial TBO:</th>
+					<td>{{ componente.hvUtil_i }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">TBO Calendario inspec inicial:</th>
+					<td>
+					{% if not componente.vUtil_i  %}	
+						<span> NA </span>
+					{% else %}
+						{{ componente.vUtil_i }}
+					{% endif %}
+					</td>
+				</tr>
+
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Horas inspec posterior TBO:</th>
+					<td>{{ componente.hvUtil_p }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">TBO Calendario inspec posterior:</th>
+					<td>
+					{% if not componente.vUtil_p  %}	
+						<span> NA </span>
+					{% else %}
+						{{ componente.vUtil_p }}
+					{% endif %}
+					</td>
+				</tr>
+
 				<tr>
 					<th scope="row" class="bg-info text-white text-right">Horas total:</th>
 					<td>{{ componente.hUtilizado }}</td>

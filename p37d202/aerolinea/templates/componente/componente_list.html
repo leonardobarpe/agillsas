@@ -57,7 +57,7 @@
 					</td>
 					<td class="text-center">
 						{% for aeronave in componente.aeronave_set.all %}
-							<a class="dropdown-item" href="{% url 'aeronave_detail' aeronave.id %}"> {{ aeronave.placa }} - {{ aeronave.modelo }} </a>
+							<a class="btn btn-outline-info btn-sm" href="{% url 'aeronave_detail' aeronave.id %}"><small>{{ aeronave.placa }} - {{ aeronave.modelo }}</small></a>
 						{% endfor %}
 					</td>
 					<td class="text-center">

@@ -6,6 +6,8 @@ from .models import *
 
 # -- Componente -- #
 
+
+
 class ComponenteCreateForm(forms.ModelForm):
 	class Meta:
 		model = Componente
@@ -28,6 +30,15 @@ class ComponenteCreateForm(forms.ModelForm):
 			'hUtilizado',		
 			'hDurg',
 			'ordenTrabajo',
+			
+			'tipo',
+			'vUtilOpc_i',
+			'vUtil_i',
+			'hvUtil_i',
+			'vUtilOpc_p',
+			'vUtil_p',
+			'hvUtil_p',
+
 		]
 		widgets = {
 			'numSerie': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
@@ -49,6 +60,23 @@ class ComponenteCreateForm(forms.ModelForm):
 			'hDurg': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
 			'ordenTrabajo': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 
+			'tipo':forms.Select(attrs={'class':'form-control form-control-sm'}),
+			
+			'vUtilOpc_i':forms.Select(attrs={'class':'form-control form-control-sm'}),
+			'vUtil_i':forms.DateInput(attrs={'class':'form-control form-control-sm datepicker'}),
+			'hvUtil_i':forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+
+			'vUtilOpc_p':forms.Select(attrs={'class':'form-control form-control-sm'}),
+			'vUtil_p':forms.DateInput(attrs={'class':'form-control form-control-sm datepicker'}),
+			'hvUtil_p':forms.NumberInput(attrs={'class':'form-control form-control-sm'}),				
+# tipo				= models.CharField(max_length=20, verbose_name="Tipo componente", choices=opcTipo, default=tipo1, null=True)
+# vUtilOpc_i			= models.CharField(max_length=20, verbose_name="TBO inspeccion inicial", choices=opcVutil_i, default=HORAS_i, null=True)
+# vUtil_i				= models.DateField(verbose_name="TBO Calendario inspec inicial",null=True, blank=True)
+# hvUtil_i			= models.IntegerField(verbose_name="Horas inspec inicial TBO",null=True, blank=True, default=1)	
+# vUtilOpc_p			= models.CharField(max_length=20, verbose_name="TBO inspeccion posterior", choices=opcVutil_p, default=HORAS_p, null=True)
+# vUtil_p				= models.DateField(verbose_name="TBO Calendario inspec posterior",null=True, blank=True)
+# hvUtil_p			= models.IntegerField(verbose_name="Horas inspec posterior TBO",null=True, blank=True, default=1)	
+
 		}
 		labels = {
 			'numSerie': 'Numero de serie',
@@ -68,6 +96,16 @@ class ComponenteCreateForm(forms.ModelForm):
 			'hUtilizado': 'Horas total',		
 			'hDurg': 'Horas DURG',
 			'ordenTrabajo': 'Orden de trabajo',
+
+			'tipo':'Tipo componente',
+			
+			'vUtilOpc_i':'TBO inspec inicial',
+			'vUtil_i':'TBO calendario inspec inicial',
+			'hvUtil_i':'Horas TBO inspec inicial',
+
+			'vUtilOpc_p':'TBO inspec posterior',
+			'vUtil_p':'TBO calendario inspec posterior',
+			'hvUtil_p':'Horas TBO inspec posterior',			
 		}
 
 class ComponenteUpdateForm(forms.ModelForm):
@@ -92,27 +130,52 @@ class ComponenteUpdateForm(forms.ModelForm):
 			'hUtilizado',		
 			'hDurg',
 			'ordenTrabajo',
+			
+			'tipo',
+			'vUtilOpc_i',
+			'vUtil_i',
+			'hvUtil_i',
+			'vUtilOpc_p',
+			'vUtil_p',
+			'hvUtil_p',
+
 		]
 		widgets = {
 			'numSerie': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 			'nombre': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 			'marca': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 			'fabricante': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
-			# 'fechaFabricacion': forms.DateInput(attrs={'class':'datepicker form-control form-control-sm'}),
-			'fechaVencimiento': forms.DateInput(attrs={'class':'form-control form-control-sm'}),
+			# 'fechaFabricacion': forms.DateInput(attrs={'class':'form-control form-control-sm datepicker'}),
+			'fechaVencimiento': forms.DateInput(attrs={'class':'form-control form-control-sm datepicker'}),
 			'mesesVencimiento': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
 			'proveedor': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
-			'fechaingreso': forms.DateInput(attrs={'class':'form-control form-control-sm'}),
+			'fechaingreso': forms.DateInput(attrs={'class':'form-control form-control-sm datepicker'}),
 			'hUtilizado': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
-			'descripcion': forms.Textarea(attrs={'class':'form-control form-control-sm', 'rows':'6'}),
+			'descripcion': forms.Textarea(attrs={'class':'form-control form-control-sm', 'rows':'4'}),
 			# 'estado': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 			'vUtilOpc': forms.Select(attrs={'class':'form-control form-control-sm'}),
-			'vUtil': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+			'vUtil': forms.DateInput(attrs={'class':'form-control form-control-sm datepicker'}),
 			'hvUtil': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
 			'hUtilizado': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
 			'hDurg': forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
-			'vUtil': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
 			'ordenTrabajo': forms.TextInput(attrs={'class':'form-control form-control-sm'}),
+
+			'tipo':forms.Select(attrs={'class':'form-control form-control-sm'}),
+			
+			'vUtilOpc_i':forms.Select(attrs={'class':'form-control form-control-sm'}),
+			'vUtil_i':forms.DateInput(attrs={'class':'form-control form-control-sm datepicker'}),
+			'hvUtil_i':forms.NumberInput(attrs={'class':'form-control form-control-sm'}),
+
+			'vUtilOpc_p':forms.Select(attrs={'class':'form-control form-control-sm'}),
+			'vUtil_p':forms.DateInput(attrs={'class':'form-control form-control-sm datepicker'}),
+			'hvUtil_p':forms.NumberInput(attrs={'class':'form-control form-control-sm'}),				
+# tipo				= models.CharField(max_length=20, verbose_name="Tipo componente", choices=opcTipo, default=tipo1, null=True)
+# vUtilOpc_i			= models.CharField(max_length=20, verbose_name="TBO inspeccion inicial", choices=opcVutil_i, default=HORAS_i, null=True)
+# vUtil_i				= models.DateField(verbose_name="TBO Calendario inspec inicial",null=True, blank=True)
+# hvUtil_i			= models.IntegerField(verbose_name="Horas inspec inicial TBO",null=True, blank=True, default=1)	
+# vUtilOpc_p			= models.CharField(max_length=20, verbose_name="TBO inspeccion posterior", choices=opcVutil_p, default=HORAS_p, null=True)
+# vUtil_p				= models.DateField(verbose_name="TBO Calendario inspec posterior",null=True, blank=True)
+# hvUtil_p			= models.IntegerField(verbose_name="Horas inspec posterior TBO",null=True, blank=True, default=1)	
 
 		}
 		labels = {
@@ -128,12 +191,22 @@ class ComponenteUpdateForm(forms.ModelForm):
 			'hUtilizado': 'Horas total',
 			'descripcion': 'Descripcion',
 			# 'estado': 'Estado',
+			'vUtil': 'TBO calendario',
 			'hvUtil': 'Horas TBO',		
 			'hUtilizado': 'Horas total',		
 			'hDurg': 'Horas DURG',
-			'vUtil': 'TBO',
 			'ordenTrabajo': 'Orden de trabajo',
-		}		
+
+			'tipo':'Tipo componente',
+			
+			'vUtilOpc_i':'TBO inspec inicial',
+			'vUtil_i':'TBO calendario inspec inicial',
+			'hvUtil_i':'Horas TBO inspec inicial',
+
+			'vUtilOpc_p':'TBO inspec posterior',
+			'vUtil_p':'TBO calendario inspec posterior',
+			'hvUtil_p':'Horas TBO inspec posterior',			
+		}
 
 # -- Aeronave -- #
 

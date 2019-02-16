@@ -36,7 +36,7 @@ th, td {
 				</tr>
 				<tr>
 					<th scope="col" style="text-align: right;">Horas de vuelo:</th>
-					<td>{{ aeronave.hVuelo }}:{{ aeronave.mVuelo }}</td>
+					<td>{{ aeronave.hVuelo }}:00</td>
 				</tr>
 			</thead>
 		</table>
@@ -52,14 +52,11 @@ th, td {
 						<th scope="col" rowspan="2">TT Componente</th>
 						<th scope="col" rowspan="2">H. DURG</th>
 						<th scope="col" colspan="2">Frecuencia</th>
-						<!-- <th scope="col" colspan="2">Vencimiento</th> -->
 						<th scope="col" colspan="2">Remanentes</th>
 					</tr>
 					<tr>
 						<th scope="col">Horas</th>
 						<th scope="col">Tiempo</th>
-						<!-- <th scope="col">Horas</th> -->
-						<!-- <th scope="col">Calendario</th> -->
 						<th scope="col">Horas</th>
 						<th scope="col">Calendario</th>
 					</tr>
@@ -72,13 +69,40 @@ th, td {
 						<td>{{ componente.componente.numSerie }}</td>
 						<td>OT- {{ componente.componente.ordenTrabajo }}</td>
 						<td>{{ componente.componente.fechaingreso|date:"SHORT_DATE_FORMAT" }}</td>
-						<td>{{ componente.componente.hUtilizado }}:{{ componente.componente.mUtilizado }}</td>
-						<td>{{ componente.componente.hDurg }}:{{ componente.componente.mDurg }} </td>
-						<td>{{ componente.componente.hvUtil }}:{{ componente.componente.mvUtil }}</td>
-						<td>{{ componente.componente.estado }}</td>
-						<!-- <td>{{ componente.hRemanente }}:{{ componente.mRemanente }}</td> -->
-						<!-- <td>{{ componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</td> -->
-						<td>{{ componente.componente.horasRemanentes }}:{{ componente.componente.mRemanente }}</td>
+						<td>{{ componente.componente.hUtilizado }}:00</td>
+						<td>{{ componente.componente.hDurg }}:00</td>
+
+						{% if componente.componente.tipo == "t1" %}
+							<td>
+							{{ componente.componente.hvUtil }}:00
+							</td>
+							</br>
+							<td>
+							{{ componente.componente.vUtil|date:"SHORT_DATE_FORMAT" }}
+							</td>
+						{% endif %}
+
+						{% if componente.componente.tipo == "t2" %}
+						<td>
+							{{ componente.componente.hvUtil_i }}:00
+							</br>
+							{{ componente.componente.hvUtil_p }}:00
+						</td>
+						<td>
+							{% if not componente.componente.vUtil_i %}
+								<span>NA</span>
+							{% else %}
+								{{ componente.componente.vUtil_i|date:"SHORT_DATE_FORMAT" }}
+							{% endif %}	
+							</br>
+							{% if not componente.componente.vUtil_p %}
+								<span>NA</span>
+							{% else %}
+								{{ componente.componente.vUtil_p|date:"SHORT_DATE_FORMAT" }}
+							{% endif %}
+						</td>
+						{% endif %}
+						<td>{{ componente.componente.horasRemanentes }}</td>
 						<td>{{ componente.componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</td>					
 					</tr>
 					{% endfor %}

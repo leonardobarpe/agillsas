@@ -17,7 +17,16 @@ class Componente(models.Model):
 	proveedor			= models.CharField(max_length=200, verbose_name="Proveedor")						
 	fechaingreso		= models.DateField(verbose_name="Fecha de Instalacion")									
 	descripcion			= models.CharField(max_length=200, verbose_name="Descripcion",null=True, blank=True)
-	# -- Vida util (TBO)--#
+
+	tipo1='t1'
+	tipo2='t2'
+	opcTipo = (
+		(tipo1, 'Tipo 1'),
+		(tipo2, 'Tipo 2'),
+	)
+	tipo			= models.CharField(max_length=20, verbose_name="Tipo componente", choices=opcTipo, default=tipo1, null=True)	
+	
+# -- Vida util (TBO)--#
 	HORAS='h'
 	TIEMPO='t'
 	AMBOS='a'
@@ -26,7 +35,7 @@ class Componente(models.Model):
 		(TIEMPO, 'Tiempo'),
 		(AMBOS, 'Ambos'),
 	)
-	vUtilOpc			= models.CharField(max_length=20, verbose_name="TBO", choices=opcVutil, default=HORAS)
+	vUtilOpc			= models.CharField(max_length=20, verbose_name="TBO", choices=opcVutil, default=HORAS, null=True, blank=True)
 	vUtil				= models.DateField(verbose_name="TBO Calendario",null=True, blank=True)
 	hvUtil 				= models.IntegerField(verbose_name="Horas TBO",null=True, blank=True, default=1)
 
@@ -39,9 +48,22 @@ class Componente(models.Model):
 		(TIEMPO_i, 'Tiempo'),
 		(AMBOS_i, 'Ambos'),
 	)
-	vUtilOpc_i			= models.CharField(max_length=20, verbose_name="TBO inspeccion inicial", choices=opcVutil_i, default=HORAS_i, null=True)
+	vUtilOpc_i			= models.CharField(max_length=20, verbose_name="TBO inspeccion inicial", choices=opcVutil_i, default=HORAS_i, null=True, blank=True)
 	vUtil_i				= models.DateField(verbose_name="TBO Calendario inspec inicial",null=True, blank=True)
-	hvUtil_i			= models.IntegerField(verbose_name="Horas inspec inicial TBO",null=True, blank=True, default=1)		
+	hvUtil_i			= models.IntegerField(verbose_name="Horas inspec inicial TBO",null=True, blank=True, default=1)	
+
+# -- Vida util inspeccion posterior(TBO)--#
+	HORAS_p='h'
+	TIEMPO_p='t'
+	AMBOS_p='a'
+	opcVutil_p = (
+		(HORAS_p, 'Horas'),
+		(TIEMPO_p, 'Tiempo'),
+		(AMBOS_p, 'Ambos'),
+	)
+	vUtilOpc_p			= models.CharField(max_length=20, verbose_name="TBO inspeccion posterior", choices=opcVutil_p, default=HORAS_p, null=True, blank=True)
+	vUtil_p				= models.DateField(verbose_name="TBO Calendario inspec posterior",null=True, blank=True)
+	hvUtil_p			= models.IntegerField(verbose_name="Horas inspec posterior TBO",null=True, blank=True, default=1)	
 	
 	# -- -- #
 	hUtilizado			= models.IntegerField(verbose_name="Horas total",null=True, blank=True)			

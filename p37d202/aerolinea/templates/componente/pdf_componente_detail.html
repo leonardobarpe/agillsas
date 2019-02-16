@@ -41,10 +41,10 @@ th, td {
 					<th align="right" class="colorCelda">Fabricante:</th>
 					<td>{{ componente.fabricante }}</td>
 				</tr>
-{# 				<tr>
+<!--  				<tr>
 					<th align="right" class="colorCelda">Fecha de fabricacion:</th>
 					<td>{{ componente.fechaFabricacion }}</td>
-				</tr> #}
+				</tr>  -->
 				<tr>
 					<th align="right" class="colorCelda">Fecha de vencimiento:</th>
 					<td>{{ componente.fechaVencimiento }}</td>
@@ -73,6 +73,48 @@ th, td {
 					<th align="right" class="colorCelda">Horas TBO:</th>
 					<td>{{ componente.hvUtil }}</td>
 				</tr>
+
+				<tr>
+					<th align="right" class="colorCelda">TBO calendario:</th>
+					<td>
+					{% if not componente.vUtil  %}	
+						<span> NA </span>
+					{% else %}
+						{{ componente.vUtil }}
+					{% endif %}
+					</td>
+				</tr>				
+
+				<tr>
+					<th align="right" class="colorCelda">Horas inspec inicial TBO:</th>
+					<td>{{ componente.hvUtil_i }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">TBO Calendario inspec inicial:</th>
+					<td>
+					{% if not componente.vUtil_i  %}	
+						<span> NA </span>
+					{% else %}
+						{{ componente.vUtil_i }}
+					{% endif %}
+					</td>
+				</tr>
+
+				<tr>
+					<th align="right" class="colorCelda">Horas inspec posterior TBO:</th>
+					<td>{{ componente.hvUtil_p }}</td>
+				</tr>
+				<tr>
+					<th align="right" class="colorCelda">TBO Calendario inspec posterior:</th>
+					<td>
+					{% if not componente.vUtil_p  %}	
+						<span> NA </span>
+					{% else %}
+						{{ componente.vUtil_p }}
+					{% endif %}
+					</td>
+				</tr>
+
 				<tr>
 					<th align="right" class="colorCelda">Horas total:</th>
 					<td>{{ componente.hUtilizado }}</td>
@@ -85,10 +127,10 @@ th, td {
 					<th align="right" class="colorCelda">Horas remanente:</th>
 					<td>{{ componente.hRemanente }}</td>
 				</tr>
-{# 				<tr>
+<!--  				<tr>
 					<th align="right" class="colorCelda">Estado:</th>
 					<td>{{ componente.estado }}</td>
-				</tr> #}
+				</tr>  -->
 				<tr>
 					<th align="right" class="colorCelda">Fecha creacion sistema:</th>
 					<td>{{ componente.creado }}</td>

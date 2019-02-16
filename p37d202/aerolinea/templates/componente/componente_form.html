@@ -17,6 +17,7 @@
 	</div>
 	<form action="" method="POST">{% csrf_token %}
 		<div class="card-body">
+			{{ form.errors }}
 			<div class="form-row">
 				<div class="col-sm">
 					<strong>{{form.numSerie.label}}</strong>
@@ -34,12 +35,12 @@
 			</br>
 			<div class="form-row">
 				<div class="col-sm">
-					<strong>{{form.fabricante.label}}</strong>
-					{{form.fabricante}}
+					<strong>{{ form.fechaingreso.label }}</strong>
+					{{ form.fechaingreso }}
 				</div>
 				<div class="col-sm">
-					<strong>{{form.proveedor.label}}</strong>
-					{{form.proveedor}}
+					<strong>{{ form.mesesVencimiento.label }}</strong>
+					{{ form.mesesVencimiento }}					
 				</div>
 				<div class="col-sm">
 					<strong>{{ form.fechaVencimiento.label }}</strong>
@@ -49,15 +50,16 @@
 			</br>
 			<div class="form-row">
 				<div class="col-sm">
-					<strong>{{ form.fechaingreso.label }}</strong>
-					{{ form.fechaingreso }}
+					<strong>{{form.tipo.label}}</strong>
+					{{form.tipo}}					
 				</div>
 				<div class="col-sm">
-					<strong>{{ form.mesesVencimiento.label }}</strong>
-					{{ form.mesesVencimiento }}					
+					<strong>{{form.fabricante.label}}</strong>
+					{{form.fabricante}}
 				</div>
 				<div class="col-sm">
-
+					<strong>{{form.proveedor.label}}</strong>
+					{{form.proveedor}}
 				</div>
 			</div>
 			</br>
@@ -78,16 +80,46 @@
 			</br>
 			<div class="form-row">
 				<div class="col-sm">
+					<strong>{{ form.vUtilOpc_i.label }}</strong>
+					{{ form.vUtilOpc_i }}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.hvUtil_i.label }}</strong>
+					{{ form.hvUtil_i }}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.vUtil_i.label }}</strong>
+					{{ form.vUtil_i }}
+				</div>
+			</div>			
+			</br>
+			<div class="form-row">
+				<div class="col-sm">
+					<strong>{{ form.vUtilOpc_p.label }}</strong>
+					{{ form.vUtilOpc_p }}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.hvUtil_p.label }}</strong>
+					{{ form.hvUtil_p }}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.vUtil_p.label }}</strong>
+					{{ form.vUtil_p }}
+				</div>
+			</div>			
+			</br>			
+			<div class="form-row">
+				<div class="col-sm">
 					<strong>{{form.ordenTrabajo.label}}</strong>
 					{{form.ordenTrabajo}}
 				</div>
 				<div class="col-sm">
-					<strong>{{ form.hDurg.label }}</strong>
-					{{ form.hDurg }}
-				</div>
-				<div class="col-sm">
 					<strong>{{form.hUtilizado.label}}</strong>
 					{{ form.hUtilizado }}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.hDurg.label }}</strong>
+					{{ form.hDurg }}
 				</div>				
 			</div>
 									</br>
@@ -108,21 +140,136 @@
 <script>	
 	$( function() {
 		
-		// $("#id_fechaVencimiento").prop("disabled", true);
-		$("#id_vUtil").prop("disabled", true);
+		$("#id_vUtilOpc_i").prop("disabled", true);
+		$("#id_vUtil_i").prop("disabled", true);
+		$("#id_hvUtil_i").prop("disabled", true);
+		$("#id_vUtilOpc_p").prop("disabled", true);
+		$("#id_vUtil_p").prop("disabled", true);
+		$("#id_hvUtil_p").prop("disabled", true);
 
+
+		$("#id_vUtilOpc").prop("disabled", false);
+		$("#id_vUtil").prop("disabled", true);
+		
 		$("#id_vUtilOpc").change( function() {
-			if ($(this).val() == "h") {
+			if ($("#id_vUtilOpc").val() == "h") {
 				$("#id_vUtil").prop("disabled", true);
 				$("#id_hvUtil").prop("disabled", false);
 			}
-			if ($(this).val() == "t") {
+			if ($("#id_vUtilOpc").val() == "t") {
 				$("#id_hvUtil").prop("disabled", true);
 				$("#id_vUtil").prop("disabled", false);
 			}
-			if ($(this).val() == "a") {
+			if ($("#id_vUtilOpc").val() == "a") {
 				$("#id_hvUtil").prop("disabled", false);
 				$("#id_vUtil").prop("disabled", false);
+			}		
+		});
+
+		$("#id_tipo").change( function() {
+			if ($("#id_tipo").val() == "t1") {
+				$("#id_vUtilOpc_i").prop("disabled", true);
+				$("#id_vUtil_i").prop("disabled", true);
+				$("#id_hvUtil_i").prop("disabled", true);
+				
+				$("#id_vUtilOpc_p").prop("disabled", true);
+				$("#id_vUtil_p").prop("disabled", true);
+				$("#id_hvUtil_p").prop("disabled", true);
+
+				$("#id_vUtilOpc").prop("disabled", false);
+
+				if ($("#id_vUtilOpc").val() == "h") {
+					$("#id_vUtil").prop("disabled", true);
+					$("#id_hvUtil").prop("disabled", false);
+				}
+				if ($("#id_vUtilOpc").val() == "t") {
+					$("#id_hvUtil").prop("disabled", true);
+					$("#id_vUtil").prop("disabled", false);
+				}
+				if ($("#id_vUtilOpc").val() == "a") {
+					$("#id_hvUtil").prop("disabled", false);
+					$("#id_vUtil").prop("disabled", false);
+				}
+
+				$("#id_vUtilOpc").change( function() {
+					if ($("#id_vUtilOpc").val() == "h") {
+						$("#id_vUtil").prop("disabled", true);
+						$("#id_hvUtil").prop("disabled", false);
+					}
+					if ($("#id_vUtilOpc").val() == "t") {
+						$("#id_hvUtil").prop("disabled", true);
+						$("#id_vUtil").prop("disabled", false);
+					}
+					if ($("#id_vUtilOpc").val() == "a") {
+						$("#id_hvUtil").prop("disabled", false);
+						$("#id_vUtil").prop("disabled", false);
+					}
+				});
+			}			
+			
+			if ($("#id_tipo").val() == "t2") {
+				$("#id_vUtilOpc").prop("disabled", true);
+				$("#id_hvUtil").prop("disabled", true);
+				$("#id_vUtil").prop("disabled", true);
+				
+				$("#id_vUtilOpc_i").prop("disabled", false);
+				$("#id_vUtilOpc_p").prop("disabled", false);
+
+				if ($("#id_vUtilOpc_i").val() == "h") {
+					$("#id_vUtil_i").prop("disabled", true);
+					$("#id_hvUtil_i").prop("disabled", false);
+				}
+				if ($("#id_vUtilOpc_i").val() == "t") {
+					$("#id_hvUtil_i").prop("disabled", true);
+					$("#id_vUtil_i").prop("disabled", false);
+				}
+				if ($("#id_vUtilOpc_i").val() == "a") {
+					$("#id_hvUtil_i").prop("disabled", false);
+					$("#id_vUtil_i").prop("disabled", false);
+				}
+
+				if ($("#id_vUtilOpc_p").val() == "h") {
+					$("#id_vUtil_p").prop("disabled", true);
+					$("#id_hvUtil_p").prop("disabled", false);
+				}
+				if ($("#id_vUtilOpc_p").val() == "t") {
+					$("#id_hvUtil_p").prop("disabled", true);
+					$("#id_vUtil_p").prop("disabled", false);
+				}
+				if ($("#id_vUtilOpc_p").val() == "a") {
+					$("#id_hvUtil_p").prop("disabled", false);
+					$("#id_vUtil_p").prop("disabled", false);
+				}
+
+				$("#id_vUtilOpc_i").change( function() {
+					if ($("#id_vUtilOpc_i").val() == "h") {
+						$("#id_vUtil_i").prop("disabled", true);
+						$("#id_hvUtil_i").prop("disabled", false);
+					}
+					if ($("#id_vUtilOpc_i").val() == "t") {
+						$("#id_hvUtil_i").prop("disabled", true);
+						$("#id_vUtil_i").prop("disabled", false);
+					}
+					if ($("#id_vUtilOpc_i").val() == "a") {
+						$("#id_hvUtil_i").prop("disabled", false);
+						$("#id_vUtil_i").prop("disabled", false);
+					}
+				});	
+
+				$("#id_vUtilOpc_p").change( function() {
+					if ($("#id_vUtilOpc_p").val() == "h") {
+						$("#id_vUtil_p").prop("disabled", true);
+						$("#id_hvUtil_p").prop("disabled", false);
+					}
+					if ($("#id_vUtilOpc_p").val() == "t") {
+						$("#id_hvUtil_p").prop("disabled", true);
+						$("#id_vUtil_p").prop("disabled", false);
+					}
+					if ($("#id_vUtilOpc_p").val() == "a") {
+						$("#id_hvUtil_p").prop("disabled", false);
+						$("#id_vUtil_p").prop("disabled", false);
+					}
+				});		
 			}
 		});
 
@@ -142,31 +289,6 @@
 			fechaInstalado.setDate(fechaInstalado.getDate() + dias);
 			$("#id_fechaVencimiento").datepicker("setDate", fechaInstalado);
 		});		
-
 	});
 </script>
-
 {% endblock %}
-<!-- <div class="card border-success mb-3">
-	<div class="card-header">
-		<div class="row">
-			<div class="col-sm">
-				<i class="fas fa-cubes"></i><span> | Componente nuevo</span>
-			</div>
-			<div class="col-sm">
-				<a class="btn btn-info float-right btn-sm" href="{% url 'componente_list' %}" data-toggle="tooltip" data-placement="top" title="Ver componentes"><i class="fas fa-list"></i></a>
-			</div>
-		</div>
-	</div>
-	<form action="" method="POST">{% csrf_token %}
-		<div class="card-body">
-			{{form.as_p}}
-		</div>
-		<div class="card-footer">
-			<div class="btn-group">
-				<input type="submit" class="btn btn-outline-success btn-sm" value="Guardar">
-			</div>
-		</div>
-	</form>
-</div> -->
-<!--  -->
