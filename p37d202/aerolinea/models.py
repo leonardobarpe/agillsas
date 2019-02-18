@@ -66,9 +66,9 @@ class Componente(models.Model):
 	hvUtil_p			= models.IntegerField(verbose_name="Horas inspec posterior TBO",null=True, blank=True, default=1)	
 	
 	# -- -- #
-	hUtilizado			= models.IntegerField(verbose_name="Horas total",null=True, blank=True)			
-	hDurg				= models.IntegerField(verbose_name="Horas Durg",null=True, blank=True)				
-	hRemanente			= models.IntegerField(verbose_name="Horas Remanente",null=True, blank=True)			
+	hUtilizado			= models.IntegerField(verbose_name="Horas total", default=1)			
+	hDurg				= models.IntegerField(verbose_name="Horas Durg", default=1)				
+	hRemanente			= models.IntegerField(verbose_name="Horas Remanente", default=1)		
 	porcenUso			= models.IntegerField(verbose_name="Porcentaje de uso",default=1)
 	mesesVencimiento	= models.IntegerField(verbose_name="Meses de vencimiento",default=1)
 	estado				= models.CharField(max_length=200, verbose_name="Estado", null=True)

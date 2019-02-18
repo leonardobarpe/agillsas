@@ -70,16 +70,31 @@ class componenteCreateView(LoginRequiredMixin,CreateView):
 			fechaSis =  date.today()
 			fechaVence = self.object.fechaVencimiento
 			r = (fechaVence-fechaSis).days
-			# print(r)
+
+			hTBO = self.object.hvUtil
+			hTBOi = self.object.hvUtil_i
+			hTBOp = self.object.hvUtil_p
+
+			if not hTBO:
+				self.object.hvUtil = 1
+			if not hTBOi:
+				self.object.hvUtil_i = 1
+			if not hTBOp:
+				self.object.hvUtil_p = 1
+
 			if r >= 30:
 				self.object.alertaFecha	= "No"
 			if r <= 30:
 				self.object.alertaFecha	= "Si"
+
+
 			self.object.save()
 			return super(componenteCreateView, self).form_valid(form)
 		else:
 			return self
 	success_url = reverse_lazy('componente_list')
+
+
 
 @method_decorator(staff_member_required, name='dispatch')
 class componenteUpdateView(LoginRequiredMixin,UpdateView):
