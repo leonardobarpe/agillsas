@@ -25,52 +25,49 @@
 	
 	<link rel="stylesheet" href="{% static 'core/vendor/jquery-ui/jquery-ui.min.css' %}">
 	
-
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
 
 <!-- 	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script> -->
-
 </head>
-
-<body style="font-size: 0.9em">
+<body style="font-size: 0.8em">
 <!-- Encabezado -->
-	<nav class="navbar navbar-expand-lg navbar-light " style="background-color: #ff8000;">
-			<a class="navbar-brand" href="{% url 'inicio' %}"><img src="{% static 'core/img/logos/logoAgillSas.png' %}" alt="Inicio | Agillsas" class="img-thumbnail" height="92" width="100"></a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+	<nav class="navbar sticky-top" style="background-color: #ff8000;">
+		<a class="navbar-brand" href="{% url 'inicio' %}"><img src="{% static 'core/img/logos/logoAgillSas.png' %}" alt="Inicio | Agillsas" class="img-thumbnail" height="72" width="90"></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+		<div class="btn-group text-right">
 			<div class="collapse navbar-collapse" id="navbarSupportedContent"></div>
-			<div class="row ">
-				<div class="dropdown text-right">
-					<button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i> 
-					</button>
-					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						{% for componente in componente_alerta %}
-							{% for aeronave in componente.aeronave_set.all %}
-								<a class="dropdown-item" href="{% url 'aeronave_detail' aeronave.id %}"> {{ aeronave.placa }} - {{ aeronave.modelo }} </a>
-								{% if componente.alerta == "Si" %}
-									<script>
-										$("#dropdownMenuButton").attr("class","btn btn-warning btn-sm dropdown-toggle");
-									</script>
-								{% endif %}
-							{% endfor %}
-						{% endfor %}
-					</div>
+			<div class="dropdown">
+				<button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bell"></i> 
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				{% for componente in componente_alerta %}
+					{% for aeronave in componente.aeronave_set.all %}
+						<a class="dropdown-item" href="{% url 'aeronave_detail' aeronave.id %}"><small>{{ aeronave.placa }} - {{ aeronave.modelo }}</small></a>
+						{% if componente.alerta == "Si" %}
+							<script>
+								$("#dropdownMenuButton").attr("class","btn btn-warning btn-sm dropdown-toggle");
+							</script>
+						{% endif %}
+					{% endfor %}
+				{% endfor %}
 				</div>
-				<a class="btn btn-light btn-sm" href="{% url 'inicio' %}" data-toggle="tooltip" data-placement="top" title="Configurar"><i class="fas fa-user"></i> | {{ user.username }}</a>
-				{% if not request.user.is_authenticated %}
-					<a class="btn btn-success btn-sm text-white" href="{% url 'login' %}" data-toggle="tooltip" data-placement="top" title="Iniciar Sesion"><i class="fas fa-sign-in-alt"></i></a>
-				{% else %}
-					<a class="btn btn-danger btn-sm text-white" href="{% url 'logout' %}" data-toggle="tooltip" data-placement="top" title="Cerrar Sesion"><i class="fas fa-sign-out-alt"></i></a>
-				{% endif %}
- 			</div>
+			</div>
+			<a class="btn btn-light btn-sm" href="{% url 'inicio' %}" data-toggle="tooltip" data-placement="top" title="Configurar"><small><i class="fas fa-user"></i> | {{ user.username }}</small></a>
+			{% if not request.user.is_authenticated %}
+				<a class="btn btn-success btn-sm text-white" href="{% url 'login' %}" data-toggle="tooltip" data-placement="top" title="Iniciar Sesion"><small><i class="fas fa-sign-in-alt"></i></small></a>
+			{% else %}
+				<a class="btn btn-danger btn-sm text-white" href="{% url 'logout' %}" data-toggle="tooltip" data-placement="top" title="Cerrar Sesion"><small><i class="fas fa-sign-out-alt"></i></small></a>
+			{% endif %}
+		</div>
 	</nav>
 {% block alerts %} {% endblock %}
 <div class="container-fluid">
 	<div class="row">
 		<!-- Menu lateral  -->
-		<div class="col-sm-2 shadow-none p-3 mb-5 rounded">
+		<div class="col-lg-2 mt-2 rounded">
 			<div class="btn-group-vertical btn-group-sm" role="group" aria-label="Button group with nested dropdown">
 				<a href="/admin/" class="btn btn-info btn-sm text-sm-left"><i class="fab fa-whmcs"></i> Admin </a>
 				<a class="btn btn-dark btn-sm text-sm-left" href="{% url 'inicio' %}"><i class="fas fa-home"></i> Inicio </a>
@@ -105,7 +102,7 @@
 			</div>
 		</div>
 		<!-- Contenido -->
-		<div class="col-lg-10 mt-3">
+		<div class="col-lg-10 mt-2">
 			{% block content %}
 				
 			{% endblock %}

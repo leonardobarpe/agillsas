@@ -71,6 +71,11 @@ class componenteCreateView(LoginRequiredMixin,CreateView):
 			fechaVence = self.object.fechaVencimiento
 			r = (fechaVence-fechaSis).days
 
+			if r >= 30:
+				self.object.alertaFecha	= "No"
+			if r <= 30:
+				self.object.alertaFecha	= "Si"
+
 			hTBO = self.object.hvUtil
 			hTBOi = self.object.hvUtil_i
 			hTBOp = self.object.hvUtil_p
@@ -81,12 +86,6 @@ class componenteCreateView(LoginRequiredMixin,CreateView):
 				self.object.hvUtil_i = 1
 			if not hTBOp:
 				self.object.hvUtil_p = 1
-
-			if r >= 30:
-				self.object.alertaFecha	= "No"
-			if r <= 30:
-				self.object.alertaFecha	= "Si"
-
 
 			self.object.save()
 			return super(componenteCreateView, self).form_valid(form)
@@ -112,6 +111,18 @@ class componenteUpdateView(LoginRequiredMixin,UpdateView):
 				self.object.alertaFecha="No"
 			if r<=30:
 				self.object.alertaFecha="Si"
+
+			hTBO = self.object.hvUtil
+			hTBOi = self.object.hvUtil_i
+			hTBOp = self.object.hvUtil_p
+
+			if not hTBO:
+				self.object.hvUtil = 1
+			if not hTBOi:
+				self.object.hvUtil_i = 1
+			if not hTBOp:
+				self.object.hvUtil_p = 1
+				
 			self.object.save()
 			return super(componenteUpdateView, self).form_valid(form)
 		else:
