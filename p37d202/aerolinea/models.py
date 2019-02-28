@@ -11,13 +11,14 @@ class Componente(models.Model):
 	numSerie			= models.CharField(max_length=200, verbose_name="Numero de Serie")					
 	nombre				= models.CharField(max_length=200, verbose_name="Nombre")							
 	marca				= models.CharField(max_length=200, verbose_name="Parte/Numero")							
-	fabricante			= models.CharField(max_length=200, verbose_name="Fabricante")						
-	fechaFabricacion	= models.DateField(verbose_name="Fecha de Fabricacion",null=True)							
-	fechaVencimiento	= models.DateField(verbose_name="Fecha de Vencimiento")								
-	proveedor			= models.CharField(max_length=200, verbose_name="Proveedor")						
+	
 	fechaingreso		= models.DateField(verbose_name="Fecha de Instalacion")									
-	descripcion			= models.CharField(max_length=200, verbose_name="Descripcion",null=True, blank=True)
-
+	mesesVencimiento	= models.IntegerField(verbose_name="Meses de vencimiento",default=1)
+	fechaVencimiento	= models.DateField(verbose_name="Fecha de Vencimiento")								
+	
+	fabricante			= models.CharField(max_length=200, verbose_name="Fabricante")						
+	proveedor			= models.CharField(max_length=200, verbose_name="Proveedor")						
+	
 	tipo1='t1'
 	tipo2='t2'
 	opcTipo = (
@@ -26,7 +27,6 @@ class Componente(models.Model):
 	)
 	tipo			= models.CharField(max_length=20, verbose_name="Tipo componente", choices=opcTipo, default=tipo1, null=True)	
 	
-# -- Vida util (TBO)--#
 	HORAS='h'
 	TIEMPO='t'
 	AMBOS='a'
@@ -37,9 +37,9 @@ class Componente(models.Model):
 	)
 	vUtilOpc			= models.CharField(max_length=20, verbose_name="TBO", choices=opcVutil, default=HORAS, null=True, blank=True)
 	vUtil				= models.DateField(verbose_name="TBO Calendario",null=True, blank=True)
-	hvUtil 				= models.IntegerField(verbose_name="Horas TBO",null=True, blank=True, default=1)
+	hvUtil 				= models.IntegerField(verbose_name="Horas TBO",default=1)
+	mvUtil 				= models.IntegerField(verbose_name="Minutos TBO",default=1)
 
-# -- Vida util inspeccion inicial(TBO)--#
 	HORAS_i='h'
 	TIEMPO_i='t'
 	AMBOS_i='a'
@@ -50,9 +50,9 @@ class Componente(models.Model):
 	)
 	vUtilOpc_i			= models.CharField(max_length=20, verbose_name="TBO inspeccion inicial", choices=opcVutil_i, default=HORAS_i, null=True, blank=True)
 	vUtil_i				= models.DateField(verbose_name="TBO Calendario inspec inicial",null=True, blank=True)
-	hvUtil_i			= models.IntegerField(verbose_name="Horas inspec inicial TBO",null=True, blank=True, default=1)	
+	hvUtil_i			= models.IntegerField(verbose_name="Horas inspec inicial TBO",default=1)	
+	mvUtil_i 			= models.IntegerField(verbose_name="Minutos inspec inicial TBO",default=1)
 
-# -- Vida util inspeccion posterior(TBO)--#
 	HORAS_p='h'
 	TIEMPO_p='t'
 	AMBOS_p='a'
@@ -63,38 +63,66 @@ class Componente(models.Model):
 	)
 	vUtilOpc_p			= models.CharField(max_length=20, verbose_name="TBO inspeccion posterior", choices=opcVutil_p, default=HORAS_p, null=True, blank=True)
 	vUtil_p				= models.DateField(verbose_name="TBO Calendario inspec posterior",null=True, blank=True)
-	hvUtil_p			= models.IntegerField(verbose_name="Horas inspec posterior TBO",null=True, blank=True, default=1)	
+	hvUtil_p			= models.IntegerField(verbose_name="Horas inspec posterior TBO",default=1)	
+	mvUtil_p 			= models.IntegerField(verbose_name="Minutos inspec posterior TBO",default=1)
 	
-	# -- -- #
-	hUtilizado			= models.IntegerField(verbose_name="Horas total", default=1)			
-	hDurg				= models.IntegerField(verbose_name="Horas Durg", default=1)				
-	hRemanente			= models.IntegerField(verbose_name="Horas Remanente", default=1)		
-	porcenUso			= models.IntegerField(verbose_name="Porcentaje de uso",default=1)
-	mesesVencimiento	= models.IntegerField(verbose_name="Meses de vencimiento",default=1)
-	estado				= models.CharField(max_length=200, verbose_name="Estado", null=True)
-	alerta				= models.CharField(max_length=20, verbose_name="Alerta", default="No")
-	alertaFecha			= models.CharField(max_length=20, verbose_name="Alerta fecha", default="No")
 	ordenTrabajo		= models.CharField(max_length=20, verbose_name="Orden Trabajo", default="OT7")
+	hUtilizado			= models.IntegerField(verbose_name="Horas total", default=1)			
+	mUtilizado			= models.IntegerField(verbose_name="Minutos total",default=1)
+	hDurg				= models.IntegerField(verbose_name="Horas Durg", default=1)				
+	mDurg				= models.IntegerField(verbose_name="Minutos Durg",default=1)
+
+	descripcion			= models.CharField(max_length=200, verbose_name="Descripcion",null=True, blank=True)
+
+	hRemanente			= models.IntegerField(verbose_name="Horas Remanente", default=1)		
+	mRemanente			= models.IntegerField(verbose_name="Minutos Remanente",default=1)
+	porcenUso			= models.IntegerField(verbose_name="Porcentaje de uso",default=1)
 	
-	mvUtil 				= models.IntegerField(verbose_name="Minutos TBO",null=True, blank=True)
-	mUtilizado			= models.IntegerField(verbose_name="Minutos total",null=True, blank=True)		
-	mRemanente			= models.IntegerField(verbose_name="Minutos Remanente",null=True, blank=True)
-	mDurg				= models.IntegerField(verbose_name="Minutos Durg",null=True, blank=True)			
+	alerta				= models.CharField(max_length=20, verbose_name="Alerta", default="No")
+	alerta_i			= models.CharField(max_length=20, verbose_name="Alerta inicial", default="No")
+	alerta_p			= models.CharField(max_length=20, verbose_name="Alerta posterior", default="No")
+	
+	alertaFecha			= models.CharField(max_length=20, verbose_name="Alerta fecha", default="No")
+	alertaFecha_i		= models.CharField(max_length=20, verbose_name="Alerta fecha inicial", default="No")
+	alertaFecha_p		= models.CharField(max_length=20, verbose_name="Alerta fecha posterior", default="No")
+	
+	
+	hRemanente_i		= models.IntegerField(verbose_name="Horas Remanente inicial", default=1)
+	mRemanente_i		= models.IntegerField(verbose_name="Minutos Remanente inicial", default=1)
+
+	hRemanente_p		= models.IntegerField(verbose_name="Horas Remanente posterior", default=1)
+	mRemanente_p		= models.IntegerField(verbose_name="Minutos Remanente posterior", default=1)
+	
+	porcenUso_i			= models.IntegerField(verbose_name="Porcentaje de uso inicial",default=1)
+	porcenUso_p			= models.IntegerField(verbose_name="Porcentaje de uso posterior",default=1)
+
+	estado				= models.CharField(max_length=200, verbose_name="Estado", null=True)
+	fechaFabricacion	= models.DateField(verbose_name="Fecha de Fabricacion",null=True)							
 	# -- Auditoria -- #
 	creado				= models.DateTimeField(auto_now_add = True, null=True, blank=True)
 	actualizado			= models.DateTimeField(auto_now = True, null=True, blank=True)
 
+	def asignado(self):
+		return self.aeronave.all().count() > 0
 
 	def horasRemanentes(self):
 		return self.hvUtil - self.hDurg
 
+	def horasRemanentes_i(self):
+		return self.hvUtil_i - self.hDurg
+
+	def horasRemanentes_p(self):
+		return self.hvUtil_p - self.hDurg			
+
 	def porcentaUso(self):
 		return (self.hDurg * 100)/self.hvUtil
 
-	def asignado(self):
-		return self.aeronave.all().count() > 0
+	def porcentaUso_i(self):
+		return (self.hDurg * 100)/self.hvUtil_i
 
-		
+	def porcentaUso_p(self):
+		return (self.hDurg * 100)/self.hvUtil_p
+
 
 	# -- ADMIN --#
 	class Meta:
@@ -106,8 +134,25 @@ class Componente(models.Model):
 		return '%s %s %s %s %s' %(self.numSerie, "-", self.id, "-", self.nombre,) 		# devuelve numero de serie - el nombre del componente
 
 Componente.objects.all().update(
-	porcenUso = (F('hDurg')*100)/F('hvUtil'),
+	# hvUtil=10,
+	# mvUtil=10,
+	# hvUtil_i=10,
+	# mvUtil_i=10,
+	# hvUtil_p=10,
+	# mvUtil_p=10,
+	# hUtilizado=10,
+	# mUtilizado=10,
+	# hDurg=10,
+	# mDurg=10,
 	hRemanente = F('hvUtil') - F('hDurg'),
+	mRemanente = F('mvUtil') - F('mDurg'),
+	hRemanente_i = F('hvUtil_i') - F('hDurg'),
+	mRemanente_i = F('mvUtil_i') - F('mDurg'),
+	hRemanente_p = F('hvUtil_p') - F('hDurg'),
+	mRemanente_p = F('mvUtil_p') - F('mDurg'),
+	porcenUso = (F('hDurg')*100)/F('hvUtil'),
+	porcenUso_i = (F('hDurg')*100)/F('hvUtil_i'),
+	porcenUso_p = (F('hDurg')*100)/F('hvUtil_p'),
 )
 
 

@@ -16,6 +16,7 @@
 	</div>
 	<form action="" method="POST">{% csrf_token %}
 		<div class="card-body">
+			{{ form.errors }}
 			<div class="form-row">
 				<div class="col-sm">
 					<strong>{{form.numSerie.label}}</strong>
@@ -48,16 +49,23 @@
 			</br>
 			<div class="form-row">
 				<div class="col-sm">
-					<strong>{{form.tipo.label}}</strong>
-					{{form.tipo}}					
-				</div>
-				<div class="col-sm">
 					<strong>{{form.fabricante.label}}</strong>
 					{{form.fabricante}}
 				</div>
 				<div class="col-sm">
 					<strong>{{form.proveedor.label}}</strong>
 					{{form.proveedor}}
+				</div>
+			</div>			
+			<div class="form-row">
+				<div class="col-sm">
+					<hr>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="col-sm">
+					<strong>{{form.tipo.label}}</strong>
+					{{form.tipo}}					
 				</div>
 			</div>
 			</br>
@@ -69,6 +77,10 @@
 				<div class="col-sm">
 					<strong>{{ form.hvUtil.label }}</strong>
 					{{ form.hvUtil }}
+				</div>
+				<div class="col-sm">
+					<strong>{{ form.mvUtil.label }}</strong>
+					{{ form.mvUtil }}
 				</div>
 				<div class="col-sm">
 					<strong>{{ form.vUtil.label }}</strong>
@@ -86,6 +98,10 @@
 					{{ form.hvUtil_i }}
 				</div>
 				<div class="col-sm">
+					<strong>{{ form.mvUtil_i.label }}</strong>
+					{{ form.mvUtil_i }}
+				</div>
+				<div class="col-sm">
 					<strong>{{ form.vUtil_i.label }}</strong>
 					{{ form.vUtil_i }}
 				</div>
@@ -101,10 +117,19 @@
 					{{ form.hvUtil_p }}
 				</div>
 				<div class="col-sm">
+					<strong>{{ form.mvUtil_p.label }}</strong>
+					{{ form.mvUtil_p }}
+				</div>
+				<div class="col-sm">
 					<strong>{{ form.vUtil_p.label }}</strong>
 					{{ form.vUtil_p }}
 				</div>
-			</div>			
+			</div>
+			<div class="form-row">
+				<div class="col-sm">
+					<hr>
+				</div>
+			</div>
 			</br>			
 			<div class="form-row">
 				<div class="col-sm">
@@ -141,9 +166,11 @@
 		$("#id_vUtilOpc_i").prop("disabled", true);
 		$("#id_vUtil_i").prop("disabled", true);
 		$("#id_hvUtil_i").prop("disabled", true);
+		$("#id_mvUtil_i").prop("disabled", true);
 		$("#id_vUtilOpc_p").prop("disabled", true);
 		$("#id_vUtil_p").prop("disabled", true);
 		$("#id_hvUtil_p").prop("disabled", true);
+		$("#id_mvUtil_p").prop("disabled", true);
 
 
 		$("#id_vUtilOpc").prop("disabled", false);
@@ -153,13 +180,16 @@
 			if ($("#id_vUtilOpc").val() == "h") {
 				$("#id_vUtil").prop("disabled", true);
 				$("#id_hvUtil").prop("disabled", false);
+				$("#id_mvUtil").prop("disabled", false);
 			}
 			if ($("#id_vUtilOpc").val() == "t") {
 				$("#id_hvUtil").prop("disabled", true);
+				$("#id_mvUtil").prop("disabled", true);
 				$("#id_vUtil").prop("disabled", false);
 			}
 			if ($("#id_vUtilOpc").val() == "a") {
 				$("#id_hvUtil").prop("disabled", false);
+				$("#id_mvUtil").prop("disabled", false);
 				$("#id_vUtil").prop("disabled", false);
 			}		
 		});
@@ -169,23 +199,28 @@
 				$("#id_vUtilOpc_i").prop("disabled", true);
 				$("#id_vUtil_i").prop("disabled", true);
 				$("#id_hvUtil_i").prop("disabled", true);
+				$("#id_mvUtil_i").prop("disabled", true);
 				
 				$("#id_vUtilOpc_p").prop("disabled", true);
 				$("#id_vUtil_p").prop("disabled", true);
 				$("#id_hvUtil_p").prop("disabled", true);
+				$("#id_mvUtil_p").prop("disabled", true);
 
 				$("#id_vUtilOpc").prop("disabled", false);
 
 				if ($("#id_vUtilOpc").val() == "h") {
 					$("#id_vUtil").prop("disabled", true);
 					$("#id_hvUtil").prop("disabled", false);
+					$("#id_mvUtil").prop("disabled", false);
 				}
 				if ($("#id_vUtilOpc").val() == "t") {
 					$("#id_hvUtil").prop("disabled", true);
+					$("#id_mvUtil").prop("disabled", true);
 					$("#id_vUtil").prop("disabled", false);
 				}
 				if ($("#id_vUtilOpc").val() == "a") {
 					$("#id_hvUtil").prop("disabled", false);
+					$("#id_mvUtil").prop("disabled", false);
 					$("#id_vUtil").prop("disabled", false);
 				}
 
@@ -193,13 +228,16 @@
 					if ($("#id_vUtilOpc").val() == "h") {
 						$("#id_vUtil").prop("disabled", true);
 						$("#id_hvUtil").prop("disabled", false);
+						$("#id_mvUtil").prop("disabled", false);
 					}
 					if ($("#id_vUtilOpc").val() == "t") {
 						$("#id_hvUtil").prop("disabled", true);
+						$("#id_mvUtil").prop("disabled", true);
 						$("#id_vUtil").prop("disabled", false);
 					}
 					if ($("#id_vUtilOpc").val() == "a") {
 						$("#id_hvUtil").prop("disabled", false);
+						$("#id_mvUtil").prop("disabled", false);
 						$("#id_vUtil").prop("disabled", false);
 					}
 				});
@@ -208,6 +246,7 @@
 			if ($("#id_tipo").val() == "t2") {
 				$("#id_vUtilOpc").prop("disabled", true);
 				$("#id_hvUtil").prop("disabled", true);
+				$("#id_mvUtil").prop("disabled", true);
 				$("#id_vUtil").prop("disabled", true);
 				
 				$("#id_vUtilOpc_i").prop("disabled", false);
@@ -216,26 +255,32 @@
 				if ($("#id_vUtilOpc_i").val() == "h") {
 					$("#id_vUtil_i").prop("disabled", true);
 					$("#id_hvUtil_i").prop("disabled", false);
+					$("#id_mvUtil_i").prop("disabled", false);
 				}
 				if ($("#id_vUtilOpc_i").val() == "t") {
 					$("#id_hvUtil_i").prop("disabled", true);
+					$("#id_mvUtil_i").prop("disabled", true);
 					$("#id_vUtil_i").prop("disabled", false);
 				}
 				if ($("#id_vUtilOpc_i").val() == "a") {
 					$("#id_hvUtil_i").prop("disabled", false);
+					$("#id_mvUtil_i").prop("disabled", false);
 					$("#id_vUtil_i").prop("disabled", false);
 				}
 
 				if ($("#id_vUtilOpc_p").val() == "h") {
 					$("#id_vUtil_p").prop("disabled", true);
 					$("#id_hvUtil_p").prop("disabled", false);
+					$("#id_mvUtil_p").prop("disabled", false);
 				}
 				if ($("#id_vUtilOpc_p").val() == "t") {
 					$("#id_hvUtil_p").prop("disabled", true);
+					$("#id_mvUtil_p").prop("disabled", true);
 					$("#id_vUtil_p").prop("disabled", false);
 				}
 				if ($("#id_vUtilOpc_p").val() == "a") {
 					$("#id_hvUtil_p").prop("disabled", false);
+					$("#id_mvUtil_p").prop("disabled", false);
 					$("#id_vUtil_p").prop("disabled", false);
 				}
 
@@ -243,13 +288,16 @@
 					if ($("#id_vUtilOpc_i").val() == "h") {
 						$("#id_vUtil_i").prop("disabled", true);
 						$("#id_hvUtil_i").prop("disabled", false);
+						$("#id_mvUtil_i").prop("disabled", false);
 					}
 					if ($("#id_vUtilOpc_i").val() == "t") {
 						$("#id_hvUtil_i").prop("disabled", true);
+						$("#id_mvUtil_i").prop("disabled", true);
 						$("#id_vUtil_i").prop("disabled", false);
 					}
 					if ($("#id_vUtilOpc_i").val() == "a") {
 						$("#id_hvUtil_i").prop("disabled", false);
+						$("#id_mvUtil_i").prop("disabled", false);
 						$("#id_vUtil_i").prop("disabled", false);
 					}
 				});	
@@ -258,35 +306,41 @@
 					if ($("#id_vUtilOpc_p").val() == "h") {
 						$("#id_vUtil_p").prop("disabled", true);
 						$("#id_hvUtil_p").prop("disabled", false);
+						$("#id_mvUtil_p").prop("disabled", false);
 					}
 					if ($("#id_vUtilOpc_p").val() == "t") {
 						$("#id_hvUtil_p").prop("disabled", true);
+						$("#id_mvUtil_p").prop("disabled", true);
 						$("#id_vUtil_p").prop("disabled", false);
 					}
 					if ($("#id_vUtilOpc_p").val() == "a") {
 						$("#id_hvUtil_p").prop("disabled", false);
+						$("#id_mvUtil_p").prop("disabled", false);
 						$("#id_vUtil_p").prop("disabled", false);
 					}
 				});		
 			}
 		});
 
-
 		$("#id_fechaingreso").change( function() {
-			var meses = $("#id_mesesVencimiento").val();
-			var dias = parseInt(meses * 30);
 			var fechaInstalado = $("#id_fechaingreso").datepicker("getDate");
-			fechaInstalado.setDate(fechaInstalado.getDate() + dias);
+			var meses = $("#id_mesesVencimiento").val();
+			var mes = parseInt(meses);
+			fechaInstalado.setMonth(fechaInstalado.getMonth() + mes);
 			$("#id_fechaVencimiento").datepicker("setDate", fechaInstalado);
+			$("#id_vUtil").datepicker("setDate", fechaInstalado);
+			$("#id_vUtil_i").datepicker("setDate", fechaInstalado);
 		});
 
 		$("#id_mesesVencimiento").change( function() {
-			var meses = $("#id_mesesVencimiento").val();
-			var dias = parseInt(meses * 30);
 			var fechaInstalado = $("#id_fechaingreso").datepicker("getDate");
-			fechaInstalado.setDate(fechaInstalado.getDate() + dias);
+			var meses = $("#id_mesesVencimiento").val();
+			var mes = parseInt(meses);
+			fechaInstalado.setMonth(fechaInstalado.getMonth() + mes);
 			$("#id_fechaVencimiento").datepicker("setDate", fechaInstalado);
-		});		
+			$("#id_vUtil").datepicker("setDate", fechaInstalado);
+			$("#id_vUtil_i").datepicker("setDate", fechaInstalado);
+		});
 	});
 </script>
 {% endblock %}

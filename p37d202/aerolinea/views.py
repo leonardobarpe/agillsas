@@ -383,13 +383,38 @@ class vueloCreateView(LoginRequiredMixin,CreateView):
 			for component in self.object.aeronave.componente.all():
 				component.hUtilizado += horas
 				component.mUtilizado += minutos
+				
 				component.hDurg += horas
+				component.mDurg += minutos
+				
 				component.hRemanente = component.hvUtil - component.hDurg
+				component.mRemanente = component.mvUtil - component.mDurg
+
+				component.hRemanente_i = component.hvUtil_i - component.hDurg
+				component.mRemanente_i = component.mvUtil_i - component.mDurg
+
+				component.hRemanente_p = component.hvUtil_p - component.hDurg
+				component.mRemanente_p = component.mvUtil_p - component.mDurg
+
 				component.porcenUso = (component.hDurg * 100)/component.hvUtil
+				component.porcenUso_i = (component.hDurg * 100)/component.hvUtil_i
+				component.porcenUso_p = (component.hDurg * 100)/component.hvUtil_i
+
 				if component.porcenUso >= 90:
 					component.alerta = "Si"
 				if component.porcenUso < 90:
 					component.alerta = "No"
+
+				if component.porcenUso_i >= 90:
+					component.alerta_i = "Si"
+				if component.porcenUso_i < 90:
+					component.alerta_i = "No"
+
+				if component.porcenUso_p >= 90:
+					component.alerta_p = "Si"
+				if component.porcenUso_p < 90:
+					component.alerta_p = "No"
+
 				component.save()
 			return super(vueloCreateView, self).form_valid(form)
 		else:

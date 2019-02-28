@@ -71,7 +71,7 @@ th, td {
 				</tr>		
 				<tr>
 					<th align="right" class="colorCelda">Horas TBO:</th>
-					<td>{{ componente.hvUtil }}</td>
+					<td>{{ componente.hvUtil }}:{% if not componente.hvUtil %}00{% else %}{{ componente.hvUtil }}{% endif %}</td>
 				</tr>
 
 				<tr>
@@ -87,7 +87,7 @@ th, td {
 
 				<tr>
 					<th align="right" class="colorCelda">Horas inspec inicial TBO:</th>
-					<td>{{ componente.hvUtil_i }}</td>
+					<td>{{ componente.hvUtil_i }}:{% if not componente.mvUtil_i %}00{% else %}{{ componente.mvUtil_i }}{% endif %}</td>
 				</tr>
 				<tr>
 					<th align="right" class="colorCelda">TBO Calendario inspec inicial:</th>
@@ -102,7 +102,7 @@ th, td {
 
 				<tr>
 					<th align="right" class="colorCelda">Horas inspec posterior TBO:</th>
-					<td>{{ componente.hvUtil_p }}</td>
+					<td>{{ componente.hvUtil_p }}:{% if not componente.mvUtil_p %}00{% else %}{{ componente.mvUtil_p }}{% endif %}</td>
 				</tr>
 				<tr>
 					<th align="right" class="colorCelda">TBO Calendario inspec posterior:</th>
@@ -117,15 +117,15 @@ th, td {
 
 				<tr>
 					<th align="right" class="colorCelda">Horas total:</th>
-					<td>{{ componente.hUtilizado }}</td>
+					<td>{{ componente.hUtilizado }}:{% if not componente.mUtilizado %}00{% else %}{{ componente.mUtilizado }}{% endif %}</td>
 				</tr>
 				<tr>
 					<th align="right" class="colorCelda">Horas DURG:</th>
-					<td>{{ componente.hDurg }}</td>
+					<td>{{ componente.hDurg }}:{% if not componente.mDurg %}00{% else %}{{ componente.mDurg }}{% endif %}</td>
 				</tr>
 				<tr>
 					<th align="right" class="colorCelda">Horas remanente:</th>
-					<td>{{ componente.hRemanente }}</td>
+					<td>{{ componente.hRemanente }}:00</td>
 				</tr>
 <!--  				<tr>
 					<th align="right" class="colorCelda">Estado:</th>
