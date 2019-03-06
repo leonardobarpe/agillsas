@@ -37,8 +37,8 @@ class Componente(models.Model):
 	)
 	vUtilOpc			= models.CharField(max_length=20, verbose_name="TBO", choices=opcVutil, default=HORAS, null=True, blank=True)
 	vUtil				= models.DateField(verbose_name="TBO Calendario",null=True, blank=True)
-	hvUtil 				= models.IntegerField(verbose_name="Horas TBO",default=1)
-	mvUtil 				= models.IntegerField(verbose_name="Minutos TBO",default=1)
+	hvUtil 				= models.IntegerField(verbose_name="Horas TBO",default=1, blank=True)
+	mvUtil 				= models.IntegerField(verbose_name="Minutos TBO",default=1, blank=True)
 
 	HORAS_i='h'
 	TIEMPO_i='t'
@@ -50,8 +50,8 @@ class Componente(models.Model):
 	)
 	vUtilOpc_i			= models.CharField(max_length=20, verbose_name="TBO inspeccion inicial", choices=opcVutil_i, default=HORAS_i, null=True, blank=True)
 	vUtil_i				= models.DateField(verbose_name="TBO Calendario inspec inicial",null=True, blank=True)
-	hvUtil_i			= models.IntegerField(verbose_name="Horas inspec inicial TBO",default=1)	
-	mvUtil_i 			= models.IntegerField(verbose_name="Minutos inspec inicial TBO",default=1)
+	hvUtil_i			= models.IntegerField(verbose_name="Horas inspec inicial TBO",default=1, blank=True)	
+	mvUtil_i 			= models.IntegerField(verbose_name="Minutos inspec inicial TBO",default=1, blank=True)
 
 	HORAS_p='h'
 	TIEMPO_p='t'
@@ -63,14 +63,14 @@ class Componente(models.Model):
 	)
 	vUtilOpc_p			= models.CharField(max_length=20, verbose_name="TBO inspeccion posterior", choices=opcVutil_p, default=HORAS_p, null=True, blank=True)
 	vUtil_p				= models.DateField(verbose_name="TBO Calendario inspec posterior",null=True, blank=True)
-	hvUtil_p			= models.IntegerField(verbose_name="Horas inspec posterior TBO",default=1)	
-	mvUtil_p 			= models.IntegerField(verbose_name="Minutos inspec posterior TBO",default=1)
+	hvUtil_p			= models.IntegerField(verbose_name="Horas inspec posterior TBO",default=1, blank=True)	
+	mvUtil_p 			= models.IntegerField(verbose_name="Minutos inspec posterior TBO",default=1, blank=True)
 	
 	ordenTrabajo		= models.CharField(max_length=20, verbose_name="Orden Trabajo", default="OT7")
-	hUtilizado			= models.IntegerField(verbose_name="Horas total", default=1)			
-	mUtilizado			= models.IntegerField(verbose_name="Minutos total",default=1)
-	hDurg				= models.IntegerField(verbose_name="Horas Durg", default=1)				
-	mDurg				= models.IntegerField(verbose_name="Minutos Durg",default=1)
+	hUtilizado			= models.IntegerField(verbose_name="Horas total", default=1, blank=True)			
+	mUtilizado			= models.IntegerField(verbose_name="Minutos total",default=1, blank=True)
+	hDurg				= models.IntegerField(verbose_name="Horas Durg", default=1, blank=True)				
+	mDurg				= models.IntegerField(verbose_name="Minutos Durg",default=1, blank=True)
 
 	descripcion			= models.CharField(max_length=200, verbose_name="Descripcion",null=True, blank=True)
 

@@ -113,8 +113,16 @@ class componenteUpdateView(LoginRequiredMixin,UpdateView):
 				self.object.alertaFecha="Si"
 
 			hTBO = self.object.hvUtil
+			mTBO = self.object.mvUtil
 			hTBOi = self.object.hvUtil_i
+			mTBOi = self.object.mvUtil_i
 			hTBOp = self.object.hvUtil_p
+			mTBOp = self.object.mvUtil_p
+
+			hUtilizado = self.object.hUtilizado
+			mUtilizado = self.object.mUtilizado
+			hDurg = self.object.hDurg
+			mDurg = self.object.mDurg
 
 			if not hTBO:
 				self.object.hvUtil = 1
@@ -122,6 +130,22 @@ class componenteUpdateView(LoginRequiredMixin,UpdateView):
 				self.object.hvUtil_i = 1
 			if not hTBOp:
 				self.object.hvUtil_p = 1
+
+			if not mTBO:
+				self.object.mvUtil = 1
+			if not mTBOi:
+				self.object.mvUtil_i = 1
+			if not mTBOp:
+				self.object.mvUtil_p = 1
+
+			if not hUtilizado:
+				self.object.hUtilizado = 1
+			if not mUtilizado:
+				self.object.mUtilizado = 1
+			if not hDurg:
+				self.object.hDurg = 1
+			if not mDurg:
+				self.object.mDurg = 1		
 				
 			self.object.save()
 			return super(componenteUpdateView, self).form_valid(form)
