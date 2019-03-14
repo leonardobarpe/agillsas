@@ -13,7 +13,7 @@ class Componente(models.Model):
 	marca				= models.CharField(max_length=200, verbose_name="Parte/Numero")							
 	
 	fechaingreso		= models.DateField(verbose_name="Fecha de Instalacion")									
-	mesesVencimiento	= models.IntegerField(verbose_name="Meses de vencimiento",default=1)
+	mesesVencimiento	= models.IntegerField(verbose_name="Meses de vencimiento",default=1, blank=True)
 	fechaVencimiento	= models.DateField(verbose_name="Fecha de Vencimiento")								
 	
 	fabricante			= models.CharField(max_length=200, verbose_name="Fabricante")						
