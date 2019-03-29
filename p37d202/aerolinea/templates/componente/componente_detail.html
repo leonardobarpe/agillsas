@@ -47,10 +47,6 @@
 					<th scope="row" class="bg-info text-white text-right">Fabricante:</th>
 					<td>{{ componente.fabricante }}</td>
 				</tr>
-<!-- 				<tr>
-					<th scope="row" class="bg-info text-white text-right">Fecha de fabricacion:</th>
-					<td>{{ componente.fechaFabricacion }}</td>
-				</tr> -->
 				<tr>
 					<th scope="row" class="bg-info text-white text-right">Fecha de vencimiento:</th>
 					<td>{{ componente.fechaVencimiento }}</td>
@@ -61,64 +57,15 @@
 				</tr>
 				<tr>
 					<th scope="row" class="bg-info text-white text-right">Tipo:</th>
-					<td>{{ componente.tipo }}</td>
+					<td>
+						{% if componente.tipo == "t1" %} Tipo 1 {% endif %}
+						{% if componente.tipo == "t2" %} Tipo 2 {% endif %}
+					</td>
 				</tr>
 				<tr>
 					<th scope="row" class="bg-info text-white text-right">Fecha de instalacion:</th>
 					<td>{{ componente.fechaingreso }}</td>
 				</tr>
-				<tr>
-					<th scope="row" class="bg-info text-white text-right">Orden de trabajo:</th>
-					<td>OT - {{ componente.ordenTrabajo }}</td>
-				</tr>
-				<tr>
-					<th scope="row" class="bg-info text-white text-right">Descripcion:</th>
-					<td>{{ componente.descripcion|safe }}</td>
-				</tr>		
-				<tr>
-					<th scope="row" class="bg-info text-white text-right">Horas TBO:</th>
-					<td>{{ componente.hvUtil }}:{% if not componente.hvUtil %}00{% else %}{{ componente.hvUtil }}{% endif %}</td>
-				</tr>
-				<tr>
-					<th scope="row" class="bg-info text-white text-right">TBO calendario:</th>
-					<td>
-					{% if not componente.vUtil  %}	
-						<span> NA </span>
-					{% else %}
-						{{ componente.vUtil }}
-					{% endif %}
-					</td>
-				</tr>				
-				<tr>
-					<th scope="row" class="bg-info text-white text-right">Horas inspec inicial TBO:</th>
-					<td>{{ componente.hvUtil_i }}:{% if not componente.mvUtil_i %}00{% else %}{{ componente.mvUtil_i }}{% endif %}</td>
-				</tr>
-				<tr>
-					<th scope="row" class="bg-info text-white text-right">TBO Calendario inspec inicial:</th>
-					<td>
-					{% if not componente.vUtil_i  %}	
-						<span> NA </span>
-					{% else %}
-						{{ componente.vUtil_i }}
-					{% endif %}
-					</td>
-				</tr>
-
-				<tr>
-					<th scope="row" class="bg-info text-white text-right">Horas inspec posterior TBO:</th>
-					<td>{{ componente.hvUtil_p }}:{% if not componente.mvUtil_p %}00{% else %}{{ componente.mvUtil_p }}{% endif %}</td>
-				</tr>
-				<tr>
-					<th scope="row" class="bg-info text-white text-right">TBO Calendario inspec posterior:</th>
-					<td>
-					{% if not componente.vUtil_p  %}	
-						<span> NA </span>
-					{% else %}
-						{{ componente.vUtil_p }}
-					{% endif %}
-					</td>
-				</tr>
-
 				<tr>
 					<th scope="row" class="bg-info text-white text-right">Horas total:</th>
 					<td>{{ componente.hUtilizado }}:{% if not componente.mUtilizado %}00{% else %}{{ componente.mUtilizado }}{% endif %}</td>
@@ -127,14 +74,170 @@
 					<th scope="row" class="bg-info text-white text-right">Horas DURG:</th>
 					<td>{{ componente.hDurg }}:{% if not componente.mDurg %}00{% else %}{{ componente.mDurg }}{% endif %}</td>
 				</tr>
+				{% if componente.tipo == "t1" and  componente.opcVutil == "t" or componente.opcVutil == "a" %}
 				<tr>
-					<th scope="row" class="bg-info text-white text-right">Horas remanente:</th>
-					<td>{{ componente.horasRemanentes }}:00</td>
+					<th scope="row" class="bg-info text-white text-right">Meses de vencimiento:</th>
+					<td>{{ componente.mesesVencimiento }}</td>
 				</tr>
-<!-- 				<tr>
-					<th scope="row" class="bg-info text-white text-right">Estado:</th>
-					<td>{{ componente.estado }}</td>
-				</tr> -->
+				{% endif %}
+				
+				{% if componente.tipo == "t2" and componente.vUtilOpc_i == "t" or componente.vUtilOpc_i == "a" or componente.vUtilOpc_p == "t" or componente.vUtilOpc_p == "a" %}
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Meses de vencimiento:</th>
+					<td>{{ componente.mesesVencimiento }}</td>
+				</tr>					
+				{% endif %}
+				
+				{% if componente.tipo == "t1" %}
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">TBO:</th>
+						<td>
+							{% if componente.vUtilOpc == "h" %}Horas{% endif %}
+							{% if componente.vUtilOpc == "t" %}Tiempo{% endif %}
+							{% if componente.vUtilOpc == "a" %}Ambos{% endif %}
+						</td>
+					</tr>
+					{% if componente.vUtilOpc == "h" %}
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Horas TBO:</th>
+						<td>{{ componente.hvUtil }}:{% if not componente.mvUtil %}00{% else %}{{ componente.mvUtil }}{% endif %}</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Horas remanente TBO:</th>
+						<td>{{ componente.horasRemanentes }}:00</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Porcentaje de uso TBO:</th>
+						<td><span class="badge {% if componente.porcentaUso >= 80 %} badge-danger {% endif %}"> {{ componente.porcentaUso }} %</span></td>
+					</tr>
+					{% endif %}
+					{% if componente.vUtilOpc == "t" %}
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">TBO Calendario:</th>
+						<td><span class="badge {% if componente.alertaFecha == "Si" %} badge-danger {% endif %}">{{ componente.vUtil }}</span></td>
+					</tr>
+					{% endif %}
+					{% if componente.vUtilOpc == "a" %}
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Horas TBO:</th>
+						<td>{{ componente.hvUtil }}:{% if not componente.mvUtil %}00{% else %}{{ componente.mvUtil }}{% endif %}</td>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Horas remanente TBO:</th>
+						<td>{{ componente.horasRemanentes }}:00</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Porcentaje de uso TBO:</th>
+						<td><span class="badge {% if componente.porcentaUso >= 80 %} badge-danger {% endif %}"> {{ componente.porcentaUso }} %</span></td>
+					</tr>						
+					</tr>					
+					<tr>
+						<th scope="row" class="bg-info text-white text-right"><span class="badge {% if componente.alertaFecha == "Si" %} badge-danger {% endif %}">TBO Calendario:</span></th>
+						<td>{{ componente.vUtil }}</td>
+					</tr>
+					{% endif %}					
+				{% endif %}
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Orden de trabajo:</th>
+					<td>OT - {{ componente.ordenTrabajo }}</td>
+				</tr>
+				<tr>
+					<th scope="row" class="bg-info text-white text-right">Descripcion:</th>
+					<td>{{ componente.descripcion|safe }}</td>
+				</tr>
+				{% if componente.tipo == "t2" %}
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">TBO inspec inicial:</th>
+						<td>
+							{% if componente.vUtilOpc_i == "h" %}Horas{% endif %}
+							{% if componente.vUtilOpc_i == "t" %}Tiempo{% endif %}
+							{% if componente.vUtilOpc_i == "a" %}Ambos{% endif %}
+						</td>
+					</tr>
+					{% if componente.vUtilOpc_i == "h" %}
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Horas TBO inspec inicial:</th>
+						<td>{{ componente.hvUtil_i }}:{% if not componente.mvUtil_i %}00{% else %}{{ componente.mvUtil_i }}{% endif %}</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Horas remanente TBO inspec inicial:</th>
+						<td>{{ componente.horasRemanentes_i }}:00</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Porcentaje de uso TBO inspec inicial:</th>
+						<td><span class="badge {% if componente.porcentaUso_i >= 80 %} badge-danger {% endif %}"> {{ componente.porcentaUso_i }} %</span></td>
+					</tr>					
+					{% endif %}
+					{% if componente.vUtilOpc_i == "t" %}
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">TBO calendario inspec inicial:</th>
+						<td><span class="badge {% if componente.alertaFecha_i == "Si" %} badge-danger {% endif %}">{{ componente.vUtil_i }}</span></td>
+					</tr>
+					{% endif %}
+					{% if componente.vUtilOpc_i == "a" %}
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Horas TBO inspec inicial:</th>
+						<td>{{ componente.hvUtil_i }}:{% if not componente.mvUtil_i %}00{% else %}{{ componente.mvUtil_i }}{% endif %}</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Horas remanente TBO inspec inicial:</th>
+						<td>{{ componente.horasRemanentes_i }}:00</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Porcentaje de uso TBO inspec inicial:</th>
+						<td><span class="badge {% if componente.porcentaUso_i >= 80 %} badge-danger {% endif %}"> {{ componente.porcentaUso_i }} %</span></td>
+					</tr>										
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">TBO calendario inspec inicial:</th>
+						<td><span class="badge {% if componente.alertaFecha_i == "Si" %} badge-danger {% endif %}">{{ componente.vUtil_i }}</span></td>
+					</tr>
+					{% endif %}
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">TBO inspec posterior:</th>
+						<td>
+							{% if componente.vUtilOpc_p == "h" %}Horas{% endif %}
+							{% if componente.vUtilOpc_p == "t" %}Tiempo{% endif %}
+							{% if componente.vUtilOpc_p == "a" %}Ambos{% endif %}
+						</td>
+					</tr>					
+					{% if componente.vUtilOpc_p == "h" %}
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Horas TBO inspec posterior:</th>
+						<td>{{ componente.hvUtil_p }}:{% if not componente.mvUtil_p %}00{% else %}{{ componente.mvUtil_p }}{% endif %}</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Horas remanente TBO inspec posterior:</th>
+						<td>{{ componente.horasRemanentes_p }}:00</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Porcentaje de uso TBO inspec posterior:</th>
+						<td><span class="badge {% if componente.porcentaUso_p >= 80 %} badge-danger {% endif %}"> {{ componente.porcentaUso_p }} %</span></td>
+					</tr>					
+					{% endif %}
+					{% if componente.vUtilOpc_p == "t" %}
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">TBO calendario inspec posterior:</th>
+						<td><span class="badge {% if componente.alertaFecha_p == "Si" %} badge-danger {% endif %}">{{ componente.vUtil_p }}</td>
+					</tr>
+					{% endif %}
+					{% if componente.vUtilOpc_p == "a" %}
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Horas TBO inspec posterior:</th>
+						<td>{{ componente.hvUtil_p }}:{% if not componente.mvUtil_p %}00{% else %}{{ componente.mvUtil_p }}{% endif %}</td>
+					</tr>	
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Horas remanente TBO inspec posterior:</th>
+						<td>{{ componente.horasRemanentes_p }}:00</td>
+					</tr>
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">Porcentaje de uso TBO inspec posterior:</th>
+						<td><span class="badge {% if componente.porcentaUso_p >= 80 %} badge-danger {% endif %}"> {{ componente.porcentaUso_p }} %</span></td>
+					</tr>									
+					<tr>
+						<th scope="row" class="bg-info text-white text-right">TBO calendario inspec posterior:</th>
+						<td><span class="badge {% if componente.alertaFecha_p == "Si" %} badge-danger {% endif %}">{{ componente.vUtil_p }}</span></td>
+					</tr>
+					{% endif %}
+				{% endif %}
 				<tr>
 					<th scope="row" class="bg-info text-white text-right">Fecha creacion sistema:</th>
 					<td>{{ componente.creado }}</td>

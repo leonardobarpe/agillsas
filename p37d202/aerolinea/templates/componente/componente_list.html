@@ -18,47 +18,168 @@
 		</div>
 	</div>
 	<div class="card-body">
-		<table id="DataTable" class="table table-striped table-bordered table-hover compact" >
+		<table id="DataTable" class="stripe cell-border hover compact table table-bordered" style="width:100%">
 			<caption>Lista de componentes</caption>
 			<thead>
 				<tr>
-					<th scope="col"><small>Num. serie</small></th>
-					<th scope="col"><small>Id.</small></th>
-					{# <th scope="col"><small>Fecha alerta</small></th> #}
-					{# <th scope="col"><small>alerta</small></th> #}
-					<th scope="col"><small>Nombre</small></th>
-					<th scope="col"><small>Parte/Numero</small></th>
-					<th scope="col"><small>TBO</small></th>
-					<th scope="col"><small>Total</small></th>
-					<th scope="col"><small>DURG</small></th>
-					<th scope="col"><small>Remanente</small></th>
-					<th scope="col"><small>% Uso</small></th>
-					<th scope="col"><small>Fecha Vence</small></th>
-					<th scope="col"><small>Aeronave</small></th>
-					<th scope="col"><small>Opciones</small></th>
+					<th >Id.</th>
+					<th>Num. serie</th>
+					<th>Descripcion</th>
+					{# <th>Parte/Numero</th> #}
+					<th>Instalacion</th>
+					<th>Aeronave</th>
+					<th>Total</th>
+					<th>DURG</th>
+					<th>Tipo</th>
+
+					<th>TBO</th>
+					{# <th>Horas TBO</th> #}
+					{# <th>TBO Calendario</th> #}
+
+					<th>TBO inspec inicial</th>
+					{# <th>Horas TBO inspec inicial</th> #}
+					{# <th>TBO calendario inspec inicial</th> #}
+
+					<th>TBO inspec posterior</th>
+					{# <th>Horas TBO inspec posterior</th> #}
+					{# <th>TBO calendario inspec posterior</th> #}
+
+					{# <th>Remanente</th> #}
+					{# <th>% Uso</th> #}
+					{# <th>Fecha Vence</th> #}
+					<th>Opciones</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for componente in componente_list %}	
 				<tr>
-					<td>{{ componente.numSerie }}</td>
 					<td>{{ componente.id }}</td>
-					{# <td>{{ componente.alertaFecha }}</td> #}
-					{# <td>{{ componente.alerta }}</td> #}
+					<td>{{ componente.numSerie }}</td>
 					<td>{{ componente.nombre }}</td>
-					<td>{{ componente.marca }}</td>
-					<td class="text-center">{{ componente.hvUtil }}:{% if not componente.mvUtil %}00 {% else %}{{ componente.mvUtil }}{% endif %}</td>
-					<td class="text-center">{{ componente.hUtilizado }}:{% if not componente.mUtilizado %}00 {% else %}{{ componente.mUtilizado }}{% endif %}</td>
-					<td class="text-center">{{ componente.hDurg }}:{% if not componente.mDurg %}00 {% else %}{{ componente.mDurg }}{% endif %}</td>
-					<td class="text-center">{{ componente.horasRemanentes }}:00</td>
-					<td class="text-center"><span class="badge {% if componente.porcentaUso >= 90 %} badge-danger {% endif %}">{{ componente.porcentaUso|floatformat:2 }}</span></td>
-					<td class="text-center"><span class="badge {% if componente.alertaFecha == "Si" %} badge-danger {% endif %}">{{ componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</span>
-					</td>
+					{# <td>{{ componente.marca }}</td> #}
+					<td>{{ componente.fechaingreso|date:"SHORT_DATE_FORMAT" }}</td>
 					<td class="text-center">
 						{% for aeronave in componente.aeronave_set.all %}
 							<a class="btn btn-outline-info btn-sm" href="{% url 'aeronave_detail' aeronave.id %}"><small>{{ aeronave.placa }} - {{ aeronave.modelo }}</small></a>
 						{% endfor %}
 					</td>
+					<td class="text-center">{{ componente.hUtilizado }}:{% if not componente.mUtilizado %}00 {% else %}{{ componente.mUtilizado }}{% endif %}</td>
+					<td class="text-center">{{ componente.hDurg }}:{% if not componente.mDurg %}00 {% else %}{{ componente.mDurg }}{% endif %}</td>
+					<td>{% if  componente.tipo == "t1" %}Tipo 1{% endif %} {% if componente.tipo == "t2" %}Tipo 2{% endif %}   </td>
+					<td class="text-center">
+						{% if componente.tipo == "t1" %}
+							{% if componente.vUtilOpc == "h" %}<span class="badge {% if componente.porcentaUso >= 80 %} badge-danger {% endif %}">Horas <a class="badge badge-info" href="{% url 'componente_detail' componente.id %}" data-toggle="tooltip" data-placement="top" title="Ver detalles de la alerta"><i class="fas fa-link"></i></a></span>{% endif %}
+							{% if componente.vUtilOpc == "t" %}<span class="badge {% if componente.alertaFecha == "Si" %} badge-danger {% endif %}">Tiempo <a class="badge badge-info" href="{% url 'componente_detail' componente.id %}" data-toggle="tooltip" data-placement="top" title="Ver detalles de la alerta"><i class="fas fa-link"></i></a></span>{% endif %}
+							{% if componente.vUtilOpc == "a" %}<span class="badge {% if componente.porcentaUso >= 80 %} badge-danger {% endif %}">Ambos <a class="badge badge-info" href="{% url 'componente_detail' componente.id %}" data-toggle="tooltip" data-placement="top" title="Ver detalles de la alerta"><i class="fas fa-link"></i></a></span>{% endif %}						
+						{% endif %}
+						{% if componente.tipo == "t2" %}
+							NA
+						{% endif %}
+					</td>
+					<!-- 
+					<td class="text-center">
+						{% if componente.tipo == "t1" %}
+							{% if componente.vUtilOpc == "h" or componente.vUtilOpc == "a" %}
+								{{ componente.hvUtil }}:{% if not componente.mvUtil %}00 {% else %}{{ componente.mvUtil }}{% endif %}
+							{% else %}
+								NA
+							{% endif %}
+						{% endif %}
+						{% if componente.tipo == "t2" %}
+							NA
+						{% endif %}
+					</td>
+					<td class="text-center">
+						{% if componente.tipo == "t1" %}
+							{% if componente.vUtilOpc == "t" or componente.vUtilOpc == "a" %}
+								{{ componente.vUtil|date:"SHORT_DATE_FORMAT" }}
+							{% else %}
+								NA
+							{% endif %}
+						{% endif %}
+						{% if componente.tipo == "t2" %}
+							NA
+						{% endif %}						
+					</td>
+					-->
+					<td class="text-center">
+						{% if componente.tipo == "t2" %}
+							{% if componente.vUtilOpc_i == "h" %}<span class="badge {% if componente.porcentaUso_i >= 80 %} badge-danger {% endif %}">Horas <a class="badge badge-info" href="{% url 'componente_detail' componente.id %}" data-toggle="tooltip" data-placement="top" title="Ver detalles de la alerta"><i class="fas fa-link"></i></a></span>{% endif %}
+							{% if componente.vUtilOpc_i == "t" %}<span class="badge {% if componente.alertaFecha_i == "Si" %} badge-danger {% endif %}">Tiempo <a class="badge badge-info" href="{% url 'componente_detail' componente.id %}" data-toggle="tooltip" data-placement="top" title="Ver detalles de la alerta"><i class="fas fa-link"></i></a></span>{% endif %}
+							{% if componente.vUtilOpc_i == "a" %}<span class="badge {% if componente.porcentaUso_i >= 80 %} badge-danger {% endif %}">Ambos <a class="badge badge-info" href="{% url 'componente_detail' componente.id %}" data-toggle="tooltip" data-placement="top" title="Ver detalles de la alerta"><i class="fas fa-link"></i></a></span>{% endif %}						
+						{% endif %}
+						{% if componente.tipo == "t1" %}
+							NA
+						{% endif %}
+					</td>	
+					<!--				
+					<td class="text-center">
+						{% if componente.tipo == "t2" %}
+							{% if componente.vUtilOpc_i == "h" or componente.vUtilOpc_i == "a" %}
+								{{ componente.hvUtil_i }}:{% if not componente.mvUtil_i %}00 {% else %}{{ componente.mvUtil_i }}{% endif %}
+							{% else %}
+								NA
+							{% endif %}
+						{% endif %}
+						{% if componente.tipo == "t1" %}
+							NA
+						{% endif %}
+					</td>
+					<td class="text-center">
+						{% if componente.tipo == "t2" %}
+							{% if componente.vUtilOpc_i == "t" or componente.vUtilOpc_i == "a" %}
+								{{ componente.vUtil_i|date:"SHORT_DATE_FORMAT" }}
+							{% else %}
+								NA
+							{% endif %}
+						{% endif %}
+						{% if componente.tipo == "t1" %}
+							NA
+						{% endif %}						
+					</td>
+					-->
+					<td class="text-center">
+						{% if componente.tipo == "t2" %}
+							{% if componente.vUtilOpc_p == "h" %}<span class="badge {% if componente.porcentaUso_p >= 80 %} badge-danger {% endif %}">Horas <a class="badge badge-info" href="{% url 'componente_detail' componente.id %}" data-toggle="tooltip" data-placement="top" title="Ver detalles de la alerta"><i class="fas fa-link"></i></a></span>{% endif %}
+							{% if componente.vUtilOpc_p == "t" %}<span class="badge {% if componente.alertaFecha_p == "Si" %} badge-danger {% endif %}">Tiempo <a class="badge badge-info" href="{% url 'componente_detail' componente.id %}" data-toggle="tooltip" data-placement="top" title="Ver detalles de la alerta"><i class="fas fa-link"></i></a></span>{% endif %}
+							{% if componente.vUtilOpc_p == "a" %}<span class="badge {% if componente.porcentaUso_p >= 80 %} badge-danger {% endif %}">Ambos <a class="badge badge-info" href="{% url 'componente_detail' componente.id %}" data-toggle="tooltip" data-placement="top" title="Ver detalles de la alerta"><i class="fas fa-link"></i></a></span>{% endif %}						
+						{% endif %}
+						{% if componente.tipo == "t1" %}
+							NA
+						{% endif %}
+					</td>	
+						<!--			
+					<td class="text-center">
+						{% if componente.tipo == "t2" %}
+							{% if componente.vUtilOpc_p == "h" or componente.vUtilOpc_p == "a" %}
+								{{ componente.hvUtil_p }}:{% if not componente.mvUtil_p %}00 {% else %}{{ componente.mvUtil_p }}{% endif %}
+							{% else %}
+								NA
+							{% endif %}
+						{% endif %}
+						{% if componente.tipo == "t1" %}
+							NA
+						{% endif %}
+					</td>
+					<td class="text-center">
+						{% if componente.tipo == "t2" %}
+							{% if componente.vUtilOpc_p == "t" or componente.vUtilOpc_p == "a" %}
+								{{ componente.vUtil_p|date:"SHORT_DATE_FORMAT" }}
+							{% else %}
+								NA
+							{% endif %}
+						{% endif %}
+						{% if componente.tipo == "t1" %}
+							NA
+						{% endif %}						
+					</td>
+					-->
+					<!--
+					<td class="text-center">{{ componente.horasRemanentes }}:00</td>
+					<td class="text-center"><span class="badge {% if componente.porcentaUso >= 90 %} badge-danger {% endif %}">{{ componente.porcentaUso|floatformat:2 }}</span></td>
+					<td class="text-center"><span class="badge {% if componente.alertaFecha == "Si" %} badge-danger {% endif %}">{{ componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</span>
+					</td>
+					-->
 					<td class="text-center">
 						<a class="badge badge-primary" href="{% url 'componente_update' componente.id %}" data-toggle="tooltip" data-placement="top" title="Editar componente"><i class="fas fa-pencil-alt"></i></a>
 						<a class="badge badge-dark" href="{% url 'componente_pdf_detail' componente.id %}" target="_blank" data-toggle="tooltip" data-placement="top" title="PDF detalle de componente"><i class="far fa-file-pdf"></i></a>
