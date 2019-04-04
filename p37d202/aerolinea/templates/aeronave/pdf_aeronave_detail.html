@@ -5,115 +5,219 @@
 <!-- {% get_aeronave_list as aeronave_list %} -->
 
 <style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-th, td {
-  padding: 2px;
-}
+	table, th, td {
+	  border: 1px solid black;
+	  border-collapse: collapse;
+	}
+	th, td {
+	  padding: 2px;
+	}
+	th {
+		background-color: #fcd1c6;
+	}
 </style>
-		{% load static %}
-		<table>
-			<thead class="thead-dark">
-				<tr>
-					<td rowspan="5" align="center" valign="middle"><img src="/home/omar/Documentos/Proyectos/p37d202/core/static/core/img/logos/logoPDF.png"></td>
-					<th scope="col" style="text-align: right;">Matricula:</th>
-					<td>{{ aeronave.placa }}</a></td>
-				</tr>
-				<tr>
-					<th scope="col" style="text-align: right;">Marca:</th>
-					<td>{{ aeronave.marca }}</td>
-				</tr>
-				<tr>
-					<th scope="col" style="text-align: right;">Modelo:</th>
-					<td>{{ aeronave.modelo }}</td>
-					
-				</tr>
-				<tr>
-					<th scope="col" style="text-align: right;">Tipo:</th>
-					<td>{{ aeronave.tipo }}</td>
-				</tr>
-				<tr>
-					<th scope="col" style="text-align: right;">Horas de vuelo:</th>
-					<td>{{ aeronave.hVuelo }}:00</td>
-				</tr>
-			</thead>
-		</table>
-			<h4>Componentes de la aeronave {{ aeronave.placa }}</h4>
-			<table>
-				<thead>
-					<tr>
-						<th scope="col" rowspan="2">Descripcion</th>
-						<th scope="col" rowspan="2">Marca/P-N o Modelo</th>
-						<th scope="col" rowspan="2">Serie Numero</th>
-						<th scope="col" rowspan="2">Orden de trabajo</th>
-						<th scope="col" rowspan="2">Fecha Instalado</th>
-						<th scope="col" rowspan="2">TT Componente</th>
-						<th scope="col" rowspan="2">H. DURG</th>
-						<th scope="col" colspan="2">Frecuencia</th>
-						<th scope="col" colspan="2">Remanentes</th>
-					</tr>
-					<tr>
-						<th scope="col">Horas</th>
-						<th scope="col">Tiempo</th>
-						<th scope="col">Horas</th>
-						<th scope="col">Calendario</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for componente in aeronave.getComponenteOrdenado %}
-					<tr>
-						<td>{{ componente.componente.nombre }}</td>
-						<td>{{ componente.componente.marca }}</td>
-						<td>{{ componente.componente.numSerie }}</td>
-						<td>OT- {{ componente.componente.ordenTrabajo }}</td>
-						<td>{{ componente.componente.fechaingreso|date:"SHORT_DATE_FORMAT" }}</td>
-						<td>{{ componente.componente.hUtilizado }}:00</td>
-						<td>{{ componente.componente.hDurg }}:00</td>
+{% load static %}
+<div>
+	<table>
+		<thead>
+			<tr>
+				<td rowspan="5" align="center" valign="middle"><img src="/home/omar/Documentos/Proyectos/p37d202/core/static/core/img/logos/logoPDF.png"></td>
+				<th style="text-align: right;">Matricula:</th>
+				<td>{{ aeronave.placa }}</a></td>
+			</tr>
+			<tr>
+				<th style="text-align: right;">Marca:</th>
+				<td>{{ aeronave.marca }}</td>
+			</tr>
+			<tr>
+				<th style="text-align: right;">Modelo:</th>
+				<td>{{ aeronave.modelo }}</td>
+			</tr>
+			<tr>
+				<th style="text-align: right;">Tipo:</th>
+				<td>{{ aeronave.tipo }}</td>
+			</tr>
+			<tr>
+				<th style="text-align: right;">Horas de vuelo:</th>
+				<td>{% if not aeronave.hVuelo %}00{% else %}{{ aeronave.hVuelo }}{% endif %}:{% if not aeronave.mVuelo %}00{% else %}{{ aeronave.mVuelo }}{% endif %}</td>
+			</tr>
+		</thead>
+	</table>
+</div>
+<p>
+	<strong>Componentes de la aeronave - {{ aeronave.placa }}</strong>
+</p>
+<div>
+	<table>
+		<thead>
+			<tr>
+				<th rowspan="2">Descripcion</th>
+				<th rowspan="2">Marca/P-N o Modelo</th>
+				<th rowspan="2">Serie Numero</th>
+				<th rowspan="2">Orden de trabajo</th>
+				<th rowspan="2">Fecha Instalado</th>
+				<th rowspan="2">TT</th>
+				<th rowspan="2">H. DURG</th>
+				<th rowspan="2">Tipo</th>
+				<th rowspan="2">TBO</th>
+				<th rowspan="2">TBO inspec inicial</th>
+				<th rowspan="2">TBO inspec posterior</th>
+				<th colspan="2">Frecuencia</th>
+				<th colspan="2">Remanentes</th>
+			</tr>
+			<tr>
+				<th>Horas</th>
+				<th>Tiempo</th>
+				<th>Horas</th>
+				<th>Calendario</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for componente in aeronave.getComponenteOrdenado %}
+			<tr>
+				<td>{{ componente.componente.nombre }}</td>
+				<td>{{ componente.componente.marca }}</td>
+				<td>{{ componente.componente.numSerie }}</td>
+				<td>OT- {{ componente.componente.ordenTrabajo }}</td>
+				<td>{{ componente.componente.fechaingreso|date:"SHORT_DATE_FORMAT" }}</td>
+				<td>{{ componente.componente.hUtilizado }}:00</td>
+				<td>{{ componente.componente.hDurg }}:00</td>
+				<td>{% if componente.componente.tipo == "t1" %} Tipo 1 {% endif %}{% if componente.componente.tipo == "t2" %} Tipo 2 {% endif %} </td>
+				<td>
+					{% if componente.componente.tipo == "t1" %}
+						{% if componente.componente.vUtilOpc == "h" %}Horas{% endif %}
+						{% if componente.componente.vUtilOpc == "t" %}Tiempo{% endif %}
+						{% if componente.componente.vUtilOpc == "a" %}Ambos{% endif %}						
+					{% endif %}
+					{% if componente.componente.tipo == "t2" %}
+						NA
+					{% endif %}
+				</td>
+				<td>
+					{% if componente.componente.tipo == "t2" %}
+						{% if componente.componente.vUtilOpc_i == "h" %}Horas{% endif %}
+						{% if componente.componente.vUtilOpc_i == "t" %}Tiempo{% endif %}
+						{% if componente.componente.vUtilOpc_i == "a" %}Ambos{% endif %}					
+					{% endif %}
+					{% if componente.componente.tipo == "t1" %}
+						NA
+					{% endif %}
+				</td>
+				<td>
+					{% if componente.componente.tipo == "t2" %}
+						{% if componente.componente.vUtilOpc_p == "h" %}Horas{% endif %}
+						{% if componente.componente.vUtilOpc_p == "t" %}Tiempo{% endif %}
+						{% if componente.componente.vUtilOpc_p == "a" %}Ambos{% endif %}						
+					{% endif %}
+					{% if componente.componente.tipo == "t1" %}
+						NA
+					{% endif %}
+				</td>	
 
-						{% if componente.componente.tipo == "t1" %}
-							<td>
-							{{ componente.componente.hvUtil }}:00
-							</td>
-							</br>
-							<td>
-							{{ componente.componente.vUtil|date:"SHORT_DATE_FORMAT" }}
-							</td>
-						{% endif %}
+				{% if componente.componente.tipo == "t1" %}
+				<td>
+					{% if componente.componente.vUtilOpc == "h" or componente.componente.vUtilOpc == "a" %}
+						{{ componente.componente.hvUtil }}:{% if not componente.componente.mvUtil %}00 {% else %}{{ componente.componente.mvUtil }}{% endif %}
+					{% else %}
+						<span>NA</span>
+					{% endif %}
+				</td>
+					</br>
+				<td>
+				{% if componente.componente.vUtilOpc == "t" or componente.componente.vUtilOpc == "a" %}
+					{{ componente.componente.mesesVencimiento }}
+				{% else %}
+					<span>NA</span>
+				{% endif %}
+				</td>
+				{% endif %}
 
-						{% if componente.componente.tipo == "t2" %}
-						<td>
-							{{ componente.componente.hvUtil_i }}:00
-							</br>
-							{{ componente.componente.hvUtil_p }}:00
-						</td>
-						<td>
-							{% if not componente.componente.vUtil_i %}
-								<span>NA</span>
-							{% else %}
-								{{ componente.componente.vUtil_i|date:"SHORT_DATE_FORMAT" }}
-							{% endif %}	
-							</br>
-							{% if not componente.componente.vUtil_p %}
-								<span>NA</span>
-							{% else %}
-								{{ componente.componente.vUtil_p|date:"SHORT_DATE_FORMAT" }}
-							{% endif %}
-						</td>
-						{% endif %}
-						<td>{{ componente.componente.horasRemanentes }}</td>
-						<td>{{ componente.componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</td>					
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-			<br/>
-			<div align="center">
-				<br/>
-				<p>__________________________________</p>
-				<p>  FABIO SIERRA MARIN  </p>
-				<p>UAEAC-CDO-AA-021-1836  </p>
-			</div>
+				{% if componente.componente.tipo == "t2" %}
+				<td>
+					{% if componente.componente.vUtilOpc_i == "h" or componente.componente.vUtilOpc_i == "a" %}
+						{{ componente.componente.hvUtil_i }}:{% if not componente.componente.mvUtil_i %}00 {% else %}{{ componente.componente.mvUtil_i }}{% endif %}
+					{% else %}
+						NA
+					{% endif %}
+					</br>
+					{% if componente.componente.vUtilOpc_p == "h" or componente.componente.vUtilOpc_p == "a" %}
+						{{ componente.componente.hvUtil_p }}:{% if not componente.componente.mvUtil_p %}00 {% else %}{{ componente.componente.mvUtil_p }}{% endif %}
+					{% else %}
+						NA
+					{% endif %}
+				</td>
+				<td>
+				{% if componente.componente.vUtilOpc_i == "t" or componente.componente.vUtilOpc_i == "a" %}
+					{{ componente.componente.mesesVencimiento }}
+				{% else %}
+					<span>NA</span>
+				{% endif %}
+				</br>
+				{% if componente.componente.vUtilOpc_p == "t" or componente.componente.vUtilOpc_p == "a" %}
+					<span>NA</span>
+				{% else %}
+					<span>NA</span>
+				{% endif %}
+				</td>
+				{% endif %}
+
+				{% if componente.componente.tipo == "t1" %}
+				<td>
+					{% if componente.componente.vUtilOpc == "h" or componente.componente.vUtilOpc == "a" %}
+						{{ componente.componente.hRemanente }}:{% if not componente.componente.mRemanente %}00 {% else %}{{ componente.componente.mRemanente }}{% endif %}
+					{% else %}
+						<span>NA</span>
+					{% endif %}
+				</td>
+					</br>
+				<td>
+				{% if componente.componente.vUtilOpc == "t" or componente.componente.vUtilOpc == "a" %}
+					{{ componente.componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}
+				{% else %}
+					<span>NA</span>
+				{% endif %}
+				</td>
+				{% endif %}
+
+				{% if componente.componente.tipo == "t2" %}
+				<td>
+					{% if componente.componente.vUtilOpc_i == "h" or componente.componente.vUtilOpc_i == "a" %}
+						{{ componente.componente.hRemanente_i }}:{% if not componente.componente.mRemanente_i %}00 {% else %}{{ componente.componente.mRemanente_i }}{% endif %}
+					{% else %}
+						NA
+					{% endif %}
+					</br>
+					{% if componente.componente.vUtilOpc_p == "h" or componente.componente.vUtilOpc_p == "a" %}
+						{{ componente.componente.hRemanente_p }}:{% if not componente.componente.mRemenente_p %}00{% else %}{{ componente.componente.mRemenente_p }}{% endif %}
+					{% else %}
+						NA
+					{% endif %}
+				</td>
+				<td>
+				{% if not componente.componente.vUtil_i %}
+					<span>NA</span>
+				{% else %}
+					{{ componente.componente.vUtil_i|date:"SHORT_DATE_FORMAT" }}
+				{% endif %}	
+				</br>
+				{% if not componente.componente.vUtil_p %}
+					<span>NA</span>
+				{% else %}
+					{{ componente.componente.vUtil_p|date:"SHORT_DATE_FORMAT" }}
+				{% endif %}
+				</td>
+				{% endif %}
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+<br/>
+<div align="center">
+	<br/>
+	<p>__________________________________</p>
+	<p>  FABIO SIERRA MARIN  </p>
+	<p>UAEAC-CDO-AA-021-1836  </p>
+</div>
 
 {% endblock %}

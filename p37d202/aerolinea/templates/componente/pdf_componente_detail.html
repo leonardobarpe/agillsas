@@ -4,201 +4,201 @@
 {% load aerolinea_extras %}
 {% get_componente_list as componente_list %}
 
+{% load static %}
+
 <style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-th, td {
-  padding: 2px;
-}
-.colorCelda{
-	background-color: #fcd1c6;
-	text-align: right;
-}
+	table, th, td {
+	  border: 1px solid black;
+	  border-collapse: collapse;
+	}
+	th, td {
+	  padding: 2px;
+	}
+	th {
+		background-color: #fcd1c6;
+		width: 35%;
+	}
 </style>
-		{% load static %}
+
 <div>
-	<div>
-		<img src="/home/omar/Documentos/Proyectos/p37d202/core/static/core/img/logos/logoPDF.png">
-	</div>
-	<div>
-		<table>
-			<tbody>
+	<img src="/home/omar/Documentos/Proyectos/p37d202/core/static/core/img/logos/logoPDF.png">
+</div>
+<div>
+	<table>
+		<tbody>
+			<tr>
+				<th align="right">Numero de serie:</th>
+				<td>{{ componente.numSerie }}</td>
+			</tr>
+			<tr>
+				<th align="right" > Nombre:</th>
+				<td>{{ componente.nombre }}</td>
+			</tr>
+			<tr>
+				<th align="right" > Parte/Numero:</th>
+				<td>{{ componente.marca }}</td>
+			</tr>
+			<tr>
+				<th align="right" > Fabricante:</th>
+				<td>{{ componente.fabricante }}</td>
+			</tr>
+			<tr>
+				<th align="right" > Fecha de vencimiento:</th>
+				<td>{{ componente.fechaVencimiento }}</td>
+			</tr>
+			<tr>
+				<th align="right" > Proveedor:</th>
+				<td>{{ componente.proveedor }}</td>
+			</tr>
+			<tr>
+				<th align="right" > Tipo:</th>
+				<td>
+					{% if componente.tipo == "t1" %} Tipo 1 {% endif %}
+					{% if componente.tipo == "t2" %} Tipo 2 {% endif %}
+				</td>
+			</tr>
+			<tr>
+				<th align="right" > Fecha de instalacion:</th>
+				<td>{{ componente.fechaingreso }}</td>
+			</tr>
+			{% if componente.tipo == "t1" and  componente.opcVutil == "t" or componente.opcVutil == "a" %}
+			<tr>
+				<th align="right" > Meses de vencimiento:</th>
+				<td>{{ componente.mesesVencimiento }}</td>
+			</tr>
+			{% endif %}
+			
+			{% if componente.tipo == "t2" and componente.vUtilOpc_i == "t" or componente.vUtilOpc_i == "a" or componente.vUtilOpc_p == "t" or componente.vUtilOpc_p == "a" %}
+			<tr>
+				<th align="right" > Meses de vencimiento:</th>
+				<td>{{ componente.mesesVencimiento }}</td>
+			</tr>					
+			{% endif %}
+			
+			{% if componente.tipo == "t1" %}
 				<tr>
-					<th scope="row" class="colorCelda">Numero de serie:</th>
-					<td>{{ componente.numSerie }}</td>
-				</tr>
-				<tr>
-					<th scope="row" class="colorCelda">Nombre:</th>
-					<td>{{ componente.nombre }}</td>
-				</tr>
-				<tr>
-					<th scope="row" class="colorCelda">Parte/Numero:</th>
-					<td>{{ componente.marca }}</td>
-				</tr>
-				<tr>
-					<th scope="row" class="colorCelda">Fabricante:</th>
-					<td>{{ componente.fabricante }}</td>
-				</tr>
-				<tr>
-					<th scope="row" class="colorCelda">Fecha de vencimiento:</th>
-					<td>{{ componente.fechaVencimiento }}</td>
-				</tr>
-				<tr>
-					<th scope="row" class="colorCelda">Proveedor:</th>
-					<td>{{ componente.proveedor }}</td>
-				</tr>
-				<tr>
-					<th scope="row" class="colorCelda">Tipo:</th>
+					<th align="right" > TBO:</th>
 					<td>
-						{% if componente.tipo == "t1" %} Tipo 1 {% endif %}
-						{% if componente.tipo == "t2" %} Tipo 2 {% endif %}
+						{% if componente.vUtilOpc == "h" %}Horas{% endif %}
+						{% if componente.vUtilOpc == "t" %}Tiempo{% endif %}
+						{% if componente.vUtilOpc == "a" %}Ambos{% endif %}
 					</td>
 				</tr>
+				{% if componente.vUtilOpc == "h" %}
 				<tr>
-					<th scope="row" class="colorCelda">Fecha de instalacion:</th>
-					<td>{{ componente.fechaingreso }}</td>
-				</tr>
-				{% if componente.tipo == "t1" and  componente.opcVutil == "t" or componente.opcVutil == "a" %}
-				<tr>
-					<th scope="row" class="colorCelda">Meses de vencimiento:</th>
-					<td>{{ componente.mesesVencimiento }}</td>
+					<th align="right" > Horas TBO:</th>
+					<td>{{ componente.hvUtil }}:{% if not componente.mvUtil %}00{% else %}{{ componente.mvUtil }}{% endif %}</td>
 				</tr>
 				{% endif %}
-				
-				{% if componente.tipo == "t2" and componente.vUtilOpc_i == "t" or componente.vUtilOpc_i == "a" or componente.vUtilOpc_p == "t" or componente.vUtilOpc_p == "a" %}
+				{% if componente.vUtilOpc == "t" %}
 				<tr>
-					<th scope="row" class="colorCelda">Meses de vencimiento:</th>
-					<td>{{ componente.mesesVencimiento }}</td>
+					<th align="right" > TBO Calendario:</th>
+					<td>{{ componente.vUtil }}</td>
+				</tr>
+				{% endif %}
+				{% if componente.vUtilOpc == "a" %}
+				<tr>
+					<th align="right" > Horas TBO:</th>
+					<td>{{ componente.hvUtil }}:{% if not componente.mvUtil %}00{% else %}{{ componente.mvUtil }}{% endif %}</td>
 				</tr>					
-				{% endif %}
-				
-				{% if componente.tipo == "t1" %}
-					<tr>
-						<th scope="row" class="colorCelda">TBO:</th>
-						<td>
-							{% if componente.vUtilOpc == "h" %}Horas{% endif %}
-							{% if componente.vUtilOpc == "t" %}Tiempo{% endif %}
-							{% if componente.vUtilOpc == "a" %}Ambos{% endif %}
-						</td>
-					</tr>
-					{% if componente.vUtilOpc == "h" %}
-					<tr>
-						<th scope="row" class="colorCelda">Horas TBO:</th>
-						<td>{{ componente.hvUtil }}:{% if not componente.mvUtil %}00{% else %}{{ componente.mvUtil }}{% endif %}</td>
-					</tr>
-					{% endif %}
-					{% if componente.vUtilOpc == "t" %}
-					<tr>
-						<th scope="row" class="colorCelda">TBO Calendario:</th>
-						<td>{{ componente.vUtil }}</td>
-					</tr>
-					{% endif %}
-					{% if componente.vUtilOpc == "a" %}
-					<tr>
-						<th scope="row" class="colorCelda">Horas TBO:</th>
-						<td>{{ componente.hvUtil }}:{% if not componente.mvUtil %}00{% else %}{{ componente.mvUtil }}{% endif %}</td>
-					</tr>					
-					<tr>
-						<th scope="row" class="colorCelda">TBO Calendario:</th>
-						<td>{{ componente.vUtil }}</td>
-					</tr>
-					{% endif %}					
-				{% endif %}
 				<tr>
-					<th scope="row" class="colorCelda">Orden de trabajo:</th>
-					<td>OT - {{ componente.ordenTrabajo }}</td>
+					<th align="right" > TBO Calendario:</th>
+					<td>{{ componente.vUtil }}</td>
 				</tr>
+				{% endif %}					
+			{% endif %}
+			<tr>
+				<th align="right" > Orden de trabajo:</th>
+				<td>OT - {{ componente.ordenTrabajo }}</td>
+			</tr>
+			<tr>
+				<th align="right" > Descripcion:</th>
+				<td>{{ componente.descripcion|safe }}</td>
+			</tr>
+			{% if componente.tipo == "t2" %}
 				<tr>
-					<th scope="row" class="colorCelda">Descripcion:</th>
-					<td>{{ componente.descripcion|safe }}</td>
+					<th align="right" > TBO inspec inicial:</th>
+					<td>
+						{% if componente.vUtilOpc_i == "h" %}Horas{% endif %}
+						{% if componente.vUtilOpc_i == "t" %}Tiempo{% endif %}
+						{% if componente.vUtilOpc_i == "a" %}Ambos{% endif %}
+					</td>
 				</tr>
-				{% if componente.tipo == "t2" %}
-					<tr>
-						<th scope="row" class="colorCelda">TBO inspec inicial:</th>
-						<td>
-							{% if componente.vUtilOpc_i == "h" %}Horas{% endif %}
-							{% if componente.vUtilOpc_i == "t" %}Tiempo{% endif %}
-							{% if componente.vUtilOpc_i == "a" %}Ambos{% endif %}
-						</td>
-					</tr>
-					{% if componente.vUtilOpc_i == "h" %}
-					<tr>
-						<th scope="row" class="colorCelda">Horas TBO inspec inicial:</th>
-						<td>{{ componente.hvUtil_i }}:{% if not componente.mvUtil_i %}00{% else %}{{ componente.mvUtil_i }}{% endif %}</td>
-					</tr>
-					{% endif %}
-					{% if componente.vUtilOpc_i == "t" %}
-					<tr>
-						<th scope="row" class="colorCelda">TBO calendario inspec inicial:</th>
-						<td>{{ componente.vUtil_i }}</td>
-					</tr>
-					{% endif %}
-					{% if componente.vUtilOpc_i == "a" %}
-					<tr>
-						<th scope="row" class="colorCelda">Horas TBO inspec inicial:</th>
-						<td>{{ componente.hvUtil_i }}:{% if not componente.mvUtil_i %}00{% else %}{{ componente.mvUtil_i }}{% endif %}</td>
-					</tr>					
-					<tr>
-						<th scope="row" class="colorCelda">TBO calendario inspec inicial:</th>
-						<td>{{ componente.vUtil_i }}</td>
-					</tr>
-					{% endif %}
-					<tr>
-						<th scope="row" class="colorCelda">TBO inspec posterior:</th>
-						<td>
-							{% if componente.vUtilOpc_p == "h" %}Horas{% endif %}
-							{% if componente.vUtilOpc_p == "t" %}Tiempo{% endif %}
-							{% if componente.vUtilOpc_p == "a" %}Ambos{% endif %}
-						</td>
-					</tr>					
-					{% if componente.vUtilOpc_p == "h" %}
-					<tr>
-						<th scope="row" class="colorCelda">Horas TBO inspec posterior:</th>
-						<td>{{ componente.hvUtil_p }}:{% if not componente.mvUtil_p %}00{% else %}{{ componente.mvUtil_p }}{% endif %}</td>
-					</tr>
-					{% endif %}
-					{% if componente.vUtilOpc_p == "t" %}
-					<tr>
-						<th scope="row" class="colorCelda">TBO calendario inspec posterior:</th>
-						<td>{{ componente.vUtil_p }}</td>
-					</tr>
-					{% endif %}
-					{% if componente.vUtilOpc_p == "a" %}
-					<tr>
-						<th scope="row" class="colorCelda">Horas TBO inspec posterior:</th>
-						<td>{{ componente.hvUtil_p }}:{% if not componente.mvUtil_p %}00{% else %}{{ componente.mvUtil_p }}{% endif %}</td>
-					</tr>					
-					<tr>
-						<th scope="row" class="colorCelda">TBO calendario inspec posterior:</th>
-						<td>{{ componente.vUtil_p }}</td>
-					</tr>
-					{% endif %}
+				{% if componente.vUtilOpc_i == "h" %}
+				<tr>
+					<th align="right" > Horas TBO inspec inicial:</th>
+					<td>{{ componente.hvUtil_i }}:{% if not componente.mvUtil_i %}00{% else %}{{ componente.mvUtil_i }}{% endif %}</td>
+				</tr>
+				{% endif %}
+				{% if componente.vUtilOpc_i == "t" %}
+				<tr>
+					<th align="right" > TBO calendario inspec inicial:</th>
+					<td>{{ componente.vUtil_i }}</td>
+				</tr>
+				{% endif %}
+				{% if componente.vUtilOpc_i == "a" %}
+				<tr>
+					<th align="right" > Horas TBO inspec inicial:</th>
+					<td>{{ componente.hvUtil_i }}:{% if not componente.mvUtil_i %}00{% else %}{{ componente.mvUtil_i }}{% endif %}</td>
+				</tr>					
+				<tr>
+					<th align="right" > TBO calendario inspec inicial:</th>
+					<td>{{ componente.vUtil_i }}</td>
+				</tr>
 				{% endif %}
 				<tr>
-					<th scope="row" class="colorCelda">Horas total:</th>
-					<td>{{ componente.hUtilizado }}:{% if not componente.mUtilizado %}00{% else %}{{ componente.mUtilizado }}{% endif %}</td>
-				</tr>
+					<th align="right" > TBO inspec posterior:</th>
+					<td>
+						{% if componente.vUtilOpc_p == "h" %}Horas{% endif %}
+						{% if componente.vUtilOpc_p == "t" %}Tiempo{% endif %}
+						{% if componente.vUtilOpc_p == "a" %}Ambos{% endif %}
+					</td>
+				</tr>					
+				{% if componente.vUtilOpc_p == "h" %}
 				<tr>
-					<th scope="row" class="colorCelda">Horas DURG:</th>
-					<td>{{ componente.hDurg }}:{% if not componente.mDurg %}00{% else %}{{ componente.mDurg }}{% endif %}</td>
+					<th align="right" > Horas TBO inspec posterior:</th>
+					<td>{{ componente.hvUtil_p }}:{% if not componente.mvUtil_p %}00{% else %}{{ componente.mvUtil_p }}{% endif %}</td>
 				</tr>
+				{% endif %}
+				{% if componente.vUtilOpc_p == "t" %}
 				<tr>
-					<th scope="row" class="colorCelda">Horas remanente:</th>
-					<td>{{ componente.horasRemanentes }}:00</td>
+					<th align="right" > TBO calendario inspec posterior:</th>
+					<td>{{ componente.vUtil_p }}</td>
 				</tr>
+				{% endif %}
+				{% if componente.vUtilOpc_p == "a" %}
 				<tr>
-					<th scope="row" class="colorCelda">Fecha creacion sistema:</th>
-					<td>{{ componente.creado }}</td>
-				</tr>
+					<th align="right" > Horas TBO inspec posterior:</th>
+					<td>{{ componente.hvUtil_p }}:{% if not componente.mvUtil_p %}00{% else %}{{ componente.mvUtil_p }}{% endif %}</td>
+				</tr>					
 				<tr>
-					<th scope="row" class="colorCelda">Fecha actualizacion sistema:</th>
-					<td>{{ componente.actualizado }}</td>
+					<th align="right" > TBO calendario inspec posterior:</th>
+					<td>{{ componente.vUtil_p }}</td>
 				</tr>
-			</tbody>
-		</table>
-	</div>
+				{% endif %}
+			{% endif %}
+			<tr>
+				<th align="right" > Horas total:</th>
+				<td>{{ componente.hUtilizado }}:{% if not componente.mUtilizado %}00{% else %}{{ componente.mUtilizado }}{% endif %}</td>
+			</tr>
+			<tr>
+				<th align="right" > Horas DURG:</th>
+				<td>{{ componente.hDurg }}:{% if not componente.mDurg %}00{% else %}{{ componente.mDurg }}{% endif %}</td>
+			</tr>
+			<tr>
+				<th align="right" > Horas remanente:</th>
+				<td>{{ componente.horasRemanentes }}:00</td>
+			</tr>
+			<tr>
+				<th align="right" > Fecha creacion sistema:</th>
+				<td>{{ componente.creado }}</td>
+			</tr>
+			<tr>
+				<th align="right" > Fecha actualizacion sistema:</th>
+				<td>{{ componente.actualizado }}</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 
 

@@ -169,10 +169,11 @@ class componentePDFDetailView(LoginRequiredMixin, PDFTemplateResponseMixin, Deta
 	def get_context_data(self, **kwargs):
 		return super(componentePDFDetailView, self).get_context_data(
 				pagesize='A4 landscape',
-				title='Listado_aeronaves',
+				title='Detalle del componente',
 				encoding =u"utf-8",
 				**kwargs
 				)
+
 @login_required
 def componenteDownExcel(request):
 
@@ -404,6 +405,7 @@ class vueloCreateView(LoginRequiredMixin,CreateView):
 		if self.object:
 			horas = self.object.horas
 			minutos = self.object.minutos
+
 			for component in self.object.aeronave.componente.all():
 				component.hUtilizado += horas
 				component.mUtilizado += minutos

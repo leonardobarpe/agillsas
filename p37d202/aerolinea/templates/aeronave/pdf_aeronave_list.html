@@ -45,24 +45,28 @@ th, td {
 			</thead>
 		</table>
 			<h5>COMPONENTES DE: {{ aeronave.placa }}</h5>
-			<table class="table table-striped table-hover table-sm">
-				<thead class="bg-white">
+			<table>
+				<thead>
 					<tr>
-						<th scope="col" rowspan="2">Descripcion</th>
-						<th scope="col" rowspan="2">Marca/P-N o Modelo</th>
-						<th scope="col" rowspan="2">Serie Numero</th>
-						<th scope="col" rowspan="2">Orden de trabajo</th>
-						<th scope="col" rowspan="2">Fecha Instalado</th>
-						<th scope="col" rowspan="2">TT Componente</th>
-						<th scope="col" rowspan="2">H. DURG</th>
-						<th scope="col" colspan="2">Frecuencia</th>
-						<th scope="col" colspan="2">Remanentes</th>
+						<th rowspan="2">Descripcion</th>
+						<th rowspan="2">Marca/P-N o Modelo</th>
+						<th rowspan="2">Serie Numero</th>
+						<th rowspan="2">Orden de trabajo</th>
+						<th rowspan="2">Fecha Instalado</th>
+						<th rowspan="2">TT</th>
+						<th rowspan="2">H. DURG</th>
+						<th rowspan="2">Tipo</th>
+						<th rowspan="2">TBO</th>
+						<th rowspan="2">TBO inspec inicial</th>
+						<th rowspan="2">TBO inspec posterior</th>
+						<th colspan="2">Frecuencia</th>
+						<th colspan="2">Remanentes</th>
 					</tr>
 					<tr>
-						<th scope="col">Horas</th>
-						<th scope="col">Tiempo</th>
-						<th scope="col">Horas</th>
-						<th scope="col">Calendario</th>
+						<th>Horas</th>
+						<th>Tiempo</th>
+						<th>Horas</th>
+						<th>Calendario</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -75,39 +79,131 @@ th, td {
 						<td>{{ componente.componente.fechaingreso|date:"SHORT_DATE_FORMAT" }}</td>
 						<td>{{ componente.componente.hUtilizado }}:00</td>
 						<td>{{ componente.componente.hDurg }}:00</td>
+						<td>{% if componente.componente.tipo == "t1" %} Tipo 1 {% endif %}{% if componente.componente.tipo == "t2" %} Tipo 2 {% endif %} </td>
+						<td>
+							{% if componente.componente.tipo == "t1" %}
+								{% if componente.componente.vUtilOpc == "h" %}Horas{% endif %}
+								{% if componente.componente.vUtilOpc == "t" %}Tiempo{% endif %}
+								{% if componente.componente.vUtilOpc == "a" %}Ambos{% endif %}						
+							{% endif %}
+							{% if componente.componente.tipo == "t2" %}
+								NA
+							{% endif %}
+						</td>
+						<td>
+							{% if componente.componente.tipo == "t2" %}
+								{% if componente.componente.vUtilOpc_i == "h" %}Horas{% endif %}
+								{% if componente.componente.vUtilOpc_i == "t" %}Tiempo{% endif %}
+								{% if componente.componente.vUtilOpc_i == "a" %}Ambos{% endif %}					
+							{% endif %}
+							{% if componente.componente.tipo == "t1" %}
+								NA
+							{% endif %}
+						</td>
+						<td>
+							{% if componente.componente.tipo == "t2" %}
+								{% if componente.componente.vUtilOpc_p == "h" %}Horas{% endif %}
+								{% if componente.componente.vUtilOpc_p == "t" %}Tiempo{% endif %}
+								{% if componente.componente.vUtilOpc_p == "a" %}Ambos{% endif %}						
+							{% endif %}
+							{% if componente.componente.tipo == "t1" %}
+								NA
+							{% endif %}
+						</td>	
 
 						{% if componente.componente.tipo == "t1" %}
-							<td>
-							{{ componente.componente.hvUtil }}:00
-							</td>
+						<td>
+							{% if componente.componente.vUtilOpc == "h" or componente.componente.vUtilOpc == "a" %}
+								{{ componente.componente.hvUtil }}:{% if not componente.componente.mvUtil %}00 {% else %}{{ componente.componente.mvUtil }}{% endif %}
+							{% else %}
+								<span>NA</span>
+							{% endif %}
+						</td>
 							</br>
-							<td>
-							{{ componente.componente.vUtil|date:"SHORT_DATE_FORMAT" }}
-							</td>
+						<td>
+						{% if componente.componente.vUtilOpc == "t" or componente.componente.vUtilOpc == "a" %}
+							{{ componente.componente.mesesVencimiento }}
+						{% else %}
+							<span>NA</span>
+						{% endif %}
+						</td>
 						{% endif %}
 
 						{% if componente.componente.tipo == "t2" %}
 						<td>
-							{{ componente.componente.hvUtil_i }}:00
-							</br>
-							{{ componente.componente.hvUtil_p }}:00
-						</td>
-						<td>
-							{% if not componente.componente.vUtil_i %}
-								<span>NA</span>
+							{% if componente.componente.vUtilOpc_i == "h" or componente.componente.vUtilOpc_i == "a" %}
+								{{ componente.componente.hvUtil_i }}:{% if not componente.componente.mvUtil_i %}00 {% else %}{{ componente.componente.mvUtil_i }}{% endif %}
 							{% else %}
-								{{ componente.componente.vUtil_i|date:"SHORT_DATE_FORMAT" }}
-							{% endif %}	
+								NA
+							{% endif %}
 							</br>
-							{% if not componente.componente.vUtil_p %}
-								<span>NA</span>
+							{% if componente.componente.vUtilOpc_p == "h" or componente.componente.vUtilOpc_p == "a" %}
+								{{ componente.componente.hvUtil_p }}:{% if not componente.componente.mvUtil_p %}00 {% else %}{{ componente.componente.mvUtil_p }}{% endif %}
 							{% else %}
-								{{ componente.componente.vUtil_p|date:"SHORT_DATE_FORMAT" }}
+								NA
 							{% endif %}
 						</td>
+						<td>
+						{% if componente.componente.vUtilOpc_i == "t" or componente.componente.vUtilOpc_i == "a" %}
+							{{ componente.componente.mesesVencimiento }}
+						{% else %}
+							<span>NA</span>
 						{% endif %}
-						<td>{{ componente.componente.horasRemanentes }}</td>
-						<td>{{ componente.componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}</td>					
+						</br>
+						{% if componente.componente.vUtilOpc_p == "t" or componente.componente.vUtilOpc_p == "a" %}
+							<span>NA</span>
+						{% else %}
+							<span>NA</span>
+						{% endif %}
+						</td>
+						{% endif %}
+
+						{% if componente.componente.tipo == "t1" %}
+						<td>
+							{% if componente.componente.vUtilOpc == "h" or componente.componente.vUtilOpc == "a" %}
+								{{ componente.componente.hRemanente }}:{% if not componente.componente.mRemanente %}00 {% else %}{{ componente.componente.mRemanente }}{% endif %}
+							{% else %}
+								<span>NA</span>
+							{% endif %}
+						</td>
+							</br>
+						<td>
+						{% if componente.componente.vUtilOpc == "t" or componente.componente.vUtilOpc == "a" %}
+							{{ componente.componente.fechaVencimiento|date:"SHORT_DATE_FORMAT" }}
+						{% else %}
+							<span>NA</span>
+						{% endif %}
+						</td>
+						{% endif %}
+
+						{% if componente.componente.tipo == "t2" %}
+						<td>
+							{% if componente.componente.vUtilOpc_i == "h" or componente.componente.vUtilOpc_i == "a" %}
+								{{ componente.componente.hRemanente_i }}:{% if not componente.componente.mRemanente_i %}00 {% else %}{{ componente.componente.mRemanente_i }}{% endif %}
+							{% else %}
+								NA
+							{% endif %}
+							</br>
+							{% if componente.componente.vUtilOpc_p == "h" or componente.componente.vUtilOpc_p == "a" %}
+								{{ componente.componente.hRemanente_p }}:{% if not componente.componente.mRemenente_p %}00{% else %}{{ componente.componente.mRemenente_p }}{% endif %}
+							{% else %}
+								NA
+							{% endif %}
+						</td>
+						<td>
+						{% if not componente.componente.vUtil_i %}
+							<span>NA</span>
+						{% else %}
+							{{ componente.componente.vUtil_i|date:"SHORT_DATE_FORMAT" }}
+						{% endif %}	
+						</br>
+						{% if not componente.componente.vUtil_p %}
+							<span>NA</span>
+						{% else %}
+							{{ componente.componente.vUtil_p|date:"SHORT_DATE_FORMAT" }}
+						{% endif %}
+						</td>
+						{% endif %}
 					</tr>
 					{% endfor %}
 				</tbody>
