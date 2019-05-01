@@ -186,6 +186,9 @@ class Aeronave(models.Model):
 	def getComponenteOrdenado(self):
 		return self.componente.through.objects.filter(aeronave=self).order_by('id')
 
+	def getComponenteId(self):
+		return ','.join(self.componente.all().values_list('id'))
+
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ #
 class Vuelo(models.Model):

@@ -13,6 +13,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 
 from django.views.generic.base import TemplateView
+from django.views.generic import View
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
@@ -491,6 +492,18 @@ class ordenCreateView(LoginRequiredMixin,CreateView):
 		else:
 			return self
 	success_url = reverse_lazy('orden_list')
+
+@method_decorator(staff_member_required, name='dispatch')
+class ordenCrear(LoginRequiredMixin,View):
+	def get(self, request):
+		id = request.GET.get("id", 0)
+		aeronave = Aeronave.objects.get(pk=id)
+
+		html = ""
+		for component in aeronave.componente.all():
+			html += "<option value=\""+str(component.id)+"\">"+component.__str__()+"</option>"
+		return HttpResponse(html)
+
 
 @method_decorator(staff_member_required, name='dispatch')
 class ordenUpdateView(LoginRequiredMixin,UpdateView):

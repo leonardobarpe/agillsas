@@ -61,4 +61,28 @@
 	</form>
 </div>
 
+<script>
+$(document).ready(function(){
+	$("#id_componente").html("")
+	$("#id_componente").trigger("chosen:updated")
+	$("#id_aeronave").chosen().change(function(){
+		getComponents($(this).val());
+	});
+
+})
+
+function getComponents(id){
+	$.ajax({
+		"url":"{% url 'orden_crear' %}?id="+id,
+		success: function(html) {
+			$("#id_componente").html(html)
+			$("#id_componente").trigger("chosen:updated")
+		}
+	});
+}
+
+
+
+</script>
+
 {% endblock %}

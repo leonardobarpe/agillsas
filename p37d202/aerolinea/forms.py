@@ -406,6 +406,9 @@ class OrdenCreateForm(forms.ModelForm):
 		}
 
 class OrdenUpdateForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(OrdenUpdateForm, self).__init__(*args, **kwargs)
+		self.fields['componente'].queryset=Componente.objects.filter(Q(aeronave=self.instance.aeronave))
 	class Meta:
 		model = Orden
 		fields = [

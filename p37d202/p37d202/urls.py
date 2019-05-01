@@ -77,6 +77,8 @@ urlpatterns = [
     path('orden/ordenListView',aerolinea_views.ordenListView.as_view(), name = 'orden_list'),
     path('orden/<int:pk>/',aerolinea_views.ordenDetailView.as_view(), name = 'orden_detail'),
     path('orden/ordenCreateView',aerolinea_views.ordenCreateView.as_view(), name = 'orden_create'),
+    path('orden/ordenCrear',aerolinea_views.ordenCrear.as_view(), name = 'orden_crear'),
+
     path('orden/ordenUpdateView/<int:pk>/',aerolinea_views.ordenUpdateView.as_view(), name = 'orden_update'),
     path('orden/ordenDeleteView/<int:pk>/',aerolinea_views.ordenDeleteView.as_view(), name = 'orden_delete'),
     path('orden/ordenPDFListView/',aerolinea_views.ordenPDFListView.as_view(), name = 'orden_pdf_list'),
