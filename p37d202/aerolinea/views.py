@@ -525,7 +525,7 @@ class ordenPDFDetailView(LoginRequiredMixin, PDFTemplateResponseMixin, DetailVie
 	template_name = 'orden/pdf_orden_detail.html'
 	
 	def get_context_data(self, **kwargs):
-		return super(ordenPDFDetailView, self).get_context_data( pagesize='A4 landscape', title='Listado_aeronaves', encoding =u"utf-8", **kwargs )
+		return super(ordenPDFDetailView, self).get_context_data( pagesize='A4', title='Orden_Detalle', encoding =u"utf-8", **kwargs )
 
 @method_decorator(staff_member_required, name='dispatch')
 class ordenPDFListView(LoginRequiredMixin,PDFTemplateView):

@@ -20,61 +20,35 @@ th, td {
 </style>
 		{% load static %}
 <div>
-	<div>
+	<div align="center">
 		<img src="/home/omar/Documentos/Proyectos/p37d202/core/static/core/img/logos/logoPDF.png">
 	</div>
 	<div>
+		<p>
+			<h4 align="center">Orden de trabajo No.: {{ orden.id }}</h4>
+			<h4 align="center">{{ orden.aeronave.marca }} {{ orden.aeronave.modelo }}</h4>
+		</p>
 		<table>
-			<tbody>
-				<tr>
-					<th align="right" class="colorCelda">Id:</th>
-					<td>{{ orden.id }}</td>
-				</tr>				
-				<tr>
-					<th align="right" class="colorCelda">Ciudad:</th>
-					<td>{{ orden.ciudad }}</td>
-				</tr>
-				<tr>
-					<th align="right" class="colorCelda">Fecha:</th>
-					<td>{{ orden.fecha }}</td>
-				</tr>
-				<tr>
-					<th align="right" class="colorCelda">Descripcion:</th>
-					<td>{{ orden.descripcion }}</td>
-				</tr>
-				<tr>
-					<th align="right" class="colorCelda">Tecnico:</th>
-					<td>{{ orden.tecnico }}</td>
-				</tr>
-				<tr>
-					<th align="right" class="colorCelda">Descripcion:</th>
-					<td>{{ orden.descripcion }}</td>
-				</tr>
-				<tr>
-					<th align="right" class="colorCelda">Dir. control calidad:</th>
-					<td>{{ orden.dirCC }}</td>
-				</tr>
-				<tr>
-					<th align="right" class="colorCelda">Aeronave:</th>
-					<td>{{ orden.aeronave }}</td>
-				</tr>
-				<tr>
-					<th align="right" class="colorCelda">Componentes:</th>
-					<td>
-					{% for componente in orden.componente.all %}
-						{{ componente.numSerie }} - {{ componente.nombre }}{% if not forloop.last %}, {% endif %}
-					{% endfor %}
-					</td>
-				</tr>
-				<tr>
-					<th align="right" class="colorCelda">Fecha creacion sistema:</th>
-					<td>{{ orden.creado }}</td>
-				</tr>
-				<tr>
-					<th align="right" class="colorCelda">Fecha actualizacion sistema:</th>
-					<td>{{ orden.actualizado }}</td>
-				</tr>				
-			</tbody>
+			<tr>
+				<td><strong>Ciudad:</strong> {{ orden.ciudad }}</td>
+				<td><strong>Fecha:</strong> {{ orden.fecha }}</td>
+			</tr>
+			<tr>
+				<td><strong>Aeronave:</strong> {{ orden.aeronave }}</td>
+				<td><strong>Marca:</strong> {{ orden.aeronave.marca }}</td>
+				<td><strong>Modelo:</strong> {{ orden.aeronave.modelo }}</td>
+			</tr>
+			<tr>
+				<td><strong>Serie No.:</strong> {{ orden.aeronave.placa }}</td>
+				<td><strong>Horas T. Vida:</strong> {{ orden.aeronave.hVuelo }}:{{ orden.aeronave.mVuelo }}</td>
+				<td><strong>Horas DURG:</strong>??????</td>
+			</tr>
+			<tr>
+				<td colspan="3" align="center"><strong>Descripcion del trabajo a realizar</strong></td>
+			</tr>
+			<tr>
+				<td colspan="3">{{ orden.descripcion }}</td>
+			</tr>
 		</table>
 	</div>
 </div>
